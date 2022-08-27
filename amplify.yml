@@ -1,0 +1,15 @@
+# AWS AMPLIFY CONFIG:
+
+version: 1
+frontend:
+  phases:
+    # IMPORTANT - Verify your build commands
+    build:
+      commands: []
+  artifacts:
+    # IMPORTANT - Verify your build output directory
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths: []
