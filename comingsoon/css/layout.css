@@ -1,13 +1,9 @@
-/* ------------------------------------------------------------------ */
-/* a. General Styles
-/* ------------------------------------------------------------------ */
+/* general styles */
 
 body { background: #0f0f0f; }
 
 
-/* ------------------------------------------------------------------ */
-/* b. Intro Styles
-/* ------------------------------------------------------------------ */
+/* -intro styles */
 
 #intro {
    position: relative;
@@ -19,8 +15,8 @@ body { background: #0f0f0f; }
 	-webkit-background-size: cover !important;   
 }
 
-/* Header 
-/* ------------------------------------------------------------------ */
+/* header */
+
 header {   
    height: 60px;
    width: 100%; 
@@ -36,8 +32,8 @@ header #logo {
 	left: 50%;
 }
 
-/* primary navigation
---------------------------------------------------------------------- */
+/* primary nav */
+
 #nav-wrap, #nav-wrap ul, #nav-wrap li, #nav-wrap a {
 	margin: 0;
 	padding: 0;
@@ -46,6 +42,7 @@ header #logo {
 }
 
 /* nav-wrap */
+
 #nav-wrap {
    font: 11px 'montserrat-bold', sans-serif;
    text-transform: uppercase;
@@ -59,6 +56,7 @@ header #logo {
 }
 
 /* hide toggle button */
+
 #nav-wrap > a { display: none; }
 #nav-wrap > a {	   
    text-align: left;
@@ -88,6 +86,7 @@ header #logo {
 }
 
 /* hide menu panel */
+
 #nav-wrap ul#nav {
    padding: 24px 36px 36px 36px;     
    height: auto; 
@@ -104,13 +103,15 @@ header #logo {
 }
    
 /* display toggle buttons */
+
 .no-js #nav-wrap:not( :target ) > a:first-of-type,
 .no-js #nav-wrap:target > a:last-of-type  {
    display: block;
 } 
 .js #nav-wrap a { display: block; }  
 
-/* display menu panels - no JS*/
+/* display menu panels */
+
 .no-js #nav-wrap:target > ul#nav  {
    display: block;           
 }
@@ -145,8 +146,8 @@ ul#nav li a:active { background-color: transparent !important; }
 ul#nav li.current a { color: #1E732D; }
 
 
-/* Main 
------------------------------------------------------------------- */
+/* main */
+
 #main {
 	margin: 126px auto 0;
 	text-align: center;	
@@ -174,6 +175,7 @@ ul#nav li.current a { color: #1E732D; }
 }
 
 /* counter */
+
 #main #counter {
 	width: 75%;
 	color: #fff;
@@ -202,6 +204,7 @@ ul#nav li.current a { color: #1E732D; }
 }
 
 /* mailchimp form */
+
 #main #mc_embed_signup {
 	clear: both;
 	margin: 48px auto 18px;
@@ -262,9 +265,7 @@ ul#nav li.current a { color: #1E732D; }
 #main .social li a:hover { color: #197C28; }
 
 
-/* ------------------------------------------------------------------ */
-/* c. About Section
-/* ------------------------------------------------------------------ */
+/* about */
 
 #about {
 	background: #1E732D;
@@ -307,8 +308,8 @@ ul#nav li.current a { color: #1E732D; }
    margin-bottom: 12px;
 }
 
-/* Call To Action 
------------------------------------------------------------------- */
+/* call to action */
+
 #call-to-action {
 	padding-top: 30px;  
    text-align: center; 
@@ -350,9 +351,7 @@ ul#nav li.current a { color: #1E732D; }
 }
 
 
-/* ------------------------------------------------------------------ */
-/* d. Location Section
-/* ------------------------------------------------------------------ */
+/* locations */
 
 #location .contacts {
 	background: #1F1F1F;   
@@ -381,6 +380,7 @@ ul#nav li.current a { color: #1E732D; }
 #location .contacts h3 i {	margin-right: 8px; }
 
 /* map */
+
 #map {
    display: block;
 	height: 486px;
@@ -400,9 +400,7 @@ ul#nav li.current a { color: #1E732D; }
 }
 
 
-/* ------------------------------------------------------------------ */
-/* e. Footer
-/* ------------------------------------------------------------------ */
+/* footer */
 
 footer {
 	font: 14px/24px 'montserrat-regular', sans-serif;
@@ -415,6 +413,7 @@ footer a, footer a:visited { color: #525252; }
 footer a:hover, footer a:focus { color: #fff; }
 
 /* copyright */
+
 footer .copyright {
     margin: 0;
     padding: 0;
@@ -439,7 +438,8 @@ footer .copyright  li:first-child:before {
     display: none;
 }
 
-/* Go To Top Button */
+/* go to top button */
+
 #go-top {
 	position: fixed;
 	bottom: 30px;
@@ -467,4 +467,3 @@ footer .copyright  li:first-child:before {
  	border-radius: 3px;
 }
 #go-top a:hover { background: #165622; }
-

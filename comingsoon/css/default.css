@@ -1,15 +1,9 @@
-/* ------------------------------------------------------------------ */
-/* a. Webfonts and Icon fonts
- ------------------------------------------------------------------ */
-
+/* webfonts and icon fonts */
 @import url("fonts.css");
 @import url("fontello/css/fontello.css");
 @import url("font-awesome/css/font-awesome.min.css");
 
-
-/* ------------------------------------------------------------------ */
-/* b. Preloader
- ------------------------------------------------------------------ */
+/* preloader */
 
 #preloader  {
    position: fixed;
@@ -31,12 +25,7 @@
    padding: 0;    
 }
 
-/* ------------------------------------------------------------------
-/* c. Reset
-      Adapted from:
-      Normalize.css - https://github.com/necolas/normalize.css/
-      HTML5 Doctor Reset - html5doctor.com/html-5-reset-stylesheet/
-/* ------------------------------------------------------------------ */
+/* reset */
 
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -120,14 +109,7 @@ table {
 }
 
 
-/* ------------------------------------------------------------------ */
-/* d. Default and Basic Styles
-      Adapted from:
-      Skeleton CSS Framework - http://www.getskeleton.com/
-      Typeplate Typographic Starter Kit - http://typeplate.com/
-/* ------------------------------------------------------------------ */
-
-/* 1. Basic  ------------------------------------------------------- */
+/* base styles */
 
 *,
 *:before,
@@ -151,9 +133,7 @@ body {
 	-webkit-text-size-adjust: 100%;
 }
 
-/* 2. Typography
-      Vertical rhythm with leading derived from 6
---------------------------------------------------------------------- */
+/* typography */
 
 h1, h2, h3, h4, h5, h6 {
    color: #313131;
@@ -176,8 +156,6 @@ p.lead {
    margin-bottom: 24px;
 }
 
-/* for 'em' and 'strong' tags, font-size and line-height should be same with
-the body tag due to rendering problems in some browsers */
 em { font: 15px/30px 'merriweather-italic', sans-serif; }
 strong, b { font: 15px/30px 'merriweather-bold', sans-serif; }
 small { font-size: 11px; line-height: inherit; }
@@ -217,16 +195,8 @@ blockquote cite:before { content: "\2014 \0020"; }
 blockquote cite a,
 blockquote cite a:visited { color: #8B9798; border: none }
 
-/* ---------------------------------------------------------------------
-/*  Pull Quotes Markup
-/*
-    <aside class="pull-quote">
-		<blockquote>
-			<p></p>
-		</blockquote>
-	 </aside>
-/*
-/* --------------------------------------------------------------------- */
+/* pull quotes */
+
 .pull-quote {
    position: relative;
 	padding: 18px 30px 18px 0px;
@@ -267,6 +237,7 @@ abbr {
 abbr:hover { cursor: help; }
 
 /* drop cap */
+
 .drop-cap:first-letter {
 	float: left;
 	margin: 0;
@@ -281,8 +252,7 @@ abbr:hover { cursor: help; }
 
 hr { border: solid #E8E8E8; border-width: 1px 0 0; clear: both; margin: 11px 0 30px; height: 0; }
 
-
-/*  3. Links  ------------------------------------------------------- */
+/* links */
 
 a, a:visited {
    text-decoration: none;
@@ -298,7 +268,7 @@ a:hover, a:focus { color: #333; }
 p a, p a:visited { line-height: inherit; }
 
 
-/*  4. List  --------------------------------------------------------- */
+/* lists */
 
 ul, ol { margin-bottom: 24px; margin-top: 12px; }
 ul { list-style: none outside; }
@@ -315,16 +285,8 @@ li { line-height: 18px; margin-bottom: 12px; }
 ul.large li { }
 li p { }
 
-/* ---------------------------------------------------------------------
-/*  Stats Tab Markup
+/* stats markup */
 
-    <ul class="stats-tabs">
-		<li><a href="#">[value]<b>[name]</b></a></li>
-	 </ul>
-
-    Extend this object into your markup.
-/*
-/* --------------------------------------------------------------------- */
 .stats-tabs {
    padding: 0;
    margin: 24px 0;
@@ -382,7 +344,8 @@ dd { margin: 0 0 0 20px; }
 	margin-left: -0.2em;
 }
 
-/* Dictionary Definition Style Markup */
+/* dictionary definition markup */
+
 .dictionary-style dt {
 	display: inline;
 	counter-reset: definitions;
@@ -442,7 +405,7 @@ dd { margin: 0 0 0 20px; }
 }
 .pagination .prev, .pagination .next {}
 
-/* 5. Media   --------------------------------------------------------- */
+/* media */
 
 img,
 video,
@@ -455,7 +418,7 @@ object {
 img.pull-right { margin: 12px 0px 0px 18px; }
 img.pull-left { margin: 12px 18px 0px 0px; }
 
-/* 6. Buttons  --------------------------------------------------------- */
+/* buttons */
 
 .button,
 .button:visited,
@@ -513,7 +476,6 @@ input[type="button"].full-width {
 	text-align: center;
 }
 
-/* Fix for odd Mozilla border & padding issues */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
     border: 0;
@@ -521,7 +483,7 @@ input::-moz-focus-inner {
 }
 
 
-/* 7. Forms  --------------------------------------------------------- */
+/* forms */
 
 form { margin-bottom: 24px; }
 fieldset { margin-bottom: 24px; }
@@ -546,10 +508,6 @@ select {
    border-radius: 3px;
 
 }
-
-/* select { padding: 0;
-   width: 220px;
-   } */
 
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -582,7 +540,7 @@ input[type="radio"] {
 
 input[type="checkbox"] { display: inline; }
 
-/* Style Placeholder Text */
+/* placeholder text */
 
 ::-webkit-input-placeholder {
    color: #B3B7BC;
@@ -600,18 +558,14 @@ input[type="checkbox"] { display: inline; }
 	color: #B3B7BC !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* e. Grid
---------------------------------------------------------------------- */
+/* default grid */
 
-/* default
---------------------------------------------------------------- */
 .row {
    width: 96%;
    max-width: 1008px;
    margin: 0 auto;
 }
-/* fixed width for IE8 */
+
 .ie .row { width: 1000px ; }
 
 .narrow .row { max-width: 980px; }
@@ -619,6 +573,7 @@ input[type="checkbox"] { display: inline; }
 .row .row { width: auto; max-width: none; margin: 0 -20px; }
 
 /* row clearing */
+
 .row:before,
 .row:after {
     content: " ";
@@ -640,6 +595,7 @@ input[type="checkbox"] { display: inline; }
 }
 
 /* removed gutters */
+
 .row.collapsed > .column,
 .row.collapsed > .columns,
 .column.collapsed, .columns.collapsed  { padding: 0; }
@@ -648,6 +604,7 @@ input[type="checkbox"] { display: inline; }
 [class*="column"] + [class*="column"].end { float: right; }
 
 /* column widths */
+
 .row .one         { width: 8.33333%; }
 .row .two         { width: 16.66667%; }
 .row .three       { width: 25%; }
@@ -661,7 +618,8 @@ input[type="checkbox"] { display: inline; }
 .row .eleven      { width: 91.66667%; }
 .row .twelve      { width: 100%; }
 
-/* Offsets */
+/* offsets */
+
 .row .offset-1    { margin-left: 8.33333%; }
 .row .offset-2    { margin-left: 16.66667%; }
 .row .offset-3    { margin-left: 25%; }
@@ -674,7 +632,8 @@ input[type="checkbox"] { display: inline; }
 .row .offset-10   { margin-left: 83.33333%; }
 .row .offset-11   { margin-left: 91.66667%; }
 
-/* Push/Pull */
+/* push/pull */
+
 .row .push-1      { left: 8.33333%; }
 .row .pull-1      { right: 8.33333%; }
 .row .push-2      { left: 16.66667%; 	}
@@ -698,8 +657,8 @@ input[type="checkbox"] { display: inline; }
 .row .push-11     { left: 91.66667%; }
 .row .pull-11     { right: 91.66667%; }
 
-/* block grids
---------------------------------------------------------------------- */
+/* block grids */
+
 .bgrid-sixths [class*="column"]   { width: 16.66667%; }
 .bgrid-quarters [class*="column"] { width: 25%; }
 .bgrid-thirds [class*="column"]   { width: 33.33333%; }
@@ -707,15 +666,11 @@ input[type="checkbox"] { display: inline; }
 
 [class*="bgrid"] [class*="column"] + [class*="column"]:last-child { float: left; }
 
-/* Left clearing for block grid columns - columns that changes width in
-different screen sizes. Allows columns with different heights to align
-properly.
---------------------------------------------------------------------- */
 .first { clear: left; }   /* first column in default screen */
 .s-first { clear: none; } /* first column in smaller screens */
 
-/* smaller screens
---------------------------------------------------------------- */
+/* smaller screens */
+
 @media only screen and (max-width: 900px) {
 
    /* block grids on small screens */
@@ -730,8 +685,8 @@ properly.
 
 }
 
-/* screenwidth less than 768px - mobile/smaller tablets
---------------------------------------------------------------- */
+/* screenwidth less than 768px */
+
 @media only screen and (max-width: 767px) {
 
    .row {
@@ -765,29 +720,25 @@ properly.
    .row .offset-11   { margin-left: 0%; }
 }
 
-/* screenwidth less than or equal 480px - mobile wide
---------------------------------------------------------------- */
+/* screenwidth less than or equal 480px */
+
 @media only screen and (max-width: 480px) {
 
    .row { width: auto; }
 
 }
 
-/* larger screens
---------------------------------------------------------------- */
+/* larger screens */
+
 @media screen and (min-width: 1200px) {
 
    .wide .row { max-width: 1180px; }
 
 }
 
-/* ------------------------------------------------------------------ */
-/* f. Others
-/* ------------------------------------------------------------------ */
+/* other viewports */
 
-/*  1. Clearing
-    (http://nicolasgallagher.com/micro-clearfix-hack/
---------------------------------------------------------------------- */
+/* clearing */
 
 .cf:before,
 .cf:after {
@@ -798,7 +749,7 @@ properly.
     clear: both;
 }
 
-/*  2. Misc -------------------------------------------------------- */
+/* misc */
 
 .remove-bottom { margin-bottom: 0 !important; }
 .half-bottom { margin-bottom: 12px !important; }
@@ -815,7 +766,3 @@ properly.
 	margin-right: auto !important;
 	text-align: center !important;
 }
-
-
-
-

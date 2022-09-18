@@ -1,21 +1,18 @@
-/* screenwidth less than 1140px
---------------------------------------------------------------------- */
+/* screenwidth less than 1140px */
 @media only screen and (max-width: 1140px) {
 
-	/* Intro Styles
-	------------------------------------------------------------------ */
+	/* intro styles */
 	#intro {	min-height: 828px; }
 
-	/* Header 
-	------------------------------------------------------------------ */
+	/* header */
 	header #logo {	
 		top: 66px;	
 		width: 100px;
 		margin-left: -50px;
 	}
 
-   /* main
-   ------------------------------------------------------------------ */
+   /* main */
+
    #main { margin-top: 90px; }
   	#main h1 { 
   		font: 38px/1.2em 'montserrat-bold', sans-serif; 
@@ -35,16 +32,16 @@
 
 }
 
-/* screenwidth less than 900px
---------------------------------------------------------------------- */
+/* screenwidth less than 900px */
+
 @media only screen and (max-width: 900px) {
 
-	/* intro styles
-	------------------------------------------------------------------ */
+	/* intro styles */
+
 	#intro {	min-height: 792px; }
 
-   /* main
-   ------------------------------------------------------------------ */
+   /* main */
+
    #main h1 { 
   		font: 35px/1.2em 'montserrat-bold', sans-serif; 
   		padding: 0 8%;
@@ -55,17 +52,19 @@
   	}
 
   	/* counter */
+
 	#main #counter { width: 80%; }
 	#main #counter span { font: 58px/1em 'merriweather-bold', serif;	}
 
 	/* mailchimp form */
+
 	#main #mc_embed_signup { 
 		width: 65%; 
 		margin-top: 36px;
 	}
 
-	/* about section
-   ------------------------------------------------------------------ */
+	/* about */
+
    #about { padding-top: 84px}
    #about .section-header .icon-wrap { font-size: 55px; }
 	#about .section-header h1,
@@ -74,35 +73,35 @@
 	#call-to-action .section-ads { padding-top: 42px; }
 	#call-to-action p { padding: 0 10%; }
 
-	/* location section
-	------------------------------------------------------------------ */   
+	/* location */
+
 	#location .contacts .row .columns { width: 50%; }
 	#location .contacts .row .end { clear: both; }	
 
 }
 
-/* mobile 
----------------------------------------------------------------------- */
+/* mobile */
+
 @media only screen and (max-width: 767px) {
 
-	/* intro styles
-	------------------------------------------------------------------ */
+	/* intro */
+
 	header #logo {	
 		top: 30px;	
 		width: 90px;
 		margin-left: -45px;			
 	}
 
-	/* primary navigation
-	--------------------------------------------------------------------- */
+	/* primary nav */
+
 	#nav-wrap > a { right: 0; }
 	#nav-wrap ul#nav { 
 		background: #111;
 		right: 0; 
 	}
 
-   /* main
-   ------------------------------------------------------------------ */
+   /* main */
+
    #main { margin-top: 48px; }
   	#main h1 { 
   		font: 30px/1.2em 'montserrat-bold', sans-serif; 
@@ -119,6 +118,7 @@
 	}
 
   	/* counter */
+
 	#main #counter {
 		width: 100%;		
 		margin: 12px 0 30px;
@@ -135,6 +135,7 @@
 	}
 
 	/* mailchimp form */
+
 	#main #mc_embed_signup {
 		clear: both;
 		margin: 12px auto 0;
@@ -156,6 +157,7 @@
 	}
 
 	/* social links */
+
 	#main .social {
 		margin: 12px 0 24px;
 	   font-size: 18px;
@@ -164,8 +166,8 @@
 	#main .social li { margin: 0 8px; }
 
 
-	/* about section
-   -------------------------------------------------------------------- */
+	/* about */
+
    #about {	padding-top: 72px; }
    #about .icon-wrap {
    	text-align: center; 
@@ -174,8 +176,8 @@
    #about .header { text-align: center; }
    #about h1 {	font: 26px/36px 'montserrat-bold', sans-serif; }   
 
-   /* Call To Action Section
-   ----------------------------------------------------------------- */
+   /* call to action */
+
    #call-to-action h2 {	font: 26px/36px 'montserrat-bold', sans-serif; }
    #call-to-action .action,
    #call-to-action .action a  { 
@@ -184,8 +186,8 @@
 		text-align: center;	
 	}
 
-	/* location section
-	------------------------------------------------------------------ */ 
+	/* location */ 
+
 	#location .contacts { padding-top: 54px; }
 	#location .contacts .row .columns { 
 		text-align: center;
@@ -193,11 +195,12 @@
 		float: none;
 	}	
 
-   /* footer
-   ------------------------------------------------------------------------ */
+   /* footer */
+
   	footer {	padding-bottom: 30px; }
 
    /* copyright */
+
 	footer .copyright { text-align: center; }
    footer .copyright li:before { content: none; }
    footer .copyright li { 
@@ -208,22 +211,23 @@
 
 }
 
-/* screenwidth less than 460px
-  -------------------------------------------------------------------------- */
+/* screenwidth less than 460px */
+
 @media only screen and (max-width: 460px) {
 
-	/* intro styles
-	------------------------------------------------------------------ */
+	/* intro */
+	
 	#intro {	min-height: 780px; }
    
-   /* main
-   ------------------------------------------------------------------ */
+   /* main */
+
    #main h1 { 
   		font: 28px/1.2em 'montserrat-bold', sans-serif; 
 		padding: 0 5px;
   	}
     
   	/* counter */
+
 	#main #counter {
 		width: 100%;		
 		margin: 0 0 24px;
@@ -239,11 +243,12 @@
 	} 
 
 	/* mailchimp form */
+
 	#main #mc_embed_signup { width: 80%; }
 
 
-	/* about section
-   ------------------------------------------------------------------ */
+	/* about */
+
    #about .section-header .icon-wrap { font-size: 50px; }
 	#about .section-header h1,
 	#call-to-action h2 {
@@ -256,34 +261,34 @@
 	}
 	#call-to-action .action a.button { width: 100%; }  
 
-   /* footer
-   ------------------------------------------------------------------------ */
+   /* footer */
 
    /* social links */
+
    footer .social-links { font-size: 20px; }
    footer .social-links li { margin-left: 14px; }  
 
-   /* Go To Top Button */
-	#go-top { right: 15px; } 
+   /* go to top button */
 
+	#go-top { right: 15px; } 
 }
 
-/* screenwidth less than 400px
-  -------------------------------------------------------------------------- */
+/* screenwidth less than 400px */
+
 @media only screen and (max-width: 400px) {
 
-	/* intro styles
-	------------------------------------------------------------------ */
+	/* intro */
+
 	#intro {	min-height: 744px; }
 
-	/* main
-   ------------------------------------------------------------- */
+	/* main */
+
    #main { margin-top: 42px; }
    #main h1 { font: 25px/1.2em 'montserrat-bold', sans-serif; 	}
   	#main p { font: 12px/21px 'montserrat-regular', sans-serif;	}
 
-  	/* counter
-   ------------------------------------------------------------- */
+  	/* counter */
+
 	#main #counter span { 
 		font: 35px/1em 'merriweather-bold', serif;	
 		padding: 9px 0 15px;		
@@ -294,19 +299,12 @@
 	}
 
 	/* mailchimp form */
+
 	#main #mc_embed_signup { width: 90%; }
 
 	/* header social links */
+
    #main .social { font-size: 17px;}
    #main .social li { margin: 0 6px; }
 
 }
-
-
-
-
-
-
-
-
-
