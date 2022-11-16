@@ -1,5 +1,5 @@
 # Code and Workspace Templates
 
-Welcome to my favorite and most commonly used templates for repository management and code workspaces. Currently planning to expand to more project and language specific templates as I have more time.
+Welcome to my favorite and most commonly used templates for anything and everything related to DevSecOps, SysAdmin, Software Engineering, etcc... I am currently planning to expand to included more of my templates once I find more time!
 
-Explore all of my templates right [here](https://github.com/zackbradys/code-templates/tree/main/templates)!
+Explore all of the current templates [right here!](https://github.com/zackbradys/code-templates/tree/main/templates)
