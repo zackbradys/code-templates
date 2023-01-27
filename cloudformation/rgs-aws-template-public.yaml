@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Rancher Manager and RKE2 Installation on AWS 
+Description: AWS CloudFormation for Installing Rancher through the RGS Marketplace
   Offering
 
 Metadata: 
@@ -9,6 +9,7 @@ Metadata:
         Label: 
           default: "Amazon Configuration"
         Parameters: 
+          - KeyName
           - VolumeSize
           - VPCCidr
           - AllowedCidr
@@ -16,24 +17,58 @@ Metadata:
         Label: 
           default: "Rancher Configuration"
         Parameters: 
+          - RancherHostname
           - ClusterJoinToken
           - RancherBoostrapPassword
+      - 
+        Label: 
+          default: "HostedZone Configuration (Optional)"
+        Parameters: 
+          - UpdateHostedZone
+          - HostedZoneDomain
+    ParameterLabels: 
+      UpdateHostedZone: 
+        default: "Rancher has a requirement of DNS. If you're currently utilizing Route 53, the following configuration options will create a RecordSet in your domain."
 
 Parameters:
+  UpdateHostedZone:
+    Description: Whether CloudFormation should create a record in your domain's HostedZone
+    Type: String
+    Default: false
+    AllowedValues:
+      - true
+      - false
+  HostedZoneDomain:
+    Description: Domain of the HostedZone. Should match your 'RancherHostname' domain. Only required if 'UpdateHostedZone' is true.
+    Type: String
+    Default: "example.com"
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
   VolumeSize:
     Description: Main volume size for Rancher nodes
     Type: Number
     MinValue: '25'
     Default: '50'
-  ClusterJoinToken:
-    Description: Cluster Join Token for cluster nodes ("Pa22wordT0k3n").
+  RancherHostname:
+    Default: rancher.example.com
+    Description: Hostname for Rancher. Will require a DNS update or utilization of
+      '/etc/hosts'.
     Type: String
-    Default: Pa22wordT0k3n
+    MinLength: '1'
+    MaxLength: '253'
+    AllowedPattern: '[A-Za-z\.]*'
+    ConstraintDescription: must be a valid FQDN.
+  ClusterJoinToken:
+    Description: Join token for cluster nodes. VERY IMPORTANT, ENSURE YOU SAVE AND
+      STORE SECURELY.
+    Type: String
     MinLength: '5'
     MaxLength: '200'
     NoEcho: true
   RancherBoostrapPassword:
-    Description: "Temporary password for installing Rancher ("admin")."
+    Description: "Temporary initializing password for Rancher (Default: admin)."
     Type: String
     Default: admin
     NoEcho: true
@@ -50,12 +85,17 @@ Parameters:
     AllowedPattern: (\d{1,3})\.(\d{1,3})
     ConstraintDescription: must be a valid dot-separated string of the form x.x
 
+Conditions:
+  CreateRecordSet: !Equals 
+    - !Ref UpdateHostedZone
+    - true
+
 Mappings:
   AWSRegionArch2AMI:
-    us-east-1:
-      HVM64: ami-0760a22ab9aa4a9eb
-    us-west-2:
-      HVM64: ami-03b3895e256f31173
+    us-gov-east-1:
+      HVM64: ami-06825ad49385e4530
+    us-gov-west-1:
+      HVM64: ami-054deeaf0396478c1
 
 Resources:
 
@@ -299,143 +339,6 @@ Resources:
   #############
   # IAM Roles #
   #############
-  AwsCPRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Path: /
-      Policies:
-        - PolicyName: rancher-instance-policy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - autoscaling:DescribeAutoScalingGroups
-                  - autoscaling:DescribeLaunchConfigurations
-                  - autoscaling:DescribeTags
-                  - ec2:DescribeInstances
-                  - ec2:DescribeRegions
-                  - ec2:DescribeRouteTables
-                  - ec2:DescribeSecurityGroups
-                  - ec2:DescribeSubnets
-                  - ec2:DescribeVolumes
-                  - ec2:DescribeAvailabilityZones
-                  - ec2:CreateSecurityGroup
-                  - ec2:CreateTags
-                  - ec2:CreateVolume
-                  - ec2:ModifyInstanceAttribute
-                  - ec2:ModifyVolume
-                  - ec2:AttachVolume
-                  - ec2:AuthorizeSecurityGroupIngress
-                  - ec2:CreateRoute
-                  - ec2:DeleteRoute
-                  - ec2:DeleteSecurityGroup
-                  - ec2:DeleteVolume
-                  - ec2:DetachVolume
-                  - ec2:RevokeSecurityGroupIngress
-                  - ec2:DescribeVpcs
-                  - elasticloadbalancing:AddTags
-                  - elasticloadbalancing:AttachLoadBalancerToSubnets
-                  - elasticloadbalancing:ApplySecurityGroupsToLoadBalancer
-                  - elasticloadbalancing:CreateLoadBalancer
-                  - elasticloadbalancing:CreateLoadBalancerPolicy
-                  - elasticloadbalancing:CreateLoadBalancerListeners
-                  - elasticloadbalancing:ConfigureHealthCheck
-                  - elasticloadbalancing:DeleteLoadBalancer
-                  - elasticloadbalancing:DeleteLoadBalancerListeners
-                  - elasticloadbalancing:DescribeLoadBalancers
-                  - elasticloadbalancing:DescribeLoadBalancerAttributes
-                  - elasticloadbalancing:DetachLoadBalancerFromSubnets
-                  - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
-                  - elasticloadbalancing:ModifyLoadBalancerAttributes
-                  - elasticloadbalancing:RegisterInstancesWithLoadBalancer
-                  - elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer
-                  - elasticloadbalancing:AddTags
-                  - elasticloadbalancing:CreateListener
-                  - elasticloadbalancing:CreateTargetGroup
-                  - elasticloadbalancing:DeleteListener
-                  - elasticloadbalancing:DeleteTargetGroup
-                  - elasticloadbalancing:DescribeListeners
-                  - elasticloadbalancing:DescribeLoadBalancerPolicies
-                  - elasticloadbalancing:DescribeTargetGroups
-                  - elasticloadbalancing:DescribeTargetHealth
-                  - elasticloadbalancing:ModifyListener
-                  - elasticloadbalancing:ModifyTargetGroup
-                  - elasticloadbalancing:RegisterTargets
-                  - elasticloadbalancing:DeregisterTargets
-                  - elasticloadbalancing:SetLoadBalancerPoliciesOfListener
-                  - iam:CreateServiceLinkedRole
-                  - kms:DescribeKey
-                  - kms:ListKeys
-                Resource: '*'
-
-  AwsCPInstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      InstanceProfileName: demo-profile
-      Path: /
-      Roles:
-        - !Ref 'AwsCPRole'
-
-  RancherCloudCredentialUser:
-    Type: AWS::IAM::User
-    Properties: 
-      UserName: rancher-cloud-credential-user
-
-  RancherCloudCredentialsPolicy:
-    Type: 'AWS::IAM::Policy'
-    DependsOn: RancherCloudCredentialUser
-    Properties:
-      PolicyName: rancher-cloud-credential-policy
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Action:
-              - ec2:*
-              - cloudformation:*
-              - eks:*
-              - kms:Decrypt
-              - kms:GenerateDataKeyWithoutPlaintext
-              - kms:Encrypt
-              - kms:DescribeKey
-              - kms:CreateGrant
-              - iam:PassRole
-              - iam:ListRoles
-              - iam:ListRoleTags
-              - iam:ListInstanceProfilesForRole
-              - iam:ListInstanceProfiles
-              - iam:ListAttachedRolePolicies
-              - iam:GetRole
-              - iam:GetInstanceProfile
-              - iam:DetachRolePolicy
-              - iam:AttachRolePolicy
-              - iam:AddRoleToInstanceProfile
-              - iam:CreateInstanceProfile
-              - iam:CreateRole
-              - iam:CreateServiceLinkedRole
-              - iam:DeleteInstanceProfile
-              - iam:DeleteRole
-              - iam:RemoveRoleFromInstanceProfile
-            Resource: '*'
-      Users:
-      - !Ref RancherCloudCredentialUser
-
-  RancherCloudCredentialKey:
-    Type: AWS::IAM::AccessKey
-    DependsOn: RancherCloudCredentialUser
-    Properties: 
-      UserName: !Ref RancherCloudCredentialUser
-
   RancherInstanceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -459,7 +362,6 @@ Resources:
                   - autoscaling:DescribeAutoScalingGroups
                   - autoscaling:DescribeAutoScalingInstances
                 Resource: '*'
-
   RancherInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
@@ -489,6 +391,7 @@ Resources:
         SecurityGroupIds:
           - !GetAtt 'RancherCPSecurityGroup.GroupId'
           - !GetAtt 'RancherIngressSecurityGroup.GroupId'
+        KeyName: !Ref 'KeyName'
         BlockDeviceMappings:
           - Ebs:
               VolumeSize: !Ref 'VolumeSize'
@@ -513,7 +416,7 @@ Resources:
               - !Join
                 - ' '
                 - - init-rancher.sh
-                  - !GetAtt 'RancherELB.DNSName'
+                  - !Ref 'RancherHostname'
                   - !Ref 'RancherBoostrapPassword'
               - "\n"
   RancherCPAutoScalingGroup:
@@ -558,6 +461,7 @@ Resources:
         SecurityGroupIds:
           - !GetAtt 'RancherCPSecurityGroup.GroupId'
           - !GetAtt 'RancherIngressSecurityGroup.GroupId'
+        KeyName: !Ref 'KeyName'
         BlockDeviceMappings:
           - Ebs:
               VolumeSize: !Ref 'VolumeSize'
@@ -604,87 +508,9 @@ Resources:
               - worker-asg
           PropagateAtLaunch: true
 
-  ###########################
-  # ElasticFileSystem (EFS) #
-  ###########################
-  DemoEFS:
-    Type: 'AWS::EFS::FileSystem'
-    Properties:
-      BackupPolicy:
-        Status: ENABLED
-      PerformanceMode: generalPurpose
-      Encrypted: true
-      LifecyclePolicies:
-        - TransitionToIA: AFTER_30_DAYS
-        - TransitionToPrimaryStorageClass: AFTER_1_ACCESS
-      FileSystemTags:
-        - Key: Name
-          Value: !Join
-            - '-'
-            - - !Ref 'AWS::StackName'
-              - efs
-
-  MountTargetPrivateSubnet1:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref DemoEFS
-      SubnetId: !Ref RancherPrivateSubnet1
-      SecurityGroups:
-      - !Ref EFSSecurityGroup
-
-  MountTargetPrivateSubnet2:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref DemoEFS
-      SubnetId: !Ref RancherPrivateSubnet2
-      SecurityGroups:
-      - !Ref EFSSecurityGroup
-
-  MountTargetPrivateSubnet3:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref DemoEFS
-      SubnetId: !Ref RancherPrivateSubnet3
-      SecurityGroups:
-      - !Ref EFSSecurityGroup
-
   ##################
   # Security Group #
   ##################
-  EFSSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      VpcId: !Ref 'RancherVPC'
-      GroupDescription: Enable EFS access from Rancher subnets to port 2049 
-      SecurityGroupEgress:
-        - IpProtocol: '-1'
-          FromPort: '0'
-          ToPort: '65535'
-          CidrIp: '0.0.0.0/0'
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: '2049'
-          ToPort: '2049'
-          CidrIp: !Join
-            - ''
-            - - !Ref 'VPCCidr'
-              - .11.0/24
-        - IpProtocol: tcp
-          FromPort: '2049'
-          ToPort: '2049'
-          CidrIp: !Join
-            - ''
-            - - !Ref 'VPCCidr'
-              - .12.0/24
-        - IpProtocol: tcp
-          FromPort: '2049'
-          ToPort: '2049'
-          CidrIp: !Join
-            - ''
-            - - !Ref 'VPCCidr'
-              - .13.0/24
-
-
   RancherCPSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -815,14 +641,32 @@ Resources:
         UnhealthyThreshold: '5'
         Interval: '30'
         Timeout: '5'
+
+  ############
+  # Route 53 #
+  ############
+  RancherRecordSet:
+    Type: AWS::Route53::RecordSet
+    Condition: CreateRecordSet
+    DependsOn:
+      - RancherELB
+    Properties:
+      HostedZoneName: !Sub '${HostedZoneDomain}.'
+      Comment: Rancher URL
+      Name: !Sub '${RancherHostname}.'
+      Type: CNAME
+      TTL: '60'
+      ResourceRecords:
+        - !GetAtt 'RancherELB.DNSName'
   
 Outputs:
   RancherURL:
-    Description: Rancher Manager Access URL.
+    Description: URL for Rancher
+    Value: !Join
+      - ''
+      - - https://
+        - !Ref 'RancherHostname'
+  RancherELBHostname:
+    Description: ELB Hostname for Rancher. Requires a CNAME DNS added to the 'RancherURL'
+      output.
     Value: !GetAtt 'RancherELB.DNSName'
-  CloudCredentialKey:
-    Description: AWS Access Key for Rancher
-    Value: !Ref RancherCloudCredentialKey
-  CloudCredentialSecret:
-    Description: AWS Secret Key for Rancher (Sensitive!)
-    Value: !GetAtt RancherCloudCredentialKey.SecretAccessKey
