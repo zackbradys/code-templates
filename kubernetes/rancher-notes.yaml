@@ -91,9 +91,6 @@ IPV6_FAILURE_FATAL=no
 NAME="System eth0"
 UUID=5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03
 
-
-nmcli connection reload
-
 #STEP5
 reboot
 
@@ -123,9 +120,9 @@ cat /opt/rancher/token
 vi /etc/rancher/rke2/config.yaml
 
 tls-san:
-  - $DOMAIN
-  - $DOMAIN
-  - $DOMAIN
+  - $DOMAIN-FQDN
+  - $DOMAIN-FQDN
+  - $DOMAIN-FQDN
 
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl  /usr/local/bin/kubectl
@@ -148,12 +145,12 @@ echo -e "---\napiVersion: helm.cattle.io/v1\nkind: HelmChartConfig\nmetadata:\n 
 
 vi /etc/rancher/rke2/config.yaml
 
-server: $SEVER
-token: $TOKEN
+server: $SERVER-FQDN:9345
+token: $CLUSTER-JOIN-TOKEN
 tls-san:
-  - $DOMAIN
-  - $DOMAIN
-  - $DOMAIN
+  - $DOMAIN-FQDN
+  - $DOMAIN-FQDN
+  - $DOMAIN-FQDN
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 sh - 
 
@@ -171,8 +168,8 @@ chmod 600 /etc/rancher/rke2/config.yaml
 
 vi /etc/rancher/rke2/config.yaml
 
-server: https://7310hargrove.court:9345
-token: K1096aa16c229a3013ff16fc7c69fc15d2421a9a07f51f4e6905d1f40f89a3fb72e::server:d668f8c7976e1fd7021224b9e5011861
+server: $SERVER-FQDN:9345
+token: $CLUSTER-JOIN-TOKEN
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 INSTALL_RKE2_TYPE=agent sh -
 
