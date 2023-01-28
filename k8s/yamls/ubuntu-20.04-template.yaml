@@ -1,0 +1,173 @@
+apiVersion: harvesterhci.io/v1beta1
+kind: VirtualMachineTemplateVersion
+metadata:
+  annotations:
+    template-version.harvesterhci.io/customName: 90tJnR8MX0
+  creationTimestamp: "2023-01-28T17:58:59Z"
+  generateName: ubuntu-20.04-
+  generation: 2
+  labels:
+    template.harvesterhci.io/templateID: ubuntu-20.04
+  managedFields:
+  - apiVersion: harvesterhci.io/v1beta1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:template-version.harvesterhci.io/customName: {}
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:template.harvesterhci.io/templateID: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"79c00e3e-0be3-4351-9329-f53a50ba5b3b"}: {}
+      f:spec:
+        .: {}
+        f:templateId: {}
+        f:vm:
+          .: {}
+          f:metadata:
+            .: {}
+            f:annotations:
+              .: {}
+              f:harvesterhci.io/volumeClaimTemplates: {}
+            f:creationTimestamp: {}
+            f:labels:
+              .: {}
+              f:harvesterhci.io/os: {}
+          f:spec:
+            .: {}
+            f:runStrategy: {}
+            f:template:
+              .: {}
+              f:metadata:
+                .: {}
+                f:annotations:
+                  .: {}
+                  f:harvesterhci.io/sshNames: {}
+                f:creationTimestamp: {}
+                f:labels:
+                  .: {}
+                  f:harvesterhci.io/vmName: {}
+              f:spec:
+                .: {}
+                f:domain:
+                  .: {}
+                  f:cpu:
+                    .: {}
+                    f:cores: {}
+                    f:sockets: {}
+                    f:threads: {}
+                  f:devices:
+                    .: {}
+                    f:disks: {}
+                    f:inputs: {}
+                    f:interfaces: {}
+                  f:features:
+                    .: {}
+                    f:acpi:
+                      .: {}
+                      f:enabled: {}
+                  f:machine:
+                    .: {}
+                    f:type: {}
+                  f:resources:
+                    .: {}
+                    f:limits:
+                      .: {}
+                      f:cpu: {}
+                      f:memory: {}
+                f:evictionStrategy: {}
+                f:networks: {}
+                f:volumes: {}
+      f:status:
+        .: {}
+        f:conditions: {}
+        f:version: {}
+    manager: harvester
+    operation: Update
+    time: "2023-01-28T17:58:59Z"
+  name: ubuntu-20.04-l2fv5
+  namespace: default
+  ownerReferences:
+  - apiVersion: harvesterhci.io/v1beta1
+    blockOwnerDeletion: true
+    controller: true
+    kind: VirtualMachineTemplate
+    name: ubuntu-20.04
+    uid: 79c00e3e-0be3-4351-9329-f53a50ba5b3b
+  resourceVersion: "91324947"
+  uid: 7a45ec49-e681-429e-9648-7a31f53a36f4
+spec:
+  templateId: default/ubuntu-20.04
+  vm:
+    metadata:
+      annotations:
+        harvesterhci.io/volumeClaimTemplates: '[{"metadata":{"name":"-disk-0-rd5vy","annotations":{"harvesterhci.io/imageId":"default/image-58v2j"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"64Gi"}},"volumeMode":"Block","storageClassName":"longhorn-image-58v2j"}}]'
+      creationTimestamp: null
+      labels:
+        harvesterhci.io/os: linux
+    spec:
+      runStrategy: RerunOnFailure
+      template:
+        metadata:
+          annotations:
+            harvesterhci.io/sshNames: '[]'
+          creationTimestamp: null
+          labels:
+            harvesterhci.io/vmName: ""
+        spec:
+          domain:
+            cpu:
+              cores: 4
+              sockets: 1
+              threads: 1
+            devices:
+              disks:
+              - bootOrder: 1
+                disk:
+                  bus: virtio
+                name: disk-0
+              - disk:
+                  bus: virtio
+                name: cloudinitdisk
+              inputs:
+              - bus: usb
+                name: tablet
+                type: tablet
+              interfaces:
+              - bridge: {}
+                model: virtio
+                name: default
+            features:
+              acpi:
+                enabled: true
+            machine:
+              type: ""
+            resources:
+              limits:
+                cpu: "4"
+                memory: 8Gi
+          evictionStrategy: LiveMigrate
+          networks:
+          - multus:
+              networkName: default/default
+            name: default
+          volumes:
+          - name: disk-0
+            persistentVolumeClaim:
+              claimName: -disk-0-rd5vy
+          - cloudInitNoCloud:
+              networkDataSecretRef:
+                name: ubuntu-20.04-oripd
+              secretRef:
+                name: ubuntu-20.04-oripd
+            name: cloudinitdisk
+status:
+  conditions:
+  - lastUpdateTime: "2023-01-28T17:58:59Z"
+    status: "True"
+    type: assigned
+  version: 2
