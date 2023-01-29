@@ -1,5 +1,5 @@
 # Code and Workspace Templates
 
-Welcome to my favorite and commonly used templates for anything and everything related to DevSecOps, Infrastructure, etcc... I am currently planning to expand to included more of my templates once I find more time!
+Use this repo to view my most commonly used templates for anything and everything related to Kubernetes, DevSecOps, Infrastructure, etc...
 
-Explore all of the current templates [right here!](https://github.com/zackbradys/code-templates/tree/main/templates)
+Please reach out to me with any questions!
