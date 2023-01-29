@@ -8,9 +8,6 @@
         "networkInterfaceName": {
             "type": "string"
         },
-        "enableAcceleratedNetworking": {
-            "type": "bool"
-        },
         "networkSecurityGroupName": {
             "type": "string"
         },
@@ -65,7 +62,7 @@
         "adminUsername": {
             "type": "string"
         },
-        "adminPassword": {
+        "adminPublicKey": {
             "type": "secureString"
         }
     },
@@ -104,7 +101,6 @@
                         }
                     }
                 ],
-                "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]",
                 "networkSecurityGroup": {
                     "id": "[variables('nsgId')]"
                 }
@@ -164,10 +160,7 @@
                         "deleteOption": "[parameters('osDiskDeleteOption')]"
                     },
                     "imageReference": {
-                        "publisher": "procomputers",
-                        "offer": "rocky-linux-9-1",
-                        "sku": "rocky-linux-9-1",
-                        "version": "latest"
+                        "id": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/Microsoft.Compute/images/rancherfederal-rocky-9.1"
                     }
                 },
                 "networkProfile": {
@@ -183,10 +176,15 @@
                 "osProfile": {
                     "computerName": "[parameters('virtualMachineComputerName')]",
                     "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]",
                     "linuxConfiguration": {
-                        "patchSettings": {
-                            "patchMode": "ImageDefault"
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                                    "keyData": "[parameters('adminPublicKey')]"
+                                }
+                            ]
                         }
                     }
                 },
@@ -195,12 +193,740 @@
                         "enabled": true
                     }
                 }
-            },
-            "plan": {
-                "name": "rocky-linux-9-1",
-                "publisher": "procomputers",
-                "product": "rocky-linux-9-1"
             }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-AlertsActionGroup')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {},
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/actionGroups",
+                            "apiVersion": "2022-06-01",
+                            "name": "RecommendedAlertRules-AG-1",
+                            "location": "Global",
+                            "properties": {
+                                "groupShortName": "recalert1",
+                                "enabled": true,
+                                "emailReceivers": [
+                                    {
+                                        "name": "Email_-EmailAction-",
+                                        "emailAddress": "zackbrady123@gmail.com",
+                                        "useCommonAlertSchema": true
+                                    }
+                                ],
+                                "smsReceivers": [],
+                                "webhookReceivers": [],
+                                "eventHubReceivers": [],
+                                "itsmReceivers": [],
+                                "azureAppPushReceivers": [],
+                                "automationRunbookReceivers": [],
+                                "voiceReceivers": [],
+                                "logicAppReceivers": [],
+                                "azureFunctionReceivers": [],
+                                "armRoleReceivers": []
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-VmAlertsRule-0')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "name": {
+                        "value": "Percentage CPU - rancher-demo-rke2-01"
+                    },
+                    "severity": {
+                        "value": 3
+                    },
+                    "allOf": {
+                        "value": [
+                            {
+                                "name": "Metric1",
+                                "metricName": "Percentage CPU",
+                                "metricNamespace": "Microsoft.Compute/virtualMachines",
+                                "operator": "GreaterThan",
+                                "timeAggregation": "Average",
+                                "criterionType": "StaticThresholdCriterion",
+                                "threshold": 80
+                            }
+                        ]
+                    },
+                    "actionGroups": {
+                        "value": [
+                            {
+                                "actionGroupId": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/microsoft.insights/actionGroups/RecommendedAlertRules-AG-1",
+                                "webhookProperties": {}
+                            }
+                        ]
+                    },
+                    "location": {
+                        "value": "Global"
+                    },
+                    "vmResourceId": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/', 'Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "int"
+                        },
+                        "actionGroups": {
+                            "type": "array"
+                        },
+                        "allOf": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "vmResourceId": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/metricAlerts",
+                            "apiVersion": "2018-03-01",
+                            "name": "[parameters('name')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "severity": "[parameters('severity')]",
+                                "enabled": true,
+                                "scopes": [
+                                    "[parameters('vmResourceId')]"
+                                ],
+                                "evaluationFrequency": "PT5M",
+                                "windowSize": "PT5M",
+                                "criteria": {
+                                    "allOf": "[parameters('allOf')]",
+                                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                                "actions": "[parameters('actionGroups')]"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Resources/deployments', concat(parameters('virtualMachineName'), '-AlertsActionGroup'))]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-VmAlertsRule-1')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "name": {
+                        "value": "Available Memory Bytes - rancher-demo-rke2-01"
+                    },
+                    "severity": {
+                        "value": 3
+                    },
+                    "allOf": {
+                        "value": [
+                            {
+                                "name": "Metric1",
+                                "metricName": "Available Memory Bytes",
+                                "metricNamespace": "Microsoft.Compute/virtualMachines",
+                                "operator": "LessThan",
+                                "timeAggregation": "Average",
+                                "criterionType": "StaticThresholdCriterion",
+                                "threshold": 2000000000
+                            }
+                        ]
+                    },
+                    "actionGroups": {
+                        "value": [
+                            {
+                                "actionGroupId": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/microsoft.insights/actionGroups/RecommendedAlertRules-AG-1",
+                                "webhookProperties": {}
+                            }
+                        ]
+                    },
+                    "location": {
+                        "value": "Global"
+                    },
+                    "vmResourceId": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/', 'Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "int"
+                        },
+                        "actionGroups": {
+                            "type": "array"
+                        },
+                        "allOf": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "vmResourceId": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/metricAlerts",
+                            "apiVersion": "2018-03-01",
+                            "name": "[parameters('name')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "severity": "[parameters('severity')]",
+                                "enabled": true,
+                                "scopes": [
+                                    "[parameters('vmResourceId')]"
+                                ],
+                                "evaluationFrequency": "PT5M",
+                                "windowSize": "PT5M",
+                                "criteria": {
+                                    "allOf": "[parameters('allOf')]",
+                                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                                "actions": "[parameters('actionGroups')]"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Resources/deployments', concat(parameters('virtualMachineName'), '-AlertsActionGroup'))]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-VmAlertsRule-2')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "name": {
+                        "value": "Data Disk IOPS Consumed Percentage - rancher-demo-rke2-01"
+                    },
+                    "severity": {
+                        "value": 3
+                    },
+                    "allOf": {
+                        "value": [
+                            {
+                                "name": "Metric1",
+                                "metricName": "Data Disk IOPS Consumed Percentage",
+                                "metricNamespace": "Microsoft.Compute/virtualMachines",
+                                "operator": "GreaterThan",
+                                "timeAggregation": "Average",
+                                "criterionType": "StaticThresholdCriterion",
+                                "threshold": 90
+                            }
+                        ]
+                    },
+                    "actionGroups": {
+                        "value": [
+                            {
+                                "actionGroupId": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/microsoft.insights/actionGroups/RecommendedAlertRules-AG-1",
+                                "webhookProperties": {}
+                            }
+                        ]
+                    },
+                    "location": {
+                        "value": "Global"
+                    },
+                    "vmResourceId": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/', 'Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "int"
+                        },
+                        "actionGroups": {
+                            "type": "array"
+                        },
+                        "allOf": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "vmResourceId": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/metricAlerts",
+                            "apiVersion": "2018-03-01",
+                            "name": "[parameters('name')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "severity": "[parameters('severity')]",
+                                "enabled": true,
+                                "scopes": [
+                                    "[parameters('vmResourceId')]"
+                                ],
+                                "evaluationFrequency": "PT5M",
+                                "windowSize": "PT5M",
+                                "criteria": {
+                                    "allOf": "[parameters('allOf')]",
+                                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                                "actions": "[parameters('actionGroups')]"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Resources/deployments', concat(parameters('virtualMachineName'), '-AlertsActionGroup'))]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-VmAlertsRule-3')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "name": {
+                        "value": "OS Disk IOPS Consumed Percentage - rancher-demo-rke2-01"
+                    },
+                    "severity": {
+                        "value": 3
+                    },
+                    "allOf": {
+                        "value": [
+                            {
+                                "name": "Metric1",
+                                "metricName": "OS Disk IOPS Consumed Percentage",
+                                "metricNamespace": "Microsoft.Compute/virtualMachines",
+                                "operator": "GreaterThan",
+                                "timeAggregation": "Average",
+                                "criterionType": "StaticThresholdCriterion",
+                                "threshold": 90
+                            }
+                        ]
+                    },
+                    "actionGroups": {
+                        "value": [
+                            {
+                                "actionGroupId": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/microsoft.insights/actionGroups/RecommendedAlertRules-AG-1",
+                                "webhookProperties": {}
+                            }
+                        ]
+                    },
+                    "location": {
+                        "value": "Global"
+                    },
+                    "vmResourceId": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/', 'Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "int"
+                        },
+                        "actionGroups": {
+                            "type": "array"
+                        },
+                        "allOf": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "vmResourceId": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/metricAlerts",
+                            "apiVersion": "2018-03-01",
+                            "name": "[parameters('name')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "severity": "[parameters('severity')]",
+                                "enabled": true,
+                                "scopes": [
+                                    "[parameters('vmResourceId')]"
+                                ],
+                                "evaluationFrequency": "PT5M",
+                                "windowSize": "PT5M",
+                                "criteria": {
+                                    "allOf": "[parameters('allOf')]",
+                                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                                "actions": "[parameters('actionGroups')]"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Resources/deployments', concat(parameters('virtualMachineName'), '-AlertsActionGroup'))]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-VmAlertsRule-4')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "name": {
+                        "value": "Network In Total - rancher-demo-rke2-01"
+                    },
+                    "severity": {
+                        "value": 3
+                    },
+                    "allOf": {
+                        "value": [
+                            {
+                                "name": "Metric1",
+                                "metricName": "Network In Total",
+                                "metricNamespace": "Microsoft.Compute/virtualMachines",
+                                "operator": "GreaterThan",
+                                "timeAggregation": "Total",
+                                "criterionType": "StaticThresholdCriterion",
+                                "threshold": 500000000000
+                            }
+                        ]
+                    },
+                    "actionGroups": {
+                        "value": [
+                            {
+                                "actionGroupId": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/microsoft.insights/actionGroups/RecommendedAlertRules-AG-1",
+                                "webhookProperties": {}
+                            }
+                        ]
+                    },
+                    "location": {
+                        "value": "Global"
+                    },
+                    "vmResourceId": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/', 'Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "int"
+                        },
+                        "actionGroups": {
+                            "type": "array"
+                        },
+                        "allOf": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "vmResourceId": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/metricAlerts",
+                            "apiVersion": "2018-03-01",
+                            "name": "[parameters('name')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "severity": "[parameters('severity')]",
+                                "enabled": true,
+                                "scopes": [
+                                    "[parameters('vmResourceId')]"
+                                ],
+                                "evaluationFrequency": "PT5M",
+                                "windowSize": "PT5M",
+                                "criteria": {
+                                    "allOf": "[parameters('allOf')]",
+                                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                                "actions": "[parameters('actionGroups')]"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Resources/deployments', concat(parameters('virtualMachineName'), '-AlertsActionGroup'))]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-VmAlertsRule-5')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "name": {
+                        "value": "Network Out Total - rancher-demo-rke2-01"
+                    },
+                    "severity": {
+                        "value": 3
+                    },
+                    "allOf": {
+                        "value": [
+                            {
+                                "name": "Metric1",
+                                "metricName": "Network Out Total",
+                                "metricNamespace": "Microsoft.Compute/virtualMachines",
+                                "operator": "GreaterThan",
+                                "timeAggregation": "Total",
+                                "criterionType": "StaticThresholdCriterion",
+                                "threshold": 200000000000
+                            }
+                        ]
+                    },
+                    "actionGroups": {
+                        "value": [
+                            {
+                                "actionGroupId": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/microsoft.insights/actionGroups/RecommendedAlertRules-AG-1",
+                                "webhookProperties": {}
+                            }
+                        ]
+                    },
+                    "location": {
+                        "value": "Global"
+                    },
+                    "vmResourceId": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/', 'Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "int"
+                        },
+                        "actionGroups": {
+                            "type": "array"
+                        },
+                        "allOf": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "vmResourceId": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/metricAlerts",
+                            "apiVersion": "2018-03-01",
+                            "name": "[parameters('name')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "severity": "[parameters('severity')]",
+                                "enabled": true,
+                                "scopes": [
+                                    "[parameters('vmResourceId')]"
+                                ],
+                                "evaluationFrequency": "PT5M",
+                                "windowSize": "PT5M",
+                                "criteria": {
+                                    "allOf": "[parameters('allOf')]",
+                                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                                "actions": "[parameters('actionGroups')]"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Resources/deployments', concat(parameters('virtualMachineName'), '-AlertsActionGroup'))]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "[concat(parameters('virtualMachineName'), '-VmAlertsRule-6')]",
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "name": {
+                        "value": "VM Availability - rancher-demo-rke2-01"
+                    },
+                    "severity": {
+                        "value": 3
+                    },
+                    "allOf": {
+                        "value": [
+                            {
+                                "name": "Metric1",
+                                "metricName": "VmAvailabilityMetric",
+                                "metricNamespace": "Microsoft.Compute/virtualMachines",
+                                "operator": "LessThan",
+                                "timeAggregation": "Average",
+                                "criterionType": "StaticThresholdCriterion",
+                                "threshold": 1
+                            }
+                        ]
+                    },
+                    "actionGroups": {
+                        "value": [
+                            {
+                                "actionGroupId": "/subscriptions/9002968a-8d8e-490c-9f94-4c3621dacc94/resourceGroups/rancherfederal/providers/microsoft.insights/actionGroups/RecommendedAlertRules-AG-1",
+                                "webhookProperties": {}
+                            }
+                        ]
+                    },
+                    "location": {
+                        "value": "Global"
+                    },
+                    "vmResourceId": {
+                        "value": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/', 'Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "int"
+                        },
+                        "actionGroups": {
+                            "type": "array"
+                        },
+                        "allOf": {
+                            "type": "array"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "vmResourceId": {
+                            "type": "string"
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "microsoft.insights/metricAlerts",
+                            "apiVersion": "2018-03-01",
+                            "name": "[parameters('name')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "severity": "[parameters('severity')]",
+                                "enabled": true,
+                                "scopes": [
+                                    "[parameters('vmResourceId')]"
+                                ],
+                                "evaluationFrequency": "PT5M",
+                                "windowSize": "PT5M",
+                                "criteria": {
+                                    "allOf": "[parameters('allOf')]",
+                                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                                "actions": "[parameters('actionGroups')]"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+                "[resourceId(parameters('virtualMachineRG'), 'Microsoft.Resources/deployments', concat(parameters('virtualMachineName'), '-AlertsActionGroup'))]"
+            ]
         }
     ],
     "outputs": {

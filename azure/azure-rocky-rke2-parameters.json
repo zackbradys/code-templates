@@ -6,23 +6,22 @@
             "value": "eastus"
         },
         "networkInterfaceName": {
-            "value": "rancher-demo-rke2-0133"
-        },
-        "enableAcceleratedNetworking": {
-            "value": true
+            "value": "rancher-demo-rke2-01761"
         },
         "networkSecurityGroupName": {
-            "value": "rancher-demo-rke2-01-nsg"
+            "value": "rancher-demo-rke2-nsg"
         },
         "networkSecurityGroupRules": {
             "value": [
                 {
-                    "name": "SSH",
+                    "name": "default-allow-ssh",
                     "properties": {
-                        "priority": 300,
+                        "priority": 1000,
                         "protocol": "TCP",
                         "access": "Allow",
                         "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
                         "sourceAddressPrefix": "*",
                         "sourcePortRange": "*",
                         "destinationAddressPrefix": "*",
@@ -62,7 +61,7 @@
             "value": "Standard"
         },
         "pipDeleteOption": {
-            "value": "Detach"
+            "value": "Delete"
         },
         "virtualMachineName": {
             "value": "rancher-demo-rke2-01"
@@ -77,18 +76,18 @@
             "value": "Premium_LRS"
         },
         "osDiskDeleteOption": {
-            "value": "Delete"
+            "value": "Detach"
         },
         "virtualMachineSize": {
             "value": "Standard_F8s_v2"
         },
         "nicDeleteOption": {
-            "value": "Detach"
+            "value": "Delete"
         },
         "adminUsername": {
-            "value": "rancherfederal"
+            "value": "rancher"
         },
-        "adminPassword": {
+        "adminPublicKey": {
             "value": null
         }
     }
