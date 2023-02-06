@@ -221,3 +221,8 @@ helm upgrade -i rancher rancher-latest/rancher --namespace cattle-system --creat
 
 ## STEP12 - neuvector
 helm upgrade -i neuvector neuvector/core --namespace neuvector --create-namespace  --set imagePullSecrets=regsecret --set k3s.enabled=true --set k3s.runtimePath=/run/k3s/containerd/containerd.sock  --set manager.ingress.enabled=true --set controller.pvc.enabled=true --set manager.svc.type=ClusterIP --set controller.pvc.capacity=500Mi --set controller.image.repository=neuvector/controller --set enforcer.image.repository=neuvector/enforcer --set manager.image.repository=neuvector/manager --set cve.updater.image.repository=neuvector/updater --set manager.ingress.host=neuvector.7310hargrove.court
+
+
+## EXTRAS
+
+WIP
