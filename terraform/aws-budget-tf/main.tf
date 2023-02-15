@@ -9,6 +9,11 @@ terraform {
 
 provider "aws" {
   region = "us-east-1"
+  default_tags {
+    tags = {
+    provisioner = "terraform"
+   }
+ }
 }
 
 resource "aws_budgets_budget" "bgh-monthly-budget" {
