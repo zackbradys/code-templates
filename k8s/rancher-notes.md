@@ -136,8 +136,9 @@ vi /etc/rancher/rke2/config.yaml
 tls-san:
   - $DOMAIN-FQDN
 
-export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
+echo "export KUBECONFIG=/etc/rancher/rke2/rke2.yaml CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml PATH=$PATH:/var/lib/rancher/rke2/bin" >> ~/.bashrc
 ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl  /usr/local/bin/kubectl
+ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
 chmod 777 -R /etc/rancher/rke2/
 source ~/.bashrc 
 
@@ -169,8 +170,10 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 sh -
 
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
-export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
+echo "export KUBECONFIG=/etc/rancher/rke2/rke2.yaml CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml PATH=$PATH:/var/lib/rancher/rke2/bin" >> ~/.bashrc
 ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl  /usr/local/bin/kubectl
+ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
+chmod 777 -R /etc/rancher/rke2/
 source ~/.bashrc 
 
 
