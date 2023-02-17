@@ -207,13 +207,6 @@ helm repo add neuvector https://neuvector.github.io/neuvector-helm/
 helm repo add harbor https://helm.goharbor.io
 helm repo update
 
-helm pull jetstack/cert-manager --version v1.10.0
-helm pull longhorn/longhorn --version v1.4.0
-helm pull rancher-latest/rancher --version v2.7.1
-helm pull neuvector/core --version v2.4.1
-helm pull harbor/harbor --version v2.7.0
-
-
 ## STEP10 - longhorn
 helm upgrade -i longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --set ingress.enabled=true --set ingress.host=longhorn.7310hargrove.court
 
@@ -227,8 +220,10 @@ helm upgrade -i rancher rancher-latest/rancher --namespace cattle-system --creat
 ## STEP12 - neuvector
 helm upgrade -i neuvector neuvector/core --namespace neuvector --create-namespace  --set imagePullSecrets=regsecret --set k3s.enabled=true --set k3s.runtimePath=/run/k3s/containerd/containerd.sock  --set manager.ingress.enabled=true --set controller.pvc.enabled=true --set manager.svc.type=ClusterIP --set controller.pvc.capacity=500Mi --set controller.image.repository=neuvector/controller --set enforcer.image.repository=neuvector/enforcer --set manager.image.repository=neuvector/manager --set cve.updater.image.repository=neuvector/updater --set manager.ingress.host=neuvector.7310hargrove.court
 
+
 ## STEP13 - harbor
 helm upgrade -i harbor harbor/harbor --namespace harbor --create-namespace --set expose.tls.enabled=false --set expose.tls.auto.commonName=harbor.7310hargrove.court --set expose.ingress.hosts.core=harbor.7310hargrove.court --set persistence.enabled=true --set harborAdminPassword=Pa22word --set externalURL=http://harbor.7310hargrove.court --set notary.enabled=false
+
 
 ## EXTRAS
 
