@@ -33,9 +33,9 @@ echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flanne
 
 
 ## STEP3
-vi /etc/sysctl.conf
+cat << EOF >> /etc/sysctl.conf
 
-### SWAP Settings
+# SWAP Settings
 vm.swappiness=0
 vm.panic_on_oom=0
 vm.overcommit_memory=1
@@ -43,23 +43,25 @@ kernel.panic=10
 kernel.panic_on_oops=1
 vm.max_map_count = 262144
 
-### IPV4 Larger Connection Range
+# IPv4 Connection Settings
 net.ipv4.ip_local_port_range=1024 65000
 
-### Increase Max Connections
+# Increase Max Connection
 net.core.somaxconn=10000
 
-### Reuse Closed Sockets Faster
+# Closed Socket Settings
 net.ipv4.tcp_tw_reuse=1
 net.ipv4.tcp_fin_timeout=15
 
-### The maximum number of "backlogged sockets".  Default is 128.
+# Increasing Backlogged Sockets (Default is 128)
 net.core.somaxconn=4096
 net.core.netdev_max_backlog=4096
+
+# Increasing Socket Buffers
 net.core.rmem_max=16777216
 net.core.wmem_max=16777216
 
-### Various Network Tuning
+# Network Tuning Settings
 net.ipv4.tcp_max_syn_backlog=20480
 net.ipv4.tcp_max_tw_buckets=400000
 net.ipv4.tcp_no_metrics_save=1
@@ -68,18 +70,21 @@ net.ipv4.tcp_syn_retries=2
 net.ipv4.tcp_synack_retries=2
 net.ipv4.tcp_wmem=4096 65536 16777216
 
-### ARP Cache Settings
+# ARP Cache Settings
 net.ipv4.neigh.default.gc_thresh1=8096
 net.ipv4.neigh.default.gc_thresh2=12288
 net.ipv4.neigh.default.gc_thresh3=16384
 
-### IPV4 Forward and TCP KeepAlive
+# More IPv4 Settings
 net.ipv4.tcp_keepalive_time=600
 net.ipv4.ip_forward=1
 
-### Monitor File System Events
+# File System Monitoring
 fs.inotify.max_user_instances=8192
 fs.inotify.max_user_watches=1048576
+EOF
+
+sysctl -p > /dev/null 2>&1
 
 
 ## STEP4
@@ -108,6 +113,33 @@ reboot
 
 
 ## STEP6 - first control
+sudo su
+
+yum install -y zip zstd skopeo tree iptables skopeo container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
+
+systemctl enable --now iscsid && echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
+
+# ADDED CERTIFICATE
+# cp wildcard.7310hargrove.court.crt /etc/pki/ca-trust/source/anchors/
+# update-ca-trust
+
+curl -#OL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+unzip awscli-exe-linux-x86_64.zip
+rm -rf awscli-exe-linux-x86_64.zip
+sudo ./aws/install
+
+cat << EOF >> ~/.bash_profile
+export PATH=/usr/local/bin/:$PATH
+EOF
+source ~/.bash_profile
+
+yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+yum -y install terraform
+
+curl -#OL https://github.com/sigstore/cosign/releases/download/v1.8.0/cosign-linux-amd64
+mv cosign-linux-amd64 /usr/local/bin/cosign
+chmod 755 /usr/local/bin/cosign
+
 mkdir /opt/rke2-artifacts
 cd /opt/rke2-artifacts/
 useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
@@ -126,24 +158,33 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 sh -
 
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
-mkdir /opt/rancher
+mkdir -p /opt/rancher
 cat /var/lib/rancher/rke2/server/token > /opt/rancher/token
 cat /opt/rancher/token
 
-### HA-ONLY
-vi /etc/rancher/rke2/config.yaml
-
+# IF USING RKE2 HA
+cat << EOF >> /etc/rancher/rke2/config.yaml
 tls-san:
-  - $DOMAIN-FQDN
+  - 7310hargrove.court
+EOF
 
 echo "export KUBECONFIG=/etc/rancher/rke2/rke2.yaml CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml PATH=$PATH:/var/lib/rancher/rke2/bin" >> ~/.bashrc
 ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl  /usr/local/bin/kubectl
 ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
-chmod 777 -R /etc/rancher/rke2/
 source ~/.bashrc 
 
 
 ## STEP7 - second/third control
+sudo su
+
+yum install -y zip zstd skopeo tree iptables skopeo container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
+
+systemctl enable --now iscsid && echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
+
+# ADDED CERTIFICATE
+# cp wildcard.7310hargrove.court.crt /etc/pki/ca-trust/source/anchors/
+# update-ca-trust
+
 mkdir /opt/rke2-artifacts
 cd /opt/rke2-artifacts/
 useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
@@ -158,13 +199,12 @@ echo -e "apiVersion: audit.k8s.io/v1\nkind: Policy\nrules:\n- level: RequestResp
 ### ssl passthrough for nginx
 echo -e "---\napiVersion: helm.cattle.io/v1\nkind: HelmChartConfig\nmetadata:\n  name: rke2-ingress-nginx\n  namespace: kube-system\nspec:\n  valuesContent: |-\n    controller:\n      config:\n        use-forwarded-headers: true\n      extraArgs:\n        enable-ssl-passthrough: true" > /var/lib/rancher/rke2/server/manifests/rke2-ingress-nginx-config.yaml; 
 
-vi /etc/rancher/rke2/config.yaml
-
-### HA-ONLY
-server: https://$SERVER-FQDN:9345
-token: $CLUSTER-JOIN-TOKEN
+cat << EOF >> /etc/rancher/rke2/config.yaml
+server: https://$DOMAIN:9345
+token: $TOKEN
 tls-san:
-  - $DOMAIN-FQDN
+  - $DOMAIN
+EOF
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 sh - 
 
@@ -173,20 +213,27 @@ systemctl enable rke2-server.service && systemctl start rke2-server.service
 echo "export KUBECONFIG=/etc/rancher/rke2/rke2.yaml CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml PATH=$PATH:/var/lib/rancher/rke2/bin" >> ~/.bashrc
 ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl  /usr/local/bin/kubectl
 ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
-chmod 777 -R /etc/rancher/rke2/
 source ~/.bashrc 
 
 
 ## STEP8 - three workers
+sudo su
+
+yum install -y zip zstd skopeo tree iptables skopeo container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
+
+# ADDED CERTIFICATE
+# cp wildcard.7310hargrove.court.crt /etc/pki/ca-trust/source/anchors/
+# update-ca-trust
+
 mkdir -p /etc/rancher/rke2/
 echo -e "write-kubeconfig-mode: 0640\n#profile: cis-1.6\nkube-apiserver-arg:\n- \"authorization-mode=RBAC,Node\"\nkubelet-arg:\n- \"protect-kernel-defaults=true\" " > /etc/rancher/rke2/config.yaml
 
 chmod 600 /etc/rancher/rke2/config.yaml
 
-vi /etc/rancher/rke2/config.yaml
-
-server: https://$SERVER-FQDN:9345
-token: $CLUSTER-JOIN-TOKEN
+cat << EOF >> /etc/rancher/rke2/config.yaml
+server: https://$DOMAIN:9345
+token: $TOKEN
+EOF
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 INSTALL_RKE2_TYPE=agent sh -
 
@@ -194,7 +241,7 @@ systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 
 
 ## STEP9 - helm
-mkdir /opt/rancher/helm
+mkdir -p opt/rancher/helm
 cd /opt/rancher/helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 
@@ -205,6 +252,7 @@ helm repo add longhorn https://charts.longhorn.io
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 helm repo add neuvector https://neuvector.github.io/neuvector-helm/
 helm repo add harbor https://helm.goharbor.io
+helm repo add carbide-charts https://rancherfederal.github.io/carbide-charts
 helm repo update
 
 ## STEP10 - longhorn
@@ -222,7 +270,7 @@ helm upgrade -i neuvector neuvector/core --namespace neuvector --create-namespac
 
 
 ## STEP13 - harbor
-helm upgrade -i harbor harbor/harbor --namespace harbor --create-namespace --set expose.tls.enabled=false --set expose.tls.auto.commonName=harbor.7310hargrove.court --set expose.ingress.hosts.core=harbor.7310hargrove.court --set persistence.enabled=true --set harborAdminPassword=Pa22word --set externalURL=http://harbor.7310hargrove.court --set notary.enabled=false
+helm upgrade -i harbor harbor/harbor --namespace harbor --create-namespace --set expose.tls.enabled=false --set expose.tls.auto.commonName=harbor.7310hargrove.court --set expose.ingress.hosts.core=harbor.7310hargrove.court --set persistence.enabled=true --set harborAdminPassword=Pa22word --set externalURL=https://harbor.7310hargrove.court --set notary.enabled=false
 
 
 ## EXTRAS
