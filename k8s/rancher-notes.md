@@ -88,10 +88,9 @@ sysctl -p > /dev/null 2>&1
 
 
 ## STEP4
-vi /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i 's/dhcp/none/g' /etc/sysconfig/network-scripts/ifcfg-eth0
 
-BOOTPROTO=none
-
+cat << EOF >> /etc/sysconfig/network-scripts/ifcfg-eth0
 PROXY_METHOD=none
 BROWSER_ONLY=no
 IPADDR=10.0.0.$IP
@@ -106,7 +105,7 @@ IPV6_DEFROUTE=yes
 IPV6_FAILURE_FATAL=no
 NAME="System eth0"
 UUID=5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03
-
+EOF
 
 ## STEP5
 reboot
