@@ -115,7 +115,6 @@ reboot
 sudo su
 
 yum install -y zip zstd skopeo tree iptables skopeo container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
-
 systemctl enable --now iscsid && echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
 
 # ADDED CERTIFICATE
@@ -126,11 +125,6 @@ curl -#OL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
 unzip awscli-exe-linux-x86_64.zip
 rm -rf awscli-exe-linux-x86_64.zip
 sudo ./aws/install
-
-cat << EOF >> ~/.bash_profile
-export PATH=/usr/local/bin/:$PATH
-EOF
-source ~/.bash_profile
 
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 yum -y install terraform
@@ -151,7 +145,7 @@ echo -e "#profile: cis-1.6\nselinux: true\nsecrets-encryption: true\nwrite-kubec
 echo -e "apiVersion: audit.k8s.io/v1\nkind: Policy\nrules:\n- level: RequestResponse" > /etc/rancher/rke2/audit-policy.yaml
 
 ### ssl passthrough for nginx
-echo -e "---\napiVersion: helm.cattle.io/v1\nkind: HelmChartConfig\nmetadata:\n  name: rke2-ingress-nginx\n  namespace: kube-system\nspec:\n  valuesContent: |-\n    controller:\n      config:\n        use-forwarded-headers: true\n      extraArgs:\n        enable-ssl-passthrough: true" > /var/lib/rancher/rke2/server/manifests/rke2-ingress-nginx-config.yaml; 
+echo -e "---\napiVersion: helm.cattle.io/v1\nkind: HelmChartConfig\nmetadata:\n  name: rke2-ingress-nginx\n  namespace: kube-system\nspec:\n  valuesContent: |-\n    controller:\n      config:\n        use-forwarded-headers: true\n      extraArgs:\n        enable-ssl-passthrough: true" > /var/lib/rancher/rke2/server/manifests/rke2-ingress-nginx-config.yaml
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 sh - 
 
@@ -164,20 +158,26 @@ cat /opt/rancher/token
 # IF USING RKE2 HA
 cat << EOF >> /etc/rancher/rke2/config.yaml
 tls-san:
-  - 7310hargrove.court
+  - $DOMAIN
 EOF
 
-echo "export KUBECONFIG=/etc/rancher/rke2/rke2.yaml CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml PATH=$PATH:/var/lib/rancher/rke2/bin" >> ~/.bashrc
-ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl  /usr/local/bin/kubectl
-ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
+cat << EOF >> ~/.bashrc
+export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
+export CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml 
+export PATH=$PATH:/var/lib/rancher/rke2/bin
+export PATH=/usr/local/bin/:$PATH
+alias k=kubectl
+EOF
+
 source ~/.bashrc 
+sudo ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl /usr/local/bin/kubectl
+sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
 
 
 ## STEP7 - second/third control
 sudo su
 
 yum install -y zip zstd skopeo tree iptables skopeo container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
-
 systemctl enable --now iscsid && echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
 
 # ADDED CERTIFICATE
@@ -196,7 +196,7 @@ echo -e "#profile: cis-1.6\nselinux: true\nsecrets-encryption: true\nwrite-kubec
 echo -e "apiVersion: audit.k8s.io/v1\nkind: Policy\nrules:\n- level: RequestResponse" > /etc/rancher/rke2/audit-policy.yaml
 
 ### ssl passthrough for nginx
-echo -e "---\napiVersion: helm.cattle.io/v1\nkind: HelmChartConfig\nmetadata:\n  name: rke2-ingress-nginx\n  namespace: kube-system\nspec:\n  valuesContent: |-\n    controller:\n      config:\n        use-forwarded-headers: true\n      extraArgs:\n        enable-ssl-passthrough: true" > /var/lib/rancher/rke2/server/manifests/rke2-ingress-nginx-config.yaml; 
+echo -e "---\napiVersion: helm.cattle.io/v1\nkind: HelmChartConfig\nmetadata:\n  name: rke2-ingress-nginx\n  namespace: kube-system\nspec:\n  valuesContent: |-\n    controller:\n      config:\n        use-forwarded-headers: true\n      extraArgs:\n        enable-ssl-passthrough: true" > /var/lib/rancher/rke2/server/manifests/rke2-ingress-nginx-config.yaml 
 
 cat << EOF >> /etc/rancher/rke2/config.yaml
 server: https://$DOMAIN:9345
@@ -208,11 +208,6 @@ EOF
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 sh - 
 
 systemctl enable rke2-server.service && systemctl start rke2-server.service
-
-echo "export KUBECONFIG=/etc/rancher/rke2/rke2.yaml CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml PATH=$PATH:/var/lib/rancher/rke2/bin" >> ~/.bashrc
-ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl  /usr/local/bin/kubectl
-ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
-source ~/.bashrc 
 
 
 ## STEP8 - three workers
@@ -242,8 +237,8 @@ systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 ## STEP9 - helm
 mkdir -p opt/rancher/helm
 cd /opt/rancher/helm
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh && ./get_helm.sh
 
 helm repo add jetstack https://charts.jetstack.io 
@@ -255,20 +250,29 @@ helm repo add carbide-charts https://rancherfederal.github.io/carbide-charts
 helm repo update
 
 ## STEP10 - longhorn
-helm upgrade -i longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --set ingress.enabled=true --set ingress.host=longhorn.7310hargrove.court
+helm upgrade -i longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --set ingress.enabled=true --set ingress.host=longhorn.$DOMAIN
 
 
 ## STEP11 - rancher
 helm upgrade -i cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
 
-helm upgrade -i rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set bootstrapPassword=Pa22word --set replicas=3 --set auditLog.level=2 --set auditLog.destination=hostPath --set hostname=rancher.7310hargrove.court
+helm upgrade -i rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set bootstrapPassword=Pa22word --set replicas=3 --set auditLog.level=2 --set auditLog.destination=hostPath --set hostname=rancher.$DOMAIN
 
 
 ## STEP12 - neuvector
-helm upgrade -i neuvector neuvector/core --namespace neuvector --create-namespace  --set imagePullSecrets=regsecret --set k3s.enabled=true --set k3s.runtimePath=/run/k3s/containerd/containerd.sock  --set manager.ingress.enabled=true --set controller.pvc.enabled=true --set manager.svc.type=ClusterIP --set controller.pvc.capacity=500Mi --set controller.image.repository=neuvector/controller --set enforcer.image.repository=neuvector/enforcer --set manager.image.repository=neuvector/manager --set cve.updater.image.repository=neuvector/updater --set manager.ingress.host=neuvector.7310hargrove.court
+helm upgrade -i neuvector neuvector/core --namespace cattle-neuvector-system --create-namespace  --set imagePullSecrets=regsecret --set k3s.enabled=true --set k3s.runtimePath=/run/k3s/containerd/containerd.sock  --set manager.ingress.enabled=true --set controller.pvc.enabled=true --set manager.svc.type=ClusterIP --set controller.pvc.capacity=500Mi --set controller.image.repository=neuvector/controller --set enforcer.image.repository=neuvector/enforcer --set manager.image.repository=neuvector/manager --set cve.updater.image.repository=neuvector/updater --set manager.ingress.host=neuvector.7310hargrove.court
 
 
-## STEP13 - harbor
+## STEP13 - monitoring
+
+
+## STEP14 - cis benchmarks
+
+
+## STEP15 - istio
+
+
+## STEP16 - harbor
 helm upgrade -i harbor harbor/harbor --namespace harbor --create-namespace --set expose.tls.enabled=false --set expose.tls.auto.commonName=harbor.7310hargrove.court --set expose.ingress.hosts.core=harbor.7310hargrove.court --set persistence.enabled=true --set harborAdminPassword=Pa22word --set externalURL=https://harbor.7310hargrove.court --set notary.enabled=false
 
 
