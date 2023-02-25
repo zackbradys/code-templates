@@ -161,6 +161,9 @@ tls-san:
   - $DOMAIN
 EOF
 
+sudo ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl /usr/local/bin/kubectl
+sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
+
 cat << EOF >> ~/.bashrc
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 export CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml 
@@ -168,10 +171,32 @@ export PATH=$PATH:/var/lib/rancher/rke2/bin
 export PATH=/usr/local/bin/:$PATH
 alias k=kubectl
 EOF
+source ~/.bashrc
 
-source ~/.bashrc 
-sudo ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl /usr/local/bin/kubectl
-sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
+cat << EOF >> /etc/motd
+               ,        ,  _______________________________
+   ,-----------|'------'|  |                             |
+  /.           '-'    |-'  |_____________________________|
+ |/|             |    |
+   |   .________.'----'    _______________________________
+   |  ||        |  ||      |                             |
+   \__|'        \__|'      |_____________________________|
+
+|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+|________________________________________________________|
+
+|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+|________________________________________________________|
+
+
+Welcome to Rancher Federals, Rancher RKE2!
+
+Please use cauton when modifying settings, configurations, files, and other items on this server. It may affect the installation and/or functionality of this cluster.
+
+Please reach out to @zackbradys (https://github.com/zackbradys) with any questions. Thank you!
+
+EOF
+systemctl restart sshd
 
 
 ## STEP7 - second/third control
@@ -209,6 +234,31 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 sh -
 
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
+cat << EOF >> /etc/motd
+               ,        ,  _______________________________
+   ,-----------|'------'|  |                             |
+  /.           '-'    |-'  |_____________________________|
+ |/|             |    |
+   |   .________.'----'    _______________________________
+   |  ||        |  ||      |                             |
+   \__|'        \__|'      |_____________________________|
+
+|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+|________________________________________________________|
+
+|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+|________________________________________________________|
+
+
+Welcome to Rancher Federals, Rancher RKE2!
+
+Please use cauton when modifying settings, configurations, files, and other items on this server. It may affect the installation and/or functionality of this cluster.
+
+Please reach out to @zackbradys (https://github.com/zackbradys) with any questions. Thank you!
+
+EOF
+systemctl restart sshd
+
 
 ## STEP8 - three workers
 sudo su
@@ -232,6 +282,31 @@ EOF
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.9 INSTALL_RKE2_TYPE=agent sh -
 
 systemctl enable rke2-agent.service && systemctl start rke2-agent.service
+
+cat << EOF >> /etc/motd
+               ,        ,  _______________________________
+   ,-----------|'------'|  |                             |
+  /.           '-'    |-'  |_____________________________|
+ |/|             |    |
+   |   .________.'----'    _______________________________
+   |  ||        |  ||      |                             |
+   \__|'        \__|'      |_____________________________|
+
+|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+|________________________________________________________|
+
+|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+|________________________________________________________|
+
+
+Welcome to Rancher Federals, Rancher RKE2!
+
+Please use cauton when modifying settings, configurations, files, and other items on this server. It may affect the installation and/or functionality of this cluster.
+
+Please reach out to @zackbradys (https://github.com/zackbradys) with any questions. Thank you!
+
+EOF
+systemctl restart sshd
 
 
 ## STEP9 - helm
