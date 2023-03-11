@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-volume
+  namespace: default
+stringData:
+  CRYPTO_KEY_VALUE: "LonghornEncryptPa22word"
+  CRYPTO_KEY_PROVIDER: "secret"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-volume
+  namespace: default
+spec:
+  storageClassName: "longhorn-crypto-per-volume"
+  accessModes: 
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
