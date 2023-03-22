@@ -6,7 +6,7 @@ variable "name" {
 variable "image_tag_mutability" {
   type = string
   default = "MUTABLE"
-  description = "(Optional) The tag mutability setting for the repository. Must be one of: MUTABLE or IMMUTABLE. Defaults to MUTABLE."
+  description = "(Required) The tag mutability setting for the repository. Must be one of: MUTABLE or IMMUTABLE. Defaults to MUTABLE."
 }
 
 variable "scan_on_push" {
@@ -18,7 +18,7 @@ variable "scan_on_push" {
 variable "expiration_after_days" {
   type = number
   default = 0
-  description = "(Optional) Delete images older than the specific numbered of days."
+  description = "(Required) Delete images older than the specific numbered of days."
 
 }
 
