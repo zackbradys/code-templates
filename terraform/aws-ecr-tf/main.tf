@@ -1,26 +1,6 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
-  }
-
-  required_version = "~> 1.0"
-}
-
-provider "aws" {
-  region = "us-east-1"
-  
-  default_tags {
-    tags = {
-    provisioner = "terraform"
-   }
- }
-}
-
 locals { 
   repositories = { 
+     "carbide/carbide-whitelabel" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true },
      "carbide/carbide-docs" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
      "carbide/compliance-operator" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
      "carbide/elemental-docs" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 

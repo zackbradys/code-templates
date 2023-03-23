@@ -1,22 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
-  }
-}
-
-provider "aws" {
-  region = "us-east-1"
-
-  default_tags {
-    tags = {
-    provisioner = "terraform"
-   }
- }
-}
-
 resource "aws_s3_bucket" "s3_bucket" {
   bucket = "rancher-federal-repo"
   object_lock_enabled = false
