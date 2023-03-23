@@ -8,7 +8,7 @@ resource "aws_instance" "aws_ec2_instance_control" {
   associate_public_ip_address = var.associate_public_ip_address
   key_name                    = var.key_pair_name
 
-  user_data = file(var.user_data)
+  user_data = file(var.user_data_control)
 
   tags = {
     Name = "${var.instance_name_control}-0${count.index + 1}"
@@ -36,7 +36,7 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   associate_public_ip_address = var.associate_public_ip_address
   key_name                    = var.key_pair_name
 
-  user_data = file(var.user_data)
+  user_data = file(var.user_data_worker)
 
   tags = {
     Name = "${var.instance_name_worker}-0${count.index + 1}"

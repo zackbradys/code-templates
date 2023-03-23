@@ -63,11 +63,16 @@ variable "key_pair_name" {
   description = "(Required) The aws key pair name to use for the instance(s)."
 }
 
-variable "user_data" {
-  default     = "scripts/user-data.sh"
+variable "user_data_control" {
+  default     = "scripts/control-node.sh"
   description = "(Required) The aws user data to use for the instance(s)."
-
 }
+
+variable "user_data_worker" {
+  default     = "scripts/worker-node.sh"
+  description = "(Required) The aws user data to use for the instance(s)."
+}
+
 variable "volume_size" {
   default     = 128
   description = "(Required) The aws volume size to use for the instance(s)."
