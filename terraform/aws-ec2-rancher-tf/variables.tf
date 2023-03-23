@@ -1,3 +1,8 @@
+variable "region" {
+  default     = "us-east-1"
+  description = "(Required) The aws region to use for the instance(s)."
+}
+
 variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
   description = "(Required) The aws vpc cidr block to use for the instance(s)."
