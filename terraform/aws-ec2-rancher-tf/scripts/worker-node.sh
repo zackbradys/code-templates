@@ -97,7 +97,7 @@ server:
 token: 
 EOF
 
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.10 INSTALL_RKE2_TYPE=agent sh -
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=agent sh -
 
 ### RKE2 Agent Finalizers
 cd /home/rocky
@@ -106,5 +106,6 @@ cat << EOF >> /home/rocky/rke2-agent.sh
 
 set -ebpf
 
+echo "Ensure the server and token are set in /etc/rancher/rke2/config.yaml"
 systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 EOF

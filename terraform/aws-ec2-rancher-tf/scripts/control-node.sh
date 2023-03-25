@@ -178,7 +178,7 @@ spec:
         enable-ssl-passthrough: true
 EOF
 
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.10 INSTALL_RKE2_TYPE=server sh - 
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=server sh - 
 
 ### RKE2 Server Finalizers
 cd /home/rocky
@@ -186,6 +186,8 @@ cat << EOF >> /home/rocky/rke2-server.sh
 #!/bin/bash
 
 set -ebpf
+
+echo "Ensure the server, token, and tls-san are set in /etc/rancher/rke2/config.yaml"
 
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
@@ -198,10 +200,8 @@ sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/container
 
 cat << EOF >> ~/.bashrc
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
-export CRI_CONFIG_FILE=/var/lib/rancher/rke2/agent/etc/crictl.yaml 
-export PATH=$PATH:/var/lib/rancher/rke2/bin
-export PATH=/usr/local/bin/:$PATH
+export PATH=$PATH;/var/lib/rancher/rke2/bin;/usr/local/bin/
 alias k=kubectl
 EOF
+
 source ~/.bashrc
-EOF
