@@ -85,6 +85,7 @@ yum install -y zip zstd skopeo tree iptables container-selinux iptables libnetfi
 
 mkdir -p /etc/rancher/rke2/
 
+### RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
 write-kubeconfig-mode: 0640
 #profile: cis-1.6
@@ -96,11 +97,9 @@ server:
 token: 
 EOF
 
-chmod 600 /etc/rancher/rke2/config.yaml
-
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.10 INSTALL_RKE2_TYPE=agent sh -
 
-### RKE2 Server Finalizers
+### RKE2 Agent Finalizers
 cd /home/rocky
 cat << EOF >> /home/rocky/rke2-agent.sh
 #!/bin/bash

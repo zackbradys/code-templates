@@ -107,16 +107,18 @@ chmod 755 /usr/local/bin/cosign
 
 ### Install Helm
 mkdir -p /home/rocky/helm
-cd /home/rocky/home
+cd /home/rocky/helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh && ./get_helm.sh
 cd /home/rocky
 
 ### Setup RKE2
-mkdir /opt/rke2-artifacts
+mkdir -p /opt/rke2-artifacts
 cd /opt/rke2-artifacts/
 useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
 mkdir -p /etc/rancher/rke2/ /var/lib/rancher/rke2/server/manifests/
+
+mkdir -p /etc/rancher/rke2/
 
 ### RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
