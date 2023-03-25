@@ -2,6 +2,7 @@
 
 set -ebpf
 
+### Applying MOTD Banner
 cat << EOF >> /etc/motd
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -26,6 +27,9 @@ cat << EOF >> /etc/motd
 
 EOF
 
+systemctl restart sshd
+
+### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
 # SWAP Settings
 vm.swappiness=0
@@ -78,8 +82,7 @@ EOF
 
 sysctl -p > /dev/null 2>&1
 
-systemctl restart sshd
-
+### Install Packages
 yum update -y
 yum install -y zip zstd skopeo tree iptables container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
 
@@ -93,8 +96,6 @@ kube-apiserver-arg:
 - "authorization-mode=RBAC,Node"
 kubelet-arg:
 - "protect-kernel-defaults=true"
-server: 
-token: 
 EOF
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=agent sh -
@@ -106,6 +107,17 @@ cat << EOF >> /home/rocky/rke2-agent.sh
 
 set -ebpf
 
-echo "Ensure the server and token are set in /etc/rancher/rke2/config.yaml"
+echo "Ensure the server and token are configured before executing this script"
+
+export DOMAIN=
+export TOKEN=
+
+cat << EOF >> /etc/rancher/rke2/config.yaml
+server: https://$DOMAIN:9345
+token: $TOKEN
+EOF
+
 systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 EOF
+
+chmod 755 /home/rocky/rke2-agent.sh

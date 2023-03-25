@@ -27,6 +27,8 @@ cat << EOF >> /etc/motd
 
 EOF
 
+systemctl restart sshd
+
 ### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
 # SWAP Settings
@@ -79,8 +81,6 @@ fs.inotify.max_user_watches=1048576
 EOF
 
 sysctl -p > /dev/null 2>&1
-
-systemctl restart sshd
 
 ### Install Packages
 yum update -y
@@ -147,10 +147,6 @@ kubelet-arg:
 - protect-kernel-defaults=true
 - read-only-port=0
 - authorization-mode=Webhook
-server: 
-token: 
-tls-san:
-  - 
 EOF
 
 ### RKE2 Audit Policy
@@ -187,7 +183,17 @@ cat << EOF >> /home/rocky/rke2-server.sh
 
 set -ebpf
 
-echo "Ensure the server, token, and tls-san are set in /etc/rancher/rke2/config.yaml"
+echo "Ensure the server, token, and tls-san are configured before executing this script."
+
+export DOMAIN=
+export TOKEN=
+
+cat << EOF >> config.yaml
+server: https://$DOMAIN:9345
+token: $TOKEN
+tls-san:
+  - $DOMAIN
+EOF
 
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
@@ -202,6 +208,8 @@ cat << EOF >> ~/.bashrc
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 export PATH=$PATH;/var/lib/rancher/rke2/bin;/usr/local/bin/
 alias k=kubectl
-EOF
 
 source ~/.bashrc
+EOF
+
+chmod 755 /home/rocky/rke2-server.sh
