@@ -1,5 +1,5 @@
 output "vpc_id" {
-  value = aws_vpc.aws_rke2_vpc.id
+  value = [aws_vpc.aws_rke2_vpc.id]
   description = "VPC ID for the AWS RKE2 cluster"
 }
 
