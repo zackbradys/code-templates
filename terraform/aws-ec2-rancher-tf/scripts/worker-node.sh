@@ -97,8 +97,6 @@ kube-apiserver-arg:
 - "authorization-mode=RBAC,Node"
 kubelet-arg:
 - "protect-kernel-defaults=true"
-server: https://:9345
-token: 
 EOF
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=agent sh -
@@ -107,9 +105,12 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=age
 mkdir -p /opt/rancher
 cat << EOF >> /opt/rancher/rke2-agent-finalizer.txt
 
-### Ensure you update the server server and token in /etc/rancher/rke2/config.yaml
-### You must use the same token as the control plane nodes/rke2 server nodes
-### After completeing those changes, run the following command to start the rke2-agent:
+Ensure you update the server server and token in /etc/rancher/rke2/config.yaml
+server: https://:9345
+token: 
+
+You must use the same token as the control plane nodes/rke2 server nodes
+After completeing those changes, run the following command to start the rke2-agent:
 
 systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 EOF

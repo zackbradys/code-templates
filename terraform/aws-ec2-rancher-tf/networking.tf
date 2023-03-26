@@ -16,7 +16,7 @@ resource "aws_internet_gateway" "aws_rke2_igw" {
   }
 }
 
-resource "aws_route_table" "aws_rke2_rt" {
+resource "aws_route_table" "aws_rke2_rtb" {
   vpc_id = aws_vpc.aws_rke2_vpc.id
 
   route {
@@ -25,23 +25,23 @@ resource "aws_route_table" "aws_rke2_rt" {
   }
 
   tags = {
-    Name = "aws-rke2-rt"
+    Name = "aws-rke2-rtb"
   }
 }
 
 resource "aws_route_table_association" "aws_rke2_rta1" {
   subnet_id      = aws_subnet.aws_rke2_subnet1.id
-  route_table_id = aws_route_table.aws_rke2_rt.id
+  route_table_id = aws_route_table.aws_rke2_rtb.id
 }
 
 resource "aws_route_table_association" "aws_rke2_rta2" {
   subnet_id      = aws_subnet.aws_rke2_subnet2.id
-  route_table_id = aws_route_table.aws_rke2_rt.id
+  route_table_id = aws_route_table.aws_rke2_rtb.id
 }
 
 resource "aws_route_table_association" "aws_rke2_rta3" {
   subnet_id      = aws_subnet.aws_rke2_subnet3.id
-  route_table_id = aws_route_table.aws_rke2_rt.id
+  route_table_id = aws_route_table.aws_rke2_rtb.id
 }
 
 resource "aws_subnet" "aws_rke2_subnet1" {
@@ -75,31 +75,71 @@ resource "aws_subnet" "aws_rke2_subnet3" {
 }
 
 resource "aws_security_group" "aws_rke2_sg" {
-  vpc_id = aws_vpc.aws_rke2_vpc.id
+  vpc_id      = aws_vpc.aws_rke2_vpc.id
   description = "AWS RKE2 Security Group"
-  name = "aws-rke2-sg"
+  name        = "aws-rke2-sg"
 
   tags = {
     Name = "aws-rke2-sg"
   }
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_ingress" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress1" {
   type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "TCP"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.aws_rke2_sg.id
-  description       = "Allow all ingress traffic"
+  description       = "Allow SSH Communication"
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_egress" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress2" {
+  type              = "ingress"
+  from_port         = 9345
+  to_port           = 9345
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  description       = "Allow RKE2 Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress3" {
+  type              = "ingress"
+  from_port         = 6443
+  to_port           = 6443
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  description       = "Allow RKE2 Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress4" {
+  type              = "ingress"
+  from_port         = 30443
+  to_port           = 30443
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  description       = "Allow Secure Ingress Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress5" {
+  type              = "ingress"
+  from_port         = 30080
+  to_port           = 30080
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  description       = "Allow Ingress Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_egress1" {
   type              = "egress"
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.aws_rke2_sg.id
-  description       = "Allow all egress traffic"
+  description       = "Allow All Egress Communication"
 }

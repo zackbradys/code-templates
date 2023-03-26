@@ -43,16 +43,6 @@ variable "number_of_instances_worker" {
   description = "(Required) The number of aws ec2 instances to create on deployment."
 }
 
-variable "security_group_id" {
-  default     = "sg-0357d71913582e447"
-  description = "(Required) The aws security group id to use for the instance(s)."
-}
-
-variable "subnet_id" {
-  default     = "subnet-068c1a36a5bfa79cc"
-  description = "(Required) The aws subnet id to use for the instance(s)."
-}
-
 variable "associate_public_ip_address" {
   default     = true
   description = "(Required) The aws associate public ip address to use for the instance(s)."
