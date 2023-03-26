@@ -180,17 +180,17 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=ser
 ### Configure RKE2 Control Finalizers
 cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
 
-Ensure you update the server, token, and tls-san values in /etc/rancher/rke2/config.yaml
+1) Verify you have set DNS Round Robin setup so the server can be reached on the set domain
+2) Ensure you have updated the server, token, and tls-san values in /etc/rancher/rke2/config.yaml
 server: https://:9345
 token: 
 tls-san:
   - 
 
-Ensure you have DNS Round Robin setup so the server can be reached on the set domain
-After completeing those changes, run the following commands to start the rke2-server:
-
+3) After completeing those changes, run the following commands to start the rke2-server:
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
+4) Once the server is active, run the following commands to get the token and configure rke2/kubectl:
 cat /var/lib/rancher/rke2/server/token > /opt/rancher/token
 cat /opt/rancher/token
 
@@ -201,4 +201,6 @@ Ensure you configured your shell with the following:
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 export PATH=$PATH;/var/lib/rancher/rke2/bin;/usr/local/bin/
 alias k=kubectl
+
+source ~/.bashrc
 EOF
