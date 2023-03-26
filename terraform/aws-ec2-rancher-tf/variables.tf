@@ -1,84 +1,94 @@
 variable "region" {
   default     = "us-east-1"
-  description = "(Required) The aws region to use for the instance(s)."
+  description = "(Required) The AWS Region to use for the instance(s)."
+}
+
+variable "access_key" {
+  value = ""
+  description = "(Required) The AWS Access Key to use for the instance(s)."
+}
+
+variable "secret_key" {
+  value = ""
+  description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
 
 variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
-  description = "(Required) The aws vpc cidr block to use for the instance(s)."
+  description = "(Required) The AWS VPC CIDR Block to use for the instance(s)."
 }
 
 variable "subnet_cidr_blocks" {
   default     = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
-  description = "(Required) The aws subnet cidr blocks to use for the instance(s)."
+  description = "(Required) The AWS Subnet CIDR Blocks to use for the instance(s)."
 }
 
 variable "instance_name_control" {
   default     = "aws-rke2-cp"
-  description = "(Required) The name of the aws ec2 instance."
+  description = "(Required) The name of the AWS EC2 instance."
 }
 
 variable "instance_name_worker" {
   default     = "aws-rke2-wk"
-  description = "(Required) The name of the aws ec2 instance."
+  description = "(Required) The name of the AWS EC2 instance."
 }
 
 variable "ami_id" {
   default     = "ami-0cce0fd28f5ae1c16"
-  description = "(Required) The aws ami id to use for the instance(s)."
+  description = "(Required) The AWS AMI ID to use for the instance(s)."
 }
 
 variable "instance_type" {
   default     = "c5d.xlarge"
-  description = "(Required) The aws instance type to use for the instance(s)."
+  description = "(Required) The AWS Instance type to use for the instance(s)."
 }
 
 variable "number_of_instances_control" {
   default     = 3
-  description = "(Required) The number of aws ec2 instances to create on deployment."
+  description = "(Required) The number of AWS EC2 instances to create on deployment."
 }
 
 variable "number_of_instances_worker" {
   default     = 3
-  description = "(Required) The number of aws ec2 instances to create on deployment."
+  description = "(Required) The number of AWS EC2 instances to create on deployment."
 }
 
 variable "associate_public_ip_address" {
   default     = true
-  description = "(Required) The aws associate public ip address to use for the instance(s)."
+  description = "(Required) Associate AWS Public IP Address for use for the instance(s)."
 }
 
 variable "key_pair_name" {
   default     = "aws-zackbradys-work"
-  description = "(Required) The aws key pair name to use for the instance(s)."
+  description = "(Required) The AWS Key Pair name to use for the instance(s)."
 }
 
 variable "user_data_control" {
   default     = "scripts/control-node.sh"
-  description = "(Required) The aws user data to use for the instance(s)."
+  description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "user_data_worker" {
   default     = "scripts/worker-node.sh"
-  description = "(Required) The aws user data to use for the instance(s)."
+  description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "volume_size" {
   default     = 128
-  description = "(Required) The aws volume size to use for the instance(s)."
+  description = "(Required) The AWS Volume Size to use for the instance(s)."
 }
 
 variable "volume_type" {
   default     = "gp2"
-  description = "(Required) The aws volume type to use for the instance(s)."
+  description = "(Required) The AWS Volume Type to use for the instance(s)."
 }
 
 variable "encrypted" {
   default     = true
-  description = "(Required) The aws encrypted to use for the instance(s)."
+  description = "(Required) Volume Encryption for use for the instance(s)."
 }
 
 variable "delete_on_termination" {
   default     = true
-  description = "(Required) The aws delete on termination to use for the instance(s)."
+  description = "(Required) Delete on Termination for the instance(s)."
 }
