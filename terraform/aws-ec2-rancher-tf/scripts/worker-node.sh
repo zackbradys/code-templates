@@ -86,9 +86,10 @@ sysctl -p > /dev/null 2>&1
 yum update -y
 yum install -y zip zstd skopeo tree iptables container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
 
+### Setup RKE2 Agent
 mkdir -p /etc/rancher/rke2/
 
-### RKE2 Config
+### Configure RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
 write-kubeconfig-mode: 0640
 #profile: cis-1.6
@@ -96,28 +97,19 @@ kube-apiserver-arg:
 - "authorization-mode=RBAC,Node"
 kubelet-arg:
 - "protect-kernel-defaults=true"
+server: https://:9345
+token: 
 EOF
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=agent sh -
 
-### RKE2 Agent Finalizers
-cd /home/rocky
-cat << EOF >> /home/rocky/rke2-agent.sh
-#!/bin/bash
+### Configure RKE2 Agent Finalizers
+mkdir -p /opt/rancher
+cat << EOF >> /opt/rancher/rke2-agent-finalizer.txt
 
-set -ebpf
-
-echo "Ensure the server and token are configured before executing this script"
-
-export DOMAIN=
-export TOKEN=
-
-cat << EOF >> /etc/rancher/rke2/config.yaml
-server: https://$DOMAIN:9345
-token: $TOKEN
-EOF
+### Ensure you update the server server and token in /etc/rancher/rke2/config.yaml
+### You must use the same token as the control plane nodes/rke2 server nodes
+### After completeing those changes, run the following command to start the rke2-agent:
 
 systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 EOF
-
-chmod 755 /home/rocky/rke2-agent.sh

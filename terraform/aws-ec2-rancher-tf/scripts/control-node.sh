@@ -100,27 +100,26 @@ yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.
 yum -y install terraform
 
 ### Install Cosign
-cd /home/rocky
+mkdir -p /opt/rancher/cosign
+cd /opt/rancher/cosign
 curl -#OL https://github.com/sigstore/cosign/releases/download/v1.8.0/cosign-linux-amd64
 mv cosign-linux-amd64 /usr/local/bin/cosign
 chmod 755 /usr/local/bin/cosign
 
 ### Install Helm
-mkdir -p /home/rocky/helm
-cd /home/rocky/helm
+mkdir -p /opt/rancher/helm
+cd /opt/rancher/helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh && ./get_helm.sh
 cd /home/rocky
 
-### Setup RKE2
+### Setup RKE2 Server
 mkdir -p /opt/rke2-artifacts
-cd /opt/rke2-artifacts/
+cd /opt/rke2-artifacts
 useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
 mkdir -p /etc/rancher/rke2/ /var/lib/rancher/rke2/server/manifests/
 
-mkdir -p /etc/rancher/rke2/
-
-### RKE2 Config
+### Configure RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
 #profile: cis-1.6
 selinux: true
@@ -147,9 +146,13 @@ kubelet-arg:
 - protect-kernel-defaults=true
 - read-only-port=0
 - authorization-mode=Webhook
+server: https://:9345
+token: 
+tls-san:
+  - 
 EOF
 
-### RKE2 Audit Policy
+### Configure RKE2 Audit Policy
 cat << EOF >> /etc/rancher/rke2/audit-policy.yaml
 apiVersion: audit.k8s.io/v1
 kind: Policy
@@ -157,8 +160,8 @@ rules:
 - level: RequestResponse
 EOF
 
-### NGINX SSL Passthrough
-cat << EOF >> /etc/rancher/rke2/audit-policy.yaml
+### Congiure NGINX Policies
+cat << EOF >> /var/lib/rancher/rke2/server/manifests/rke2-ingress-nginx-config.yaml
 ---
 apiVersion: helm.cattle.io/v1
 kind: HelmChartConfig
@@ -174,42 +177,26 @@ spec:
         enable-ssl-passthrough: true
 EOF
 
+### Download RKE2 Binaries
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=server sh - 
 
-### RKE2 Server Finalizers
-cd /home/rocky
-cat << EOF >> /home/rocky/rke2-server.sh
-#!/bin/bash
 
-set -ebpf
+### Configure RKE2 Control Finalizers
+cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
 
-echo "Ensure the server, token, and tls-san are configured before executing this script."
-
-export DOMAIN=
-export TOKEN=
-
-cat << EOF >> config.yaml
-server: https://$DOMAIN:9345
-token: $TOKEN
-tls-san:
-  - $DOMAIN
-EOF
+### Ensure you update the server, token, and tls-san values in /etc/rancher/rke2/config.yaml
+### Ensure you have DNS Round Robin setup so the server can be reached on the set domain
+### After completeing those changes, run the following commands to start the rke2-server:
 
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
-mkdir -p /opt/rancher
 cat /var/lib/rancher/rke2/server/token > /opt/rancher/token
 cat /opt/rancher/token
 
 sudo ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl /usr/local/bin/kubectl
 sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
 
-cat << EOF >> ~/.bashrc
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 export PATH=$PATH;/var/lib/rancher/rke2/bin;/usr/local/bin/
 alias k=kubectl
-
-source ~/.bashrc
 EOF
-
-chmod 755 /home/rocky/rke2-server.sh
