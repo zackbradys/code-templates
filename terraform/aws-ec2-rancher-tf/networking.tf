@@ -86,12 +86,12 @@ resource "aws_security_group" "aws_rke2_sg" {
 
 resource "aws_security_group_rule" "aws_rke2_sg_ingress1" {
   type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "TCP"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.aws_rke2_sg.id
-  description       = "Allow SSH Communication"
+  description       = "Allow RKE2 Communication"
 }
 
 resource "aws_security_group_rule" "aws_rke2_sg_ingress2" {
