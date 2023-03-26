@@ -88,14 +88,16 @@ yum install -y zip zstd skopeo tree jq iptables container-selinux iptables libne
 systemctl enable --now iscsid && echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
 
 ### Install AWS CLI
-cd /home/rocky
+mkdir -p /opt/rancher/aws
+cd /opt/rancher/aws
 curl -#OL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
 unzip awscli-exe-linux-x86_64.zip
 rm -rf awscli-exe-linux-x86_64.zip
 sudo ./aws/install
 
 ### Install Terraform
-cd /home/rocky
+mkdir -p /opt/rancher/terraform
+cd /opt/rancher/terraform
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 yum -y install terraform
 
@@ -111,7 +113,6 @@ mkdir -p /opt/rancher/helm
 cd /opt/rancher/helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh && ./get_helm.sh
-cd /home/rocky
 
 ### Setup RKE2 Server
 mkdir -p /opt/rke2-artifacts
@@ -179,7 +180,6 @@ EOF
 
 ### Download RKE2 Binaries
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=server sh - 
-
 
 ### Configure RKE2 Control Finalizers
 cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
