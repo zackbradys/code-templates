@@ -154,6 +154,7 @@ kubelet-arg:
 - protect-kernel-defaults=true
 - read-only-port=0
 - authorization-mode=Webhook
+cloud-provider-name: aws
 EOF
 
 ### Configure RKE2 Audit Policy
