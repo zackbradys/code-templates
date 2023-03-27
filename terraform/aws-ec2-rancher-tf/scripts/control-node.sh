@@ -147,6 +147,9 @@ kubelet-arg:
 - protect-kernel-defaults=true
 - read-only-port=0
 - authorization-mode=Webhook
+token: awsRKE2terraform
+tls-san:
+  - rancherfederal.io
 EOF
 
 ### Configure RKE2 Audit Policy
@@ -181,23 +184,28 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=ser
 cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
 
 1) Verify you have set DNS Round Robin setup so the server can be reached on the set domain
-2) Ensure you have updated the server, token, and tls-san values in /etc/rancher/rke2/config.yaml
-server: https://:9345
-token: 
+2) Ensure you have set the token and tls-san values on the FIRST NODE in /etc/rancher/rke2/config.yaml
+token: awsRKE2terraform
 tls-san:
   - 
 
-3) After completeing those changes, run the following commands to start the rke2-server:
+3) Ensure you have set the server, token, and tls-san values on the SECOND/THIRD NODEs in /etc/rancher/rke2/config.yaml
+server: https://:9345
+token: awsRKE2terraform
+tls-san:
+  - 
+
+4) After completeing those changes, run the following commands to start the rke2-server:
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
-4) Once the server is active, run the following commands to get the token and configure rke2/kubectl:
+5) Once the server is active, run the following commands to get the token and configure rke2/kubectl:
 cat /var/lib/rancher/rke2/server/token > /opt/rancher/token
 cat /opt/rancher/token
 
 sudo ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl /usr/local/bin/kubectl
 sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
 
-Ensure you configured your shell with the following:
+6) Ensure you configured your shell with the following:
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 export PATH=$PATH;/var/lib/rancher/rke2/bin;/usr/local/bin/
 alias k=kubectl
