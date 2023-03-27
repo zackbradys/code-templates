@@ -2,33 +2,6 @@
 
 set -ebpf
 
-### Applying MOTD Banner
-cat << EOF >> /etc/motd
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#             ______       ______     ____  ____        _____     _____       ______              #
-#            |_   _ \    .' ___  |   |_   ||   _|      |_   _|   |_   _|    .' ___  |             #
-#              | |_) |  / .'   \_|     | |__| |          | |       | |     / .'   \_|             #
-#              |  __'.  | |   ____     |  __  |          | |   _   | |   _ | |                    #
-#             _| |__) |_\ `.___]  |_  _| |  | |_  _     _| |__/ | _| |__/ |\ `.___.'\             #
-#            |_______/(_)`._____.'(_)|____||____|(_)   |________||________| `.____ .'             #
-#                                                                                                 #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#                                                                                                 #
-#    0100001001010010010000010100010001011001 010001110100110001001111010000100100000101001100    #
-#    100100001001111010011000100010001001001010011100100011101010011  010011000100110001000011    #
-#                                                                                                 #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#                                                                                                 #
-#      WARNING!! You are connecting to a server managed, owned, and operated by Brady Global      #
-#               Holdings LLC. All activity and usage is logged and monitored.                     #
-#                                                                                                 #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-EOF
-
-systemctl restart sshd
-
 ### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
 # SWAP Settings
@@ -147,9 +120,6 @@ kubelet-arg:
 - protect-kernel-defaults=true
 - read-only-port=0
 - authorization-mode=Webhook
-token: awsRKE2terraform
-tls-san:
-  - rancherfederal.io
 EOF
 
 ### Configure RKE2 Audit Policy
@@ -187,13 +157,13 @@ cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
 2) Ensure you have set the token and tls-san values on the FIRST NODE in /etc/rancher/rke2/config.yaml
 token: awsRKE2terraform
 tls-san:
-  - 
+  - rancherfederal.io
 
 3) Ensure you have set the server, token, and tls-san values on the SECOND/THIRD NODEs in /etc/rancher/rke2/config.yaml
-server: https://:9345
+server: https://rancherfederal.io:9345
 token: awsRKE2terraform
 tls-san:
-  - 
+  - rancherfederal.io
 
 4) After completeing those changes, run the following commands to start the rke2-server:
 systemctl enable rke2-server.service && systemctl start rke2-server.service

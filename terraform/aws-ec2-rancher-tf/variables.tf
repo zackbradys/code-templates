@@ -13,6 +13,11 @@ variable "secret_key" {
   description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
 
+variable "key_pair_name" {
+  default     = "aws-zackbradys-work"
+  description = "(Required) The AWS Key Pair name to use for the instance(s)."
+}
+
 variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
   description = "(Required) The AWS VPC CIDR Block to use for the instance(s)."
@@ -56,11 +61,6 @@ variable "number_of_instances_worker" {
 variable "associate_public_ip_address" {
   default     = true
   description = "(Required) Associate AWS Public IP Address for use for the instance(s)."
-}
-
-variable "key_pair_name" {
-  default     = "aws-zackbradys-work"
-  description = "(Required) The AWS Key Pair name to use for the instance(s)."
 }
 
 variable "user_data_control" {
