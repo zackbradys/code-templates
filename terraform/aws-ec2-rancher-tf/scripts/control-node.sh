@@ -184,7 +184,7 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=ser
 ### Configure RKE2 Control Finalizers
 cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
 1) Ensure to complete the DNS for the domain you are using for the RKE2 Server before starting the rke2-server.
-2) For the FIRST CONTROL NODE, copy and paste the following to /etc/rancher/rke2/config.yaml/etc/rancher/rke2/config.yaml:
+2) For the FIRST CONTROL NODE, copy and paste the following to /etc/rancher/rke2/config.yaml:
 token: awsRKE2terraform
 tls-san:
   - rancherfederal.io
