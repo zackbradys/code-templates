@@ -1,8 +1,8 @@
 locals { 
   repositories = { 
-     "carbide/carbide-whitelabel" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true },
      "carbide/carbide-docs" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
      "carbide/compliance-operator" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
+     "carbide/carbide-whitelabel" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
      "carbide/elemental-docs" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
      "carbide/fleet-docs" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
      "carbide/harvester-docs" = { image_tag_mutability = "MUTABLE", scan_on_push = false, expiration_after_days = 0, force_delete = true }, 
