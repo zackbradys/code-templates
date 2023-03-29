@@ -174,7 +174,7 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress9" {
   description       = "Allow RKE2 Calico Communication"
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_ingress" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress10" {
   type              = "ingress"
   from_port         = 8472
   to_port           = 8472

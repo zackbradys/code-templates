@@ -18,6 +18,11 @@ variable "key_pair_name" {
   description = "(Required) The AWS Key Pair name to use for the instance(s)."
 }
 
+variable "domain" {
+  default = "rancherfederal.io"
+  description = "(Required) The AWS Route53 domain to use for the instance(s)."
+}
+
 variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
   description = "(Required) The AWS VPC CIDR Block to use for the instance(s)."
@@ -63,6 +68,11 @@ variable "associate_public_ip_address" {
   description = "(Required) Associate AWS Public IP Address for use for the instance(s)."
 }
 
+variable "aws_iam_profile" {
+  default     = "aws-rke2-iam-profile"
+  description = "(Required) The AWS IAM Profile to use for the instance(s)."
+}
+
 variable "user_data_control" {
   default     = "scripts/control-node.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."
@@ -84,7 +94,7 @@ variable "volume_type" {
 }
 
 variable "encrypted" {
-  default     = true
+  default     = false
   description = "(Required) Volume Encryption for use for the instance(s)."
 }
 

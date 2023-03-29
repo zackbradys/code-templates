@@ -9,3 +9,4 @@
 **/*.tfstate
 **/*.tfstate.*
 **/rancher-apps.sh
+**/carbide-images.sh

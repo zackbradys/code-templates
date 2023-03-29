@@ -19,7 +19,7 @@ output "instance_ids_worker" {
 }
 
 output "instance_ips_control" {
-  value       = ["${aws_instance.aws_ec2_instance_control.*.public_ip}"]
+  value       = ["${aws_eip.aws_eip_control.*.public_ip}"]
   description = "Instance IPs for the Control Nodes in the AWS RKE2 cluster"
 }
 

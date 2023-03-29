@@ -56,8 +56,11 @@ EOF
 sysctl -p > /dev/null 2>&1
 
 ### Install Packages
+yum install -y zip zstd tree jq iptables container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup
+yum --setopt=tsflags=noscripts install -q -y nfs-utils
+yum --setopt=tsflags=noscripts install -q -y iscsi-initiator-utils && echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi && systemctl -q enable iscsid && systemctl start iscsid
+echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
 yum update -y
-yum install -y zip zstd skopeo tree iptables container-selinux iptables libnetfilter_conntrack libnfnetlink libnftnl policycoreutils-python-utils cryptsetup iscsi-initiator-utils
 
 ### Install Root Certificate
 mkdir -p /opt/rancher/certs
