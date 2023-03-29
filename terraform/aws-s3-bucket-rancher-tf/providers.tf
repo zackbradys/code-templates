@@ -5,6 +5,8 @@ terraform {
       version = "~> 4.0"
     }
   }
+
+  required_version = "~> 1.0"
 }
 
 provider "aws" {
@@ -12,7 +14,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-    provisioner = "terraform"
-   }
- }
+      provisioner = "terraform"
+    }
+  }
 }

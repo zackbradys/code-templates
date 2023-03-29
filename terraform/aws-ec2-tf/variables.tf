@@ -1,3 +1,8 @@
+variable "region" {
+  default     = "us-east-1"
+  description = "(Required) The AWS Region to use for the instance(s)."
+}
+
 variable "instance_name" {
         default = "aws-rocky-zackbradys"
         description = "(Required) The name of the aws ec2 instance."
