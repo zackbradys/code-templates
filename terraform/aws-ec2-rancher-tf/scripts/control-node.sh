@@ -69,6 +69,7 @@ curl -#OL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
 unzip awscli-exe-linux-x86_64.zip
 rm -rf awscli-exe-linux-x86_64.zip
 sudo ./aws/install
+mv /usr/local/bin/aws /usr/bin/aws
 
 ### Install Cosign
 mkdir -p /opt/rancher/cosign
@@ -82,6 +83,7 @@ mkdir -p /opt/rancher/helm
 cd /opt/rancher/helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh && ./get_helm.sh
+mv /usr/local/bin/helm /usr/bin/helm
 
 ### Install Root Certificate
 mkdir -p /opt/rancher/certs
