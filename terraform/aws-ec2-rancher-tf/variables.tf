@@ -49,7 +49,7 @@ variable "ami_id" {
 }
 
 variable "instance_type" {
-  default     = "c5d.xlarge"
+  default     = "m5d.xlarge"
   description = "(Required) The AWS Instance type to use for the instance(s)."
 }
 
