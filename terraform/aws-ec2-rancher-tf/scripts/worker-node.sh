@@ -107,6 +107,7 @@ kube-apiserver-arg:
 - "authorization-mode=RBAC,Node"
 kubelet-arg:
 - "protect-kernel-defaults=true"
+- max-pods=200
 EOF
 
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=agent sh -
