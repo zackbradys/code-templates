@@ -104,9 +104,9 @@ cat << EOF >> /etc/rancher/rke2/config.yaml
 #profile: cis-1.6
 write-kubeconfig-mode: 0640
 kube-apiserver-arg:
-- "authorization-mode=RBAC,Node"
+- authorization-mode=RBAC,Node
 kubelet-arg:
-- "protect-kernel-defaults=true"
+- protect-kernel-defaults=true
 - max-pods=200
 EOF
 
