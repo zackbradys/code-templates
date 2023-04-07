@@ -1,6 +1,6 @@
-resource "aws_iam_role" "aws_iam_role_rke2" {
-  name        = "aws-rke2-iam-role"
-  description = "AWS RKE2 CCM IAM Role"
+resource "aws_iam_role" "aws_iam_role_rke2_control" {
+  name        = "aws-rke2-iam-role-control"
+  description = "AWS RKE2 CCM Control Node IAM Role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -17,9 +17,9 @@ resource "aws_iam_role" "aws_iam_role_rke2" {
   })
 }
 
-resource "aws_iam_role_policy" "aws_iam_policy_rke2" {
-  name        = "aws-rke2-iam-policy"
-  role       = aws_iam_role.aws_iam_role_rke2.id
+resource "aws_iam_role_policy" "aws_iam_policy_rke2_control" {
+  name        = "aws-rke2-iam-policy-control"
+  role       = aws_iam_role.aws_iam_role_rke2_control.id
 
   policy = jsonencode({
   "Version": "2012-10-17",
@@ -100,7 +100,57 @@ resource "aws_iam_role_policy" "aws_iam_policy_rke2" {
   })
 }
 
-resource "aws_iam_instance_profile" "aws_iam_profile_rke2" {
-  name = "aws-rke2-iam-profile"
-  role = "${aws_iam_role.aws_iam_role_rke2.name}"
+resource "aws_iam_instance_profile" "aws_iam_profile_rke2_control" {
+  name = "aws-rke2-iam-profile-control"
+  role = "${aws_iam_role.aws_iam_role_rke2_control.name}"
+}
+
+resource "aws_iam_role" "aws_iam_role_rke2_worker" {
+  name        = "aws-rke2-iam-role-worker"
+  description = "AWS RKE2 CCM Worker Node IAM Role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "aws_iam_policy_rke2_worker" {
+  name        = "aws-rke2-iam-policy-worker"
+  role       = aws_iam_role.aws_iam_role_rke2_worker.id
+
+  policy = jsonencode({
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstances",
+        "ec2:DescribeRegions",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:BatchGetImage"
+      ],
+      "Resource": "*"
+    }
+  ]
+})
+}
+
+resource "aws_iam_instance_profile" "aws_iam_profile_rke2_worker" {
+  name = "aws-rke2-iam-profile-worker"
+  role = "${aws_iam_role.aws_iam_role_rke2_worker.name}"
 }

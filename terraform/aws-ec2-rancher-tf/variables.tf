@@ -68,11 +68,6 @@ variable "associate_public_ip_address" {
   description = "(Required) Associate AWS Public IP Address for use for the instance(s)."
 }
 
-variable "aws_iam_profile" {
-  default     = "aws-rke2-iam-profile"
-  description = "(Required) The AWS IAM Profile to use for the instance(s)."
-}
-
 variable "user_data_control" {
   default     = "scripts/control-node.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."

@@ -6,7 +6,7 @@ resource "aws_instance" "aws_ec2_instance_control" {
   vpc_security_group_ids      = [aws_security_group.aws_rke2_sg.id]
   subnet_id                   = element([aws_subnet.aws_rke2_subnet1.id, aws_subnet.aws_rke2_subnet2.id, aws_subnet.aws_rke2_subnet3.id], count.index % 3)
   associate_public_ip_address = var.associate_public_ip_address
-  iam_instance_profile        = var.aws_iam_profile
+  iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
   key_name                    = var.key_pair_name
 
   user_data = file(var.user_data_control)
@@ -32,10 +32,11 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   instance_type = var.instance_type
   count         = var.number_of_instances_worker
 
-  vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
-  subnet_id              = element([aws_subnet.aws_rke2_subnet1.id, aws_subnet.aws_rke2_subnet2.id, aws_subnet.aws_rke2_subnet3.id], count.index % 3)
+  vpc_security_group_ids      = [aws_security_group.aws_rke2_sg.id]
+  subnet_id                   = element([aws_subnet.aws_rke2_subnet1.id, aws_subnet.aws_rke2_subnet2.id, aws_subnet.aws_rke2_subnet3.id], count.index % 3)
   associate_public_ip_address = var.associate_public_ip_address
-  key_name               = var.key_pair_name
+  iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_worker.name
+  key_name                    = var.key_pair_name
 
   user_data = file(var.user_data_worker)
 
