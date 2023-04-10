@@ -4,6 +4,7 @@ set -ebpf
 
 ### Set Variables
 export DOMAIN=${DOMAIN}
+export TOKEN=${TOKEN}
 
 ### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
@@ -111,19 +112,16 @@ kube-apiserver-arg:
 kubelet-arg:
 - protect-kernel-defaults=true
 - max-pods=200
+server: https://$DOMAIN:9345
+token: $TOKEN
 EOF
 
+### Download and Install RKE2 Agent
 curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=agent sh -
 
 ### Configure RKE2 Agent Finalizers
 mkdir -p /opt/rancher
 cat << EOF >> /opt/rancher/rke2-agent-finalizer.txt
-1) For each agent node, copy and paste the following to /etc/rancher/rke2/config.yaml
-server: https://rancherfederal.io:9345
-token: awsRKE2terraform
-
-2) After completing those changes, run the following command to start the rke2-agent:
-systemctl enable rke2-agent.service && systemctl start rke2-agent.service
-
-3) Once the rke2-agent is sucessfully running, you can your terminal and forget about the node.
+1) On each worker node (aka RKE2 Agent Nodes), run the following commands:
+  systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 EOF

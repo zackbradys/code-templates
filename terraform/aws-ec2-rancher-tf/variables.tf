@@ -23,6 +23,11 @@ variable "domain" {
   description = "(Required) The AWS Route53 domain to use for the instance(s)."
 }
 
+variable "token" {
+  default = "awsRKE2terraform"
+  description = "(Required) The RKE2 Cluster Join Token to use for the cluster(s)."
+}
+
 variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
   description = "(Required) The AWS VPC CIDR Block to use for the instance(s)."

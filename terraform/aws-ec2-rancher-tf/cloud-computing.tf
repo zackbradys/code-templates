@@ -10,7 +10,8 @@ resource "aws_instance" "aws_ec2_instance_control" {
   key_name                    = var.key_pair_name
 
   user_data = templatefile("${var.user_data_control}", {
-    DOMAIN = var.domain
+    DOMAIN  = var.domain
+    TOKEN   = var.token
   })
 
   tags = {
@@ -41,7 +42,8 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   key_name                    = var.key_pair_name
 
   user_data = templatefile("${var.user_data_worker}", {
-    DOMAIN = var.domain
+    DOMAIN  = var.domain
+    TOKEN   = var.token
   })
 
   tags = {
