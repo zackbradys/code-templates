@@ -2,6 +2,9 @@
 
 set -ebpf
 
+### Set Variables
+export DOMAIN=${DOMAIN}
+
 ### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
 # SWAP Settings
