@@ -9,7 +9,9 @@ resource "aws_instance" "aws_ec2_instance_control" {
   iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
   key_name                    = var.key_pair_name
 
-  user_data = file(var.user_data_control)
+  user_data = templatefile("${var.user_data_control}", {
+    domain = var.domain
+  })
 
   tags = {
     Name = "${var.instance_name_control}-0${count.index + 1}"
@@ -38,7 +40,9 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_worker.name
   key_name                    = var.key_pair_name
 
-  user_data = file(var.user_data_worker)
+  user_data = templatefile("${var.user_data_worker}", {
+    domain = var.domain
+  })
 
   tags = {
     Name = "${var.instance_name_worker}-0${count.index + 1}"
