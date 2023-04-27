@@ -105,7 +105,7 @@ mkdir -p /etc/rancher/rke2/
 
 ### Configure RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
-#profile: cis-1.6
+profile: cis-1.6
 write-kubeconfig-mode: 0640
 kube-apiserver-arg:
 - authorization-mode=RBAC,Node
@@ -117,11 +117,11 @@ token: $TOKEN
 EOF
 
 ### Download and Install RKE2 Agent
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=agent sh -
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.13 INSTALL_RKE2_TYPE=agent sh -
 
 ### Configure RKE2 Agent Finalizers
 mkdir -p /opt/rancher
 cat << EOF >> /opt/rancher/rke2-agent-finalizer.txt
-1) On each worker node (aka RKE2 Agent Nodes), run the following commands:
-  systemctl enable rke2-agent.service && systemctl start rke2-agent.service
+1) Copy and paste the following command to start the rke2-agent:
+systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 EOF

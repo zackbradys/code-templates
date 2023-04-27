@@ -131,7 +131,7 @@ mkdir -p /etc/rancher/rke2/ /var/lib/rancher/rke2/server/manifests/
 
 ### Configure RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
-#profile: cis-1.6
+profile: cis-1.6
 selinux: true
 secrets-encryption: true
 write-kubeconfig-mode: 0600
@@ -186,43 +186,45 @@ spec:
 EOF
 
 ### Download and Install RKE2 Server
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24 INSTALL_RKE2_TYPE=server sh - 
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.13 INSTALL_RKE2_TYPE=server sh - 
 
-### Configure RKE2 Control Finalizers
+### Setup RKE2 Control Finalizers
 cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
-1) Ensure to complete the DNS for the domain you are using for the RKE2 Server before starting the rke2-server.
-2) For the FIRST CONTROL NODE, copy and paste the following to /etc/rancher/rke2/config.yaml:
+!! Ensure to complete the DNS for the domain you are using for the RKE2 Server before starting the rke2-server !!
+
+FIRST CONTROL NODE:
+1) Copy and paste the following to /etc/rancher/rke2/config.yaml:
 token: $TOKEN
 tls-san:
   - $DOMAIN
 
-3) After completeing those changes, run the following commands to start the rke2-server:
+2) After completeing those changes, run the following commands to start the rke2-server:
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
-4) Once the rke2-server is sucessfully running on the FIRST CONTROL NODE, run the following commands:
+3) Once the rke2-server is sucessfully running on the FIRST CONTROL NODE, run the following commands:
 cat /var/lib/rancher/rke2/server/token > /opt/rancher/token
 cat /opt/rancher/token
 
 sudo ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl /usr/bin/kubectl
 sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
 
-6) Copy and paste the following items to your ~/.bashrc file:
+4) Copy and paste the following items to your ~/.bashrc file:
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 export PATH=$PATH;/var/lib/rancher/rke2/bin;/usr/local/bin/
 alias k=kubectl
 
-7) Run the following commands to source the ~/.bashrc file:
+5) Run the following commands to source the ~/.bashrc file:
 source ~/.bashrc
 
-8) To verify the rke2-server is running, run the following command:
-kubectl get nodes -o wide
+Hint: To verify the rke2-server is running, run the following command: kubectl get nodes -o wide
 
-9) For the SECOND AND THIRD CONTROL NODES, copy and paste the following to /etc/rancher/rke2/config.yaml:
+SECOND AND THIRD CONTROL NODES:
+1) Copy and paste the following to /etc/rancher/rke2/config.yaml:
 server: https://$DOMAIN:9345
 token: $TOKEN
 tls-san:
   - $DOMAIN
 
-10) After completeing those changes, run the following commands to start the rke2-server:
+2) After completeing those changes, run the following commands to start the rke2-server:
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 EOF
