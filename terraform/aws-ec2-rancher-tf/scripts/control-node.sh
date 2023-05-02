@@ -135,7 +135,6 @@ profile: cis-1.6
 selinux: true
 secrets-encryption: true
 write-kubeconfig-mode: 0600
-streaming-connection-idle-timeout: 5m
 kube-controller-manager-arg:
 - bind-address=127.0.0.1
 - use-service-account-credentials=true
