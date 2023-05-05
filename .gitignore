@@ -10,4 +10,5 @@
 **/*.tfstate.*
 **/rancher-apps.sh
 **/rancher-apps-carbide.sh
-**/carbide-images.sh
+**/carbide-image-pull.sh
+**/carbide-image-push.sh
