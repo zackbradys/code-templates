@@ -30,7 +30,7 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default = "v1.24.13"
+  default = "v1.24"
   description = "(Required) The RKE2 Version to use for the clusters(s)."
 }
 

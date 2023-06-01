@@ -65,7 +65,7 @@ yum install -y zip zstd tree jq iptables container-selinux iptables libnetfilter
 yum --setopt=tsflags=noscripts install -y nfs-utils
 yum --setopt=tsflags=noscripts install -y iscsi-initiator-utils && echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi && systemctl enable --now iscsid
 echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
-yum install -y http://dl.rockylinux.org/pub/rocky/9.1/AppStream/x86_64/os/Packages/c/container-selinux-2.189.0-1.el9.noarch.rpm
+yum update -y && yum clean all
 
 ### Install Root Certificate
 mkdir -p /opt/rancher/certs
