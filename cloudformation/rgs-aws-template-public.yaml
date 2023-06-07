@@ -96,7 +96,6 @@ Mappings:
       HVM64: ami-0c938fd16a0bb5cd4
 
 Resources:
-
   #######
   # VPC #
   #######
