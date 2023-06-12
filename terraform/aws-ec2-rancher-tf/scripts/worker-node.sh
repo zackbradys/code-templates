@@ -112,6 +112,7 @@ kube-apiserver-arg:
 kubelet-arg:
 - protect-kernel-defaults=true
 - max-pods=200
+cloud-provider-name: aws
 server: https://$DOMAIN:9345
 token: $TOKEN
 EOF
