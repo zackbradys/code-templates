@@ -112,6 +112,7 @@ kube-apiserver-arg:
 - authorization-mode=RBAC,Node
 kubelet-arg:
 - protect-kernel-defaults=true
+- streaming-connection-idle-timeout=5m
 - max-pods=200
 cloud-provider-name: aws
 server: https://$DOMAIN:9345
