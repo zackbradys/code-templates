@@ -210,7 +210,7 @@ sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/container
 
 4) Copy and paste the following items to your ~/.bashrc file:
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
-export PATH=$PATH;/var/lib/rancher/rke2/bin;/usr/local/bin/
+export PATH=$PATH:/var/lib/rancher/rke2/bin:/usr/local/bin/
 alias k=kubectl
 
 5) Run the following commands to source the ~/.bashrc file:
