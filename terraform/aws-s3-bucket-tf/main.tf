@@ -31,6 +31,16 @@ resource "aws_s3_bucket" "s3_bucket" {
   }
 }
 
+resource "aws_s3_object" "s3_object_$NAME" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  key    = "$PATH"
+  acl = "public-read"
+  force_destroy = true
+
+  source = "$PATH"
+  etag = filemd5("$PATH")
+}
+
 /* Upload Multiple Files
 resource "aws_s3_bucket_object" "s3_object_$NAME" {
   for_each = fileset("$PATH/", "*")
@@ -41,17 +51,5 @@ resource "aws_s3_bucket_object" "s3_object_$NAME" {
 
   source = "$PATH/${each.value}"
   etag = filemd5("$PATH/${each.value}")
-}
-*/
-
-/* Upload Single File
-resource "aws_s3_object" "s3_object_$NAME" {
-  bucket = aws_s3_bucket.s3_bucket.id
-  key    = "$PATH"
-  acl = "public-read"
-  force_destroy = true
-
-  source = "$PATH"
-  etag = filemd5("$PATH")
 }
 */

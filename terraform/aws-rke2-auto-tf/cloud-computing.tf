@@ -31,6 +31,39 @@ resource "aws_instance" "aws_ec2_instance_control" {
   }
 }
 
+resource "aws_instance" "aws_ec2_instance_controls" {
+  ami           = var.ami_id
+  instance_type = var.instance_type_control
+  count         = var.number_of_instances_controls
+
+  vpc_security_group_ids      = [aws_security_group.aws_rke2_sg.id]
+  subnet_id                   = element([aws_subnet.aws_rke2_private_subnet1.id, aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 3)
+  iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
+  key_name                    = var.key_pair_name
+  depends_on                  = [aws_instance.aws_ec2_instance_control, aws_nat_gateway.aws-rke2-ngw]
+
+  user_data = templatefile("${var.user_data_controls}", {
+    DOMAIN  = "${var.domain}"
+    TOKEN   = "${var.token}"
+    vRKE2   = "${var.vRKE2}"
+  })
+
+  tags = {
+    Name = "${var.instance_name_controls}-0${count.index + 1}"
+  }
+
+  root_block_device {
+    volume_size           = var.volume_size_control
+    volume_type           = var.volume_type_control
+    encrypted             = var.encrypted
+    delete_on_termination = var.delete_on_termination
+
+    tags = {
+      Name = "${var.instance_name_controls}-volume-0${count.index + 1}"
+    }
+  }
+}
+
 resource "aws_instance" "aws_ec2_instance_worker" {
   ami           = var.ami_id
   instance_type = var.instance_type_worker
@@ -40,9 +73,9 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   subnet_id                   = element([aws_subnet.aws_rke2_private_subnet1.id, aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 3)
   iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_worker.name
   key_name                    = var.key_pair_name
-  depends_on                  = [aws_nat_gateway.aws-rke2-ngw]
+  depends_on                  = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls, aws_nat_gateway.aws-rke2-ngw]
 
-  user_data = templatefile("${var.user_data_worker}", {
+  user_data = templatefile("${var.user_data_workers}", {
     DOMAIN  = "${var.domain}"
     TOKEN   = "${var.token}"
     vRKE2   = "${var.vRKE2}"
