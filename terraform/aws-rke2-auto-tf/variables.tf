@@ -20,7 +20,7 @@ variable "key_pair_name" {
 }
 
 variable "domain" {
-  default = "rancherfederal.training"
+  default = "rancherfederal.io"
   description = "(Required) The AWS Route53 domain to use for the cluster(s)."
 }
 
@@ -138,6 +138,11 @@ variable "volume_size_control" {
   description = "(Required) The AWS Volume Size to use for the instance(s)."
 }
 
+variable "volume_size_controls" {
+  default     = 128
+  description = "(Required) The AWS Volume Size to use for the instance(s)."
+}
+
 variable "volume_size_worker" {
   default     = 256
   description = "(Required) The AWS Volume Size to use for the instance(s)."
@@ -149,6 +154,11 @@ variable "volume_size_bastion" {
 }
 
 variable "volume_type_control" {
+  default     = "gp2"
+  description = "(Required) The AWS Volume Type to use for the instance(s)."
+}
+
+variable "volume_type_controls" {
   default     = "gp2"
   description = "(Required) The AWS Volume Type to use for the instance(s)."
 }

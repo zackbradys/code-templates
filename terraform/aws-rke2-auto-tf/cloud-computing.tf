@@ -53,8 +53,8 @@ resource "aws_instance" "aws_ec2_instance_controls" {
   }
 
   root_block_device {
-    volume_size           = var.volume_size_control
-    volume_type           = var.volume_type_control
+    volume_size           = var.volume_size_controls
+    volume_type           = var.volume_type_controls
     encrypted             = var.encrypted
     delete_on_termination = var.delete_on_termination
 

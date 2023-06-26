@@ -203,6 +203,9 @@ sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/container
 cat << EOF >> ~/.bashrc
 export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
 export PATH=$PATH:/var/lib/rancher/rke2/bin:/usr/local/bin/
+export DOMAIN=$DOMAIN
+export TOKEN=$TOKEN
+export vRKE2=$vRKE2
 alias k=kubectl
 EOF
 
