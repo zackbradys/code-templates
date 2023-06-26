@@ -126,6 +126,4 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=ag
 systemctl enable rke2-agent.service && systemctl start rke2-agent.service
 
 ### Verify End of Script
-cat << EOF >> /opt/rancher/COMPLETED
-SUCCESSFULLY COMPLETED THE WORKER NODES CLOUD INIT SCRIPT.
-EOF
+date >> /opt/rancher/COMPLETED

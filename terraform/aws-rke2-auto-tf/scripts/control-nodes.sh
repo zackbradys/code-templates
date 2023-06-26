@@ -174,6 +174,4 @@ curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=se
 systemctl enable rke2-server.service && systemctl start rke2-server.service
 
 ### Verify End of Script
-cat << EOF >> /opt/rancher/COMPLETED
-SUCCESSFULLY COMPLETED THE CONTROL NODES CLOUD INIT SCRIPT.
-EOF
+date >> /opt/rancher/COMPLETED
