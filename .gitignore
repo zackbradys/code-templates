@@ -8,7 +8,9 @@
 **/.terraform.lock.hcl
 **/*.tfstate
 **/*.tfstate.*
-**/rancher-apps.sh
-**/rancher-apps-carbide.sh
-**/carbide-image-pull.sh
-**/carbide-image-push.sh
+**/control-node-carbide-apps.sh
+**/control-nodes-carbide-apps.sh
+**/worker-nodes-carbide-apps.sh
+**/control-node-rancher-apps.sh
+**/control-nodes-rancher-apps.sh
+**/worker-nodes-rancher-apps.sh
