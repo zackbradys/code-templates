@@ -1,20 +1,20 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Rancher Manager and RKE2 AWS CloudFormation Template
 
-Metadata: 
-  AWS::CloudFormation::Interface: 
-    ParameterGroups: 
-      - 
-        Label: 
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
           default: "AWS Configuration Options"
-        Parameters: 
+        Parameters:
           - VolumeSize
           - VPCCidr
           - AllowedCidr
-      - 
-        Label: 
+      -
+        Label:
           default: "Rancher Configuration Options"
-        Parameters: 
+        Parameters:
           - ClusterJoinToken
           - RancherBoostrapPassword
 
@@ -54,7 +54,7 @@ Parameters:
 Mappings:
   AWSRegionArch2AMI:
     us-east-1:
-      HVM64: ami-08cdaea7883b8b88a
+      HVM64: ami-0a88744460c2b27c0
     us-west-2:
       HVM64: ami-06c52a87c42e8326a
 
@@ -135,7 +135,7 @@ Resources:
             - - !Ref 'AWS::StackName'
               - public-3
     Type: AWS::EC2::Subnet
-  
+
   ###################
   # Private Subnets #
   ###################
@@ -388,7 +388,7 @@ Resources:
 
   RancherCloudCredentialUser:
     Type: AWS::IAM::User
-    Properties: 
+    Properties:
       UserName: rancher-cloud-credential-user
 
   RancherCloudCredentialsPolicy:
@@ -433,7 +433,7 @@ Resources:
   RancherCloudCredentialKey:
     Type: AWS::IAM::AccessKey
     DependsOn: RancherCloudCredentialUser
-    Properties: 
+    Properties:
       UserName: !Ref RancherCloudCredentialUser
 
   RancherInstanceRole:
@@ -655,7 +655,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       VpcId: !Ref 'RancherVPC'
-      GroupDescription: Enable EFS access from Rancher subnets to port 2049 
+      GroupDescription: Enable EFS access from Rancher subnets to port 2049
       SecurityGroupEgress:
         - IpProtocol: '-1'
           FromPort: '0'
@@ -772,7 +772,7 @@ Resources:
   ControlPlaneELB:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
-      Subnets: 
+      Subnets:
         - !Ref 'RancherPublicSubnet1'
         - !Ref 'RancherPublicSubnet2'
         - !Ref 'RancherPublicSubnet3'
