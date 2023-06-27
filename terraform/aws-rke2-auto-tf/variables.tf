@@ -118,17 +118,17 @@ variable "number_of_instances_bastion" {
 
 ### User Data Variables
 variable "user_data_control" {
-  default     = "scripts/control-node.sh"
+  default     = "scripts/control-node-carbide-apps.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "user_data_controls" {
-  default     = "scripts/control-nodes.sh"
+  default     = "scripts/control-nodes-carbide-apps.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "user_data_workers" {
-  default     = "scripts/worker-nodes.sh"
+  default     = "scripts/worker-nodes-carbide-apps.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 

@@ -14,3 +14,4 @@
 **/control-node-rancher-apps.sh
 **/control-nodes-rancher-apps.sh
 **/worker-nodes-rancher-apps.sh
+**/carbide-apps.sh
