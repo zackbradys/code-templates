@@ -1,5 +1,5 @@
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
   name: letsencrypt-production
 spec:
@@ -7,8 +7,8 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: zack.brady@ranchergovernment.com
     privateKeySecretRef:
-      name: letsencrypt-prododuction
+      name: letsencrypt-production
     solvers:
       - http01:
           ingress:
-            ingressClassName: nginx
+            class: nginx
