@@ -8,10 +8,10 @@
 **/.terraform.lock.hcl
 **/*.tfstate
 **/*.tfstate.*
-**/control-node-carbide-apps.sh
-**/control-nodes-carbide-apps.sh
-**/worker-nodes-carbide-apps.sh
-**/control-node-rancher-apps.sh
-**/control-nodes-rancher-apps.sh
-**/worker-nodes-rancher-apps.sh
+**/control-node-carbide.sh
+**/control-nodes-carbide.sh
+**/worker-nodes-carbide.sh
+**/control-node-rancher.sh
+**/control-nodes-rancher.sh
+**/worker-nodes-rancher.sh
 **/carbide-apps.sh
