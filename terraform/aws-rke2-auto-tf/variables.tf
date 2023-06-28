@@ -34,6 +34,31 @@ variable "vRKE2" {
   description = "(Required) The RKE2 Version to use for the clusters(s)."
 }
 
+variable "vRancher" {
+  default = "2.7.4"
+  description = "(Required) The Rancher Version to use for the clusters(s)."
+}
+
+variable "vLonghorn" {
+  default = "1.4.2"
+  description = "(Required) The Longhorn Version to use for the clusters(s)."
+}
+
+variable "vNeuVector" {
+  default = "2.4.5"
+  description = "(Required) The NeuVector Version to use for the clusters(s)."
+}
+
+variable "vCertManager" {
+  default = "1.7.1"
+  description = "(Required) The Cert Manager Version to use for the clusters(s)."
+}
+
+variable "vCarbide" {
+  default = "0.1.1"
+  description = "(Required) The Carbide Version to use for the clusters(s)."
+}
+
 variable "ami_id" {
   default     = "ami-0fe64c0692c69d851"
   description = "(Required) The AWS AMI ID to use for the instance(s)."
