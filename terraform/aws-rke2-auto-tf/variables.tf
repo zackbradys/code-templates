@@ -1,6 +1,6 @@
 ### Required Variables
 variable "region" {
-  default     = "us-east-1"
+  default     = ""
   description = "(Required) The AWS Region to use for the instance(s)."
 }
 
@@ -15,12 +15,12 @@ variable "secret_key" {
 }
 
 variable "key_pair_name" {
-  default     = "aws-zackbradys-work"
+  default     = ""
   description = "(Required) The AWS Key Pair name to use for the instance(s)."
 }
 
 variable "domain" {
-  default     = "rancherfederal.io"
+  default     = ""
   description = "(Required) The AWS Route53 domain to use for the cluster(s)."
 }
 
@@ -57,6 +57,26 @@ variable "vCertManager" {
 variable "vCarbide" {
   default     = "0.1.1"
   description = "(Required) The Carbide Version to use for the clusters(s)."
+}
+
+variable "CarbideRegistry" {
+  default     = ""
+  description = "(Required) The Carbide Registry to use for the clusters(s)."
+}
+
+variable "CarbideUsername" {
+  default     = ""
+  description = "(Required) The Carbide Username to use for the clusters(s)."
+}
+
+variable "CarbidePassword" {
+  default     = ""
+  description = "(Required) The Carbide Password to use for the clusters(s)."
+}
+
+variable "CarbideLicense" {
+  default     = ""
+  description = "(Required) The Carbide License to use for the clusters(s)."
 }
 
 variable "ami_id" {
@@ -143,17 +163,17 @@ variable "number_of_instances_bastion" {
 
 ### User Data Variables
 variable "user_data_control" {
-  default     = "scripts/control-node-carbide-apps.sh"
+  default     = "scripts/control-node-carbide.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "user_data_controls" {
-  default     = "scripts/control-nodes-carbide-apps.sh"
+  default     = "scripts/control-nodes-carbide.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "user_data_workers" {
-  default     = "scripts/worker-nodes-carbide-apps.sh"
+  default     = "scripts/worker-nodes-carbide.sh"
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 

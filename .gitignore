@@ -6,6 +6,7 @@
 **/.DS_Store
 **/.terraform
 **/.terraform.lock.hcl
+**/terraform.tfvars
 **/*.tfstate
 **/*.tfstate.*
 **/control-node-carbide.sh
