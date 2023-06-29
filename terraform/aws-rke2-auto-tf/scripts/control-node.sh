@@ -190,7 +190,7 @@ spec:
 EOF
 
 ### Download and Install RKE2 Server
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=server sh - 
+curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION=$vRKE2 INSTALL_RKE2_TYPE=server sh -
 
 ### Enable and Start RKE2 Server
 systemctl enable rke2-server.service && systemctl start rke2-server.service
@@ -201,7 +201,7 @@ sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/container
 
 ### Update BASHRC with KUBECONFIG/PATH
 cat << EOF >> ~/.bashrc
-export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
+export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
 export PATH=$PATH:/var/lib/rancher/rke2/bin:/usr/local/bin/
 export DOMAIN=$DOMAIN
 export TOKEN=$TOKEN
