@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-neuvector-certs
+  namespace: cattle-neuvector-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-neuvector-certs
+  dnsNames:
+  - neuvector.rancherfederal.training
