@@ -9,7 +9,7 @@ spec:
     kind: ClusterIssuer
   secretName: tls-hobbyfarm-certs
   dnsNames:
-  - hobbyfarm.$DOMAIN
+  - hobbyfarm.rancherfederal.training
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -22,7 +22,7 @@ spec:
     kind: ClusterIssuer
   secretName: tls-hobbyfarm-admin-certs
   dnsNames:
-  - hobbyfarm-admin.$DOMAIN
+  - hobbyfarm-admin.rancherfederal.training
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -35,7 +35,7 @@ spec:
     kind: ClusterIssuer
   secretName: tls-hobbyfarm-backend-certs
   dnsNames:
-  - hobbyfarm-backend.$DOMAIN
+  - hobbyfarm-backend.rancherfederal.training
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -48,4 +48,4 @@ spec:
     kind: ClusterIssuer
   secretName: tls-hobbyfarm-shell-certs
   dnsNames:
-  - hobbyfarm-shell.$DOMAIN
+  - hobbyfarm-shell.rancherfederal.training

@@ -9,4 +9,4 @@ spec:
     kind: ClusterIssuer
   secretName: tls-longhorn-certs
   dnsNames:
-  - longhorn.$DOMAIN
+  - longhorn.rancherfederal.training
