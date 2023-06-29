@@ -5,12 +5,12 @@ variable "region" {
 }
 
 variable "access_key" {
-  default = ""
+  default     = ""
   description = "(Required) The AWS Access Key to use for the instance(s)."
 }
 
 variable "secret_key" {
-  default = ""
+  default     = ""
   description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
 
@@ -20,42 +20,42 @@ variable "key_pair_name" {
 }
 
 variable "domain" {
-  default = "rancherfederal.io"
+  default     = "rancherfederal.io"
   description = "(Required) The AWS Route53 domain to use for the cluster(s)."
 }
 
 variable "token" {
-  default = "awsRKE2terraform"
+  default     = "awsRKE2terraform"
   description = "(Required) The RKE2 Cluster Join Token to use for the cluster(s)."
 }
 
 variable "vRKE2" {
-  default = "v1.24"
+  default     = "v1.24"
   description = "(Required) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default = "2.7.4"
+  default     = "2.7.4"
   description = "(Required) The Rancher Version to use for the clusters(s)."
 }
 
 variable "vLonghorn" {
-  default = "1.4.2"
+  default     = "1.4.2"
   description = "(Required) The Longhorn Version to use for the clusters(s)."
 }
 
 variable "vNeuVector" {
-  default = "2.4.5"
+  default     = "2.4.5"
   description = "(Required) The NeuVector Version to use for the clusters(s)."
 }
 
 variable "vCertManager" {
-  default = "1.7.1"
+  default     = "1.7.1"
   description = "(Required) The Cert Manager Version to use for the clusters(s)."
 }
 
 variable "vCarbide" {
-  default = "0.1.1"
+  default     = "0.1.1"
   description = "(Required) The Carbide Version to use for the clusters(s)."
 }
 

@@ -1,18 +1,18 @@
 resource "aws_ecr_repository" "aws_ecr_repository" {
   for_each = var.name
-  name                  = each.value
+  name     = each.value
 
-  image_tag_mutability  = var.image_tag_mutability
-  force_delete          = var.force_delete
+  image_tag_mutability = var.image_tag_mutability
+  force_delete         = var.force_delete
 
   image_scanning_configuration {
-    scan_on_push        = var.scan_on_push
+    scan_on_push = var.scan_on_push
   }
 }
 
 resource "aws_ecr_repository_policy" "aws_ecr_repo_policy" {
-  for_each             = var.name
-  repository           = aws_ecr_repository.aws_ecr_repository[each.key].name
+  for_each   = var.name
+  repository = aws_ecr_repository.aws_ecr_repository[each.key].name
 
   policy = <<EOF
 {
@@ -45,8 +45,8 @@ EOF
 }
 
 resource "aws_ecr_lifecycle_policy" "aws_ecr_expire_policy" {
-  for_each             = var.name
-  repository           = aws_ecr_repository.aws_ecr_repository[each.key].name
+  for_each   = var.name
+  repository = aws_ecr_repository.aws_ecr_repository[each.key].name
 
   policy = <<EOF
 {

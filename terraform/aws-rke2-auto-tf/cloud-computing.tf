@@ -3,21 +3,21 @@ resource "aws_instance" "aws_ec2_instance_control" {
   instance_type = var.instance_type_control
   count         = var.number_of_instances_control
 
-  vpc_security_group_ids      = [aws_security_group.aws_rke2_sg.id]
-  subnet_id                   = element([aws_subnet.aws_rke2_private_subnet1.id], count.index % 1)
-  iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
-  key_name                    = var.key_pair_name
-  depends_on                  = [aws_nat_gateway.aws-rke2-ngw]
+  vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
+  subnet_id              = element([aws_subnet.aws_rke2_private_subnet1.id], count.index % 1)
+  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
+  key_name               = var.key_pair_name
+  depends_on             = [aws_nat_gateway.aws-rke2-ngw]
 
   user_data = templatefile("${var.user_data_control}", {
-    DOMAIN        = "${var.domain}"
-    TOKEN         = "${var.token}"
-    vRKE2         = "${var.vRKE2}"
-    vRancher      = "${var.vRancher}"
-    vLonghorn     = "${var.vLonghorn}"
-    vNeuVector    = "${var.vNeuVector}"
-    vCertManager  = "${var.vCertManager}"
-    vCarbide      = "${var.vCarbide}"
+    DOMAIN       = "${var.domain}"
+    TOKEN        = "${var.token}"
+    vRKE2        = "${var.vRKE2}"
+    vRancher     = "${var.vRancher}"
+    vLonghorn    = "${var.vLonghorn}"
+    vNeuVector   = "${var.vNeuVector}"
+    vCertManager = "${var.vCertManager}"
+    vCarbide     = "${var.vCarbide}"
   })
 
   tags = {
@@ -41,21 +41,21 @@ resource "aws_instance" "aws_ec2_instance_controls" {
   instance_type = var.instance_type_control
   count         = var.number_of_instances_controls
 
-  vpc_security_group_ids      = [aws_security_group.aws_rke2_sg.id]
-  subnet_id                   = element([aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 2)
-  iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
-  key_name                    = var.key_pair_name
-  depends_on                  = [aws_instance.aws_ec2_instance_control, aws_nat_gateway.aws-rke2-ngw]
+  vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
+  subnet_id              = element([aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 2)
+  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
+  key_name               = var.key_pair_name
+  depends_on             = [aws_instance.aws_ec2_instance_control, aws_nat_gateway.aws-rke2-ngw]
 
   user_data = templatefile("${var.user_data_controls}", {
-    DOMAIN        = "${var.domain}"
-    TOKEN         = "${var.token}"
-    vRKE2         = "${var.vRKE2}"
-    vRancher      = "${var.vRancher}"
-    vLonghorn     = "${var.vLonghorn}"
-    vNeuVector    = "${var.vNeuVector}"
-    vCertManager  = "${var.vCertManager}"
-    vCarbide      = "${var.vCarbide}"
+    DOMAIN       = "${var.domain}"
+    TOKEN        = "${var.token}"
+    vRKE2        = "${var.vRKE2}"
+    vRancher     = "${var.vRancher}"
+    vLonghorn    = "${var.vLonghorn}"
+    vNeuVector   = "${var.vNeuVector}"
+    vCertManager = "${var.vCertManager}"
+    vCarbide     = "${var.vCarbide}"
   })
 
   tags = {
@@ -79,21 +79,21 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   instance_type = var.instance_type_worker
   count         = var.number_of_instances_worker
 
-  vpc_security_group_ids      = [aws_security_group.aws_rke2_sg.id]
-  subnet_id                   = element([aws_subnet.aws_rke2_private_subnet1.id, aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 3)
-  iam_instance_profile        = aws_iam_instance_profile.aws_iam_profile_rke2_worker.name
-  key_name                    = var.key_pair_name
-  depends_on                  = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls, aws_nat_gateway.aws-rke2-ngw]
+  vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
+  subnet_id              = element([aws_subnet.aws_rke2_private_subnet1.id, aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 3)
+  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_worker.name
+  key_name               = var.key_pair_name
+  depends_on             = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls, aws_nat_gateway.aws-rke2-ngw]
 
   user_data = templatefile("${var.user_data_workers}", {
-    DOMAIN        = "${var.domain}"
-    TOKEN         = "${var.token}"
-    vRKE2         = "${var.vRKE2}"
-    vRancher      = "${var.vRancher}"
-    vLonghorn     = "${var.vLonghorn}"
-    vNeuVector    = "${var.vNeuVector}"
-    vCertManager  = "${var.vCertManager}"
-    vCarbide      = "${var.vCarbide}"
+    DOMAIN       = "${var.domain}"
+    TOKEN        = "${var.token}"
+    vRKE2        = "${var.vRKE2}"
+    vRancher     = "${var.vRancher}"
+    vLonghorn    = "${var.vLonghorn}"
+    vNeuVector   = "${var.vNeuVector}"
+    vCertManager = "${var.vCertManager}"
+    vCarbide     = "${var.vCarbide}"
   })
 
   tags = {

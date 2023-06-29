@@ -9,8 +9,8 @@ resource "aws_vpc" "aws_rke2_vpc" {
 }
 
 resource "aws_eip" "aws_rke2_eip" {
-  vpc         = true
-  depends_on  = [aws_internet_gateway.aws_rke2_igw]
+  vpc        = true
+  depends_on = [aws_internet_gateway.aws_rke2_igw]
 
   tags = {
     Name = "aws-rke2-eip"
@@ -18,8 +18,8 @@ resource "aws_eip" "aws_rke2_eip" {
 }
 
 resource "aws_nat_gateway" "aws-rke2-ngw" {
-  allocation_id = "${aws_eip.aws_rke2_eip.id}"
-  subnet_id     = "${aws_subnet.aws_rke2_public_subnet1.id}"
+  allocation_id = aws_eip.aws_rke2_eip.id
+  subnet_id     = aws_subnet.aws_rke2_public_subnet1.id
   depends_on    = [aws_internet_gateway.aws_rke2_igw]
 
   tags = {
@@ -28,12 +28,12 @@ resource "aws_nat_gateway" "aws-rke2-ngw" {
 }
 
 resource "aws_route_table" "aws_rke2_private_rtb" {
-  vpc_id            = aws_vpc.aws_rke2_vpc.id
-  depends_on        = [aws_vpc.aws_rke2_vpc]
+  vpc_id     = aws_vpc.aws_rke2_vpc.id
+  depends_on = [aws_vpc.aws_rke2_vpc]
 
   route {
-    cidr_block      = "0.0.0.0/0"
-    nat_gateway_id  = aws_nat_gateway.aws-rke2-ngw.id
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.aws-rke2-ngw.id
   }
 
   tags = {
@@ -77,24 +77,24 @@ resource "aws_subnet" "aws_rke2_private_subnet3" {
 resource "aws_route_table_association" "aws_rke2_private_rta1" {
   subnet_id      = aws_subnet.aws_rke2_private_subnet1.id
   route_table_id = aws_route_table.aws_rke2_private_rtb.id
-  depends_on    = [aws_route_table.aws_rke2_private_rtb]
+  depends_on     = [aws_route_table.aws_rke2_private_rtb]
 }
 
 resource "aws_route_table_association" "aws_rke2_private_rta2" {
   subnet_id      = aws_subnet.aws_rke2_private_subnet2.id
   route_table_id = aws_route_table.aws_rke2_private_rtb.id
-  depends_on    = [aws_route_table.aws_rke2_private_rtb]
+  depends_on     = [aws_route_table.aws_rke2_private_rtb]
 }
 
 resource "aws_route_table_association" "aws_rke2_private_rta3" {
   subnet_id      = aws_subnet.aws_rke2_private_subnet3.id
   route_table_id = aws_route_table.aws_rke2_private_rtb.id
-  depends_on    = [aws_route_table.aws_rke2_private_rtb]
+  depends_on     = [aws_route_table.aws_rke2_private_rtb]
 }
 
 resource "aws_internet_gateway" "aws_rke2_igw" {
-  vpc_id        = aws_vpc.aws_rke2_vpc.id
-  depends_on    = [aws_vpc.aws_rke2_vpc]
+  vpc_id     = aws_vpc.aws_rke2_vpc.id
+  depends_on = [aws_vpc.aws_rke2_vpc]
 
   tags = {
     Name = "aws-rke2-igw"
@@ -102,12 +102,12 @@ resource "aws_internet_gateway" "aws_rke2_igw" {
 }
 
 resource "aws_route_table" "aws_rke2_public_rtb" {
-  vpc_id          = aws_vpc.aws_rke2_vpc.id
-  depends_on      = [aws_vpc.aws_rke2_vpc]
+  vpc_id     = aws_vpc.aws_rke2_vpc.id
+  depends_on = [aws_vpc.aws_rke2_vpc]
 
   route {
-    cidr_block    = "0.0.0.0/0"
-    gateway_id    = aws_internet_gateway.aws_rke2_igw.id
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.aws_rke2_igw.id
   }
 
   tags = {
@@ -151,19 +151,19 @@ resource "aws_subnet" "aws_rke2_public_subnet3" {
 resource "aws_route_table_association" "aws_rke2_public_rta1" {
   subnet_id      = aws_subnet.aws_rke2_public_subnet1.id
   route_table_id = aws_route_table.aws_rke2_public_rtb.id
-  depends_on    = [aws_route_table.aws_rke2_public_rtb]
+  depends_on     = [aws_route_table.aws_rke2_public_rtb]
 }
 
 resource "aws_route_table_association" "aws_rke2_public_rta2" {
   subnet_id      = aws_subnet.aws_rke2_public_subnet2.id
   route_table_id = aws_route_table.aws_rke2_public_rtb.id
-  depends_on    = [aws_route_table.aws_rke2_public_rtb]
+  depends_on     = [aws_route_table.aws_rke2_public_rtb]
 }
 
 resource "aws_route_table_association" "aws_rke2_public_rta3" {
   subnet_id      = aws_subnet.aws_rke2_public_subnet3.id
   route_table_id = aws_route_table.aws_rke2_public_rtb.id
-  depends_on    = [aws_route_table.aws_rke2_public_rtb]
+  depends_on     = [aws_route_table.aws_rke2_public_rtb]
 }
 
 resource "aws_security_group" "aws_rke2_sg" {
