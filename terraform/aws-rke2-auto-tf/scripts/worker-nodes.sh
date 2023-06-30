@@ -120,7 +120,7 @@ token: $TOKEN
 EOF
 
 ### Download and Install RKE2 Agent
-curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION=$vRKE2 INSTALL_RKE2_TYPE=agent sh -
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=agent sh -
 
 ### Enable and Start RKE2 Agent
 systemctl enable rke2-agent.service && systemctl start rke2-agent.service
