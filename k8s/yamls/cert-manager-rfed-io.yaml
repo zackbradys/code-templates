@@ -13,6 +13,11 @@ spec:
           ingress:
             class: nginx
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cattle-system
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -26,6 +31,11 @@ spec:
   dnsNames:
   - rancher.rancherfederal.io
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: longhorn-system
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -38,6 +48,11 @@ spec:
   secretName: tls-longhorn-certs
   dnsNames:
   - longhorn.rancherfederal.io
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cattle-neuvector-system
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate

@@ -4,14 +4,13 @@ metadata:
   name: longhorn-crypto
   namespace: longhorn-system
 stringData:
-  CRYPTO_KEY_VALUE: "LonghornEncryptPa22word"
+  CRYPTO_KEY_VALUE: "LonghornEncryptedPa22word"
   CRYPTO_KEY_PROVIDER: "secret"
-
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: longhorn-crypto-global
+  name: longhorn-encrypted-global
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 parameters:

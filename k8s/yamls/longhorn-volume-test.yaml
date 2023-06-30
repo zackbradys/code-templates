@@ -4,9 +4,8 @@ metadata:
   name: test-volume
   namespace: default
 stringData:
-  CRYPTO_KEY_VALUE: "LonghornEncryptPa22word"
+  CRYPTO_KEY_VALUE: "LonghornEncryptedPa22word"
   CRYPTO_KEY_PROVIDER: "secret"
-
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -14,8 +13,8 @@ metadata:
   name: test-volume
   namespace: default
 spec:
-  storageClassName: "longhorn-crypto-per-volume"
-  accessModes: 
+  storageClassName: "longhorn-encrypted-per-volume"
+  accessModes:
     - ReadWriteMany
   resources:
     requests:
