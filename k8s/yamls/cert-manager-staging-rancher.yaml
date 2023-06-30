@@ -9,4 +9,4 @@ spec:
     kind: ClusterIssuer
   secretName: tls-rancher-certs
   dnsNames:
-  - rancher.rancherfederal.training
+  - rancher.$DOMAIN

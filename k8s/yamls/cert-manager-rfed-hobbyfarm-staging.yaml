@@ -1,0 +1,105 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: zack.brady@ranchergovernment.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-rancher-ingress
+  namespace: cattle-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-rancher-certs
+  dnsNames:
+  - rancher.rancherfederal.training
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-longhorn-certs
+  namespace: longhorn-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-longhorn-certs
+  dnsNames:
+  - longhorn.rancherfederal.training
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-neuvector-certs
+  namespace: cattle-neuvector-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-neuvector-certs
+  dnsNames:
+  - neuvector.rancherfederal.training
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-hobbyfarm-certs
+  namespace: hobbyfarm-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-hobbyfarm-certs
+  dnsNames:
+  - hobbyfarm.rancherfederal.training
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-hobbyfarm-admin-certs
+  namespace: hobbyfarm-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-hobbyfarm-admin-certs
+  dnsNames:
+  - hobbyfarm-admin.rancherfederal.training
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-hobbyfarm-backend-certs
+  namespace: hobbyfarm-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-hobbyfarm-backend-certs
+  dnsNames:
+  - hobbyfarm-backend.rancherfederal.training
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tls-hobbyfarm-shell-certs
+  namespace: hobbyfarm-system
+spec:
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  secretName: tls-hobbyfarm-shell-certs
+  dnsNames:
+  - hobbyfarm-shell.rancherfederal.training

@@ -9,4 +9,4 @@ spec:
     kind: ClusterIssuer
   secretName: tls-neuvector-certs
   dnsNames:
-  - neuvector.rancherfederal.training
+  - neuvector.$DOMAIN
