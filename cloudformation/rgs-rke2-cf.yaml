@@ -483,7 +483,7 @@ Resources:
         BlockDeviceMappings:
           - Ebs:
               VolumeSize: !Ref 'VolumeSize'
-              VolumeType: gp2
+              VolumeType: gp3
               DeleteOnTermination: true
               Encrypted: true
             DeviceName: /dev/sda1
@@ -544,7 +544,7 @@ Resources:
         BlockDeviceMappings:
           - Ebs:
               VolumeSize: !Ref 'VolumeSize'
-              VolumeType: gp2
+              VolumeType: gp3
               DeleteOnTermination: true
               Encrypted: true
             DeviceName: /dev/sda1

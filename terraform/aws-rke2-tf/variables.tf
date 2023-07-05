@@ -134,17 +134,17 @@ variable "volume_size_bastion" {
 }
 
 variable "volume_type_control" {
-  default     = "gp2"
+  default     = "gp3"
   description = "(Required) The AWS Volume Type to use for the instance(s)."
 }
 
 variable "volume_type_worker" {
-  default     = "gp2"
+  default     = "gp3"
   description = "(Required) The AWS Volume Type to use for the instance(s)."
 }
 
 variable "volume_type_bastion" {
-  default     = "gp2"
+  default     = "gp3"
   description = "(Required) The AWS Volume Type to use for the instance(s)."
 }
 

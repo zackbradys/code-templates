@@ -49,7 +49,7 @@ variable "volume_size" {
 }
 
 variable "volume_type" {
-  default     = "gp2"
+  default     = "gp3"
   description = "(Required) The aws volume type to use for the instance(s)."
 }
 

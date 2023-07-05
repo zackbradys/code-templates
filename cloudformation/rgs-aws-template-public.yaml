@@ -2,32 +2,32 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS CloudFormation for Installing Rancher through the RGS Marketplace
   Offering
 
-Metadata: 
-  AWS::CloudFormation::Interface: 
-    ParameterGroups: 
-      - 
-        Label: 
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
           default: "Amazon Configuration"
-        Parameters: 
+        Parameters:
           - KeyName
           - VolumeSize
           - VPCCidr
           - AllowedCidr
-      - 
-        Label: 
+      -
+        Label:
           default: "Rancher Configuration"
-        Parameters: 
+        Parameters:
           - RancherHostname
           - ClusterJoinToken
           - RancherBoostrapPassword
-      - 
-        Label: 
+      -
+        Label:
           default: "HostedZone Configuration (Optional)"
-        Parameters: 
+        Parameters:
           - UpdateHostedZone
           - HostedZoneDomain
-    ParameterLabels: 
-      UpdateHostedZone: 
+    ParameterLabels:
+      UpdateHostedZone:
         default: "Rancher has a requirement of DNS. If you're currently utilizing Route 53, the following configuration options will create a RecordSet in your domain."
 
 Parameters:
@@ -86,7 +86,7 @@ Parameters:
     ConstraintDescription: must be a valid dot-separated string of the form x.x
 
 Conditions:
-  CreateRecordSet: !Equals 
+  CreateRecordSet: !Equals
     - !Ref UpdateHostedZone
     - true
 
@@ -172,7 +172,7 @@ Resources:
             - - !Ref 'AWS::StackName'
               - public-3
     Type: AWS::EC2::Subnet
-  
+
   ###################
   # Private Subnets #
   ###################
@@ -392,7 +392,7 @@ Resources:
         BlockDeviceMappings:
           - Ebs:
               VolumeSize: !Ref 'VolumeSize'
-              VolumeType: gp2
+              VolumeType: gp3
               DeleteOnTermination: true
               Encrypted: true
             DeviceName: /dev/sda1
@@ -462,7 +462,7 @@ Resources:
         BlockDeviceMappings:
           - Ebs:
               VolumeSize: !Ref 'VolumeSize'
-              VolumeType: gp2
+              VolumeType: gp3
               DeleteOnTermination: true
               Encrypted: true
             DeviceName: /dev/sda1
@@ -595,7 +595,7 @@ Resources:
   ControlPlaneELB:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
-      Subnets: 
+      Subnets:
         - !Ref 'RancherPublicSubnet1'
         - !Ref 'RancherPublicSubnet2'
         - !Ref 'RancherPublicSubnet3'
@@ -655,7 +655,7 @@ Resources:
       TTL: '60'
       ResourceRecords:
         - !GetAtt 'RancherELB.DNSName'
-  
+
 Outputs:
   RancherURL:
     Description: URL for Rancher
