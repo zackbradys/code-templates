@@ -9,33 +9,21 @@ export vRKE2=${vRKE2}
 
 ### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
-# SWAP Settings
+### Updating System Settings
 vm.swappiness=0
 vm.panic_on_oom=0
 vm.overcommit_memory=1
 kernel.panic=10
 kernel.panic_on_oops=1
 vm.max_map_count = 262144
-
-# IPv4 Connection Settings
 net.ipv4.ip_local_port_range=1024 65000
-
-# Increase Max Connection
 net.core.somaxconn=10000
-
-# Closed Socket Settings
 net.ipv4.tcp_tw_reuse=1
 net.ipv4.tcp_fin_timeout=15
-
-# Increasing Backlogged Sockets (Default is 128)
 net.core.somaxconn=4096
 net.core.netdev_max_backlog=4096
-
-# Increasing Socket Buffers
 net.core.rmem_max=16777216
 net.core.wmem_max=16777216
-
-# Network Tuning Settings
 net.ipv4.tcp_max_syn_backlog=20480
 net.ipv4.tcp_max_tw_buckets=400000
 net.ipv4.tcp_no_metrics_save=1
@@ -43,21 +31,14 @@ net.ipv4.tcp_rmem=4096 87380 16777216
 net.ipv4.tcp_syn_retries=2
 net.ipv4.tcp_synack_retries=2
 net.ipv4.tcp_wmem=4096 65536 16777216
-
-# ARP Cache Settings
 net.ipv4.neigh.default.gc_thresh1=8096
 net.ipv4.neigh.default.gc_thresh2=12288
 net.ipv4.neigh.default.gc_thresh3=16384
-
-# More IPv4 Settings
 net.ipv4.tcp_keepalive_time=600
 net.ipv4.ip_forward=1
-
-# File System Monitoring
 fs.inotify.max_user_instances=8192
 fs.inotify.max_user_watches=1048576
 EOF
-
 sysctl -p > /dev/null 2>&1
 
 ### Install Packages
@@ -187,7 +168,7 @@ spec:
 EOF
 
 ### Download and Install RKE2 Server
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=server sh - 
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=server sh -
 
 ### Setup RKE2 Control Finalizers
 cat << EOF >> /opt/rancher/rke2-control-finalizer.txt
@@ -207,7 +188,7 @@ sudo ln -s /var/lib/rancher/rke2/data/v1*/bin/kubectl /usr/bin/kubectl
 sudo ln -s /var/run/k3s/containerd/containerd.sock /var/run/containerd/containerd.sock
 
 4) Copy and paste the following items to your ~/.bashrc file:
-export KUBECONFIG=/etc/rancher/rke2/rke2.yaml 
+export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
 export PATH=$PATH:/var/lib/rancher/rke2/bin:/usr/local/bin/
 alias k=kubectl
 
