@@ -157,7 +157,7 @@ variable "number_of_instances_worker" {
 }
 
 variable "number_of_instances_bastion" {
-  default     = 3
+  default     = 1
   description = "(Required) The number of AWS EC2 instances to create on deployment."
 }
 
