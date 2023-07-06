@@ -30,6 +30,18 @@ resource "aws_elb" "aws_rke2_lb" {
     lb_port           = 9345
     lb_protocol       = "tcp"
   }
+  listener {
+    instance_port     = 80
+    instance_protocol = "tcp"
+    lb_port           = 80
+    lb_protocol       = "tcp"
+  }
+  listener {
+    instance_port     = 443
+    instance_protocol = "tcp"
+    lb_port           = 443
+    lb_protocol       = "tcp"
+  }
 }
 
 resource "aws_elb_attachment" "aws_rke2_elb_attachment1" {
