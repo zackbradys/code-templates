@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   }
 }
 
-resource "aws_s3_object" {
+resource "aws_s3_object" "s3_bucket_object" {
   bucket        = aws_s3_bucket.s3_bucket.id
   key           = "$PATH"
   acl           = "public-read"

@@ -1,23 +1,26 @@
 ### Required Variables
 variable "region" {
-  default     = "us-east-1"
+  default     = ""
+  type        = string
   description = "(Required) The AWS Region to use for the instance(s)."
 }
 
 variable "access_key" {
   default     = ""
+  type        = string
   description = "(Required) The AWS Access Key to use for the instance(s)."
 }
 
 variable "secret_key" {
   default     = ""
+  type        = string
   description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
 
 ### AWS ECR Variables
 variable "name" {
   description = "(Required) The names to use for each AWS ECR Repository."
-  type        = set(string)
+  type        = list(any)
   default = [
     "carbide/carbide-docs",
     "carbide/compliance-operator",
@@ -538,25 +541,25 @@ variable "name" {
 }
 
 variable "image_tag_mutability" {
-  type        = string
   default     = "MUTABLE"
+  type        = string
   description = "(Required) The tag mutability setting for the repository (MUTABLE or IMMUTABLE)."
 }
 
 variable "scan_on_push" {
-  type        = bool
   default     = true
+  type        = bool
   description = "(Required) Indicates whether images are scanned after being pushed to the repository (true or false)."
 }
 
 variable "force_delete" {
-  type        = bool
   default     = true
+  type        = bool
   description = "(Required) If true, will delete the repository even if it contains images (true or false)."
 }
 
 variable "expiration_after_days" {
-  type        = number
   default     = 30
+  type        = number
   description = "(Required) Expire/deletes images older than the specific numbered of days."
 }
