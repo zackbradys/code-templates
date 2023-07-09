@@ -12,6 +12,7 @@ resource "aws_instance" "aws_ec2_instance_control" {
   user_data = templatefile("${var.user_data_control}", {
     DOMAIN = "${var.domain}"
     TOKEN  = "${var.token}"
+    vRKE2  = "${var.vRKE2}"
   })
 
   tags = {
@@ -44,6 +45,7 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   user_data = templatefile("${var.user_data_worker}", {
     DOMAIN = "${var.domain}"
     TOKEN  = "${var.token}"
+    vRKE2  = "${var.vRKE2}"
   })
 
   tags = {

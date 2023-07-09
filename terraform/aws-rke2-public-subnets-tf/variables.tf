@@ -34,6 +34,12 @@ variable "token" {
   description = "(Required) The RKE2 Cluster Join Token to use for the cluster(s)."
 }
 
+variable "vRKE2" {
+  default     = "v1.24"
+  type        = string
+  description = "(Required) The RKE2 Version to use for the clusters(s)."
+}
+
 variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
   type        = string

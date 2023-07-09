@@ -5,6 +5,7 @@ set -ebpf
 ### Set Variables
 export DOMAIN=${DOMAIN}
 export TOKEN=${TOKEN}
+export vRKE2=${vRKE2}
 
 ### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
@@ -167,7 +168,7 @@ spec:
 EOF
 
 ### Download and Install RKE2 Server
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.13 INSTALL_RKE2_TYPE=server sh -
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=server sh -
 
 ### Setup RKE2 Control Finalizers
 cat << EOF >> /opt/rancher/rke2-control-finalizer.txt

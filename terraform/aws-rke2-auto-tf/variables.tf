@@ -42,19 +42,19 @@ variable "vRKE2" {
 }
 
 variable "vRancher" {
-  default     = "2.7.4"
+  default     = "2.7.5"
   type        = string
   description = "(Required) The Rancher Version to use for the clusters(s)."
 }
 
 variable "vLonghorn" {
-  default     = "1.4.2"
+  default     = "1.5.0"
   type        = string
   description = "(Required) The Longhorn Version to use for the clusters(s)."
 }
 
 variable "vNeuVector" {
-  default     = "2.4.5"
+  default     = "2.6.0"
   type        = string
   description = "(Required) The NeuVector Version to use for the clusters(s)."
 }

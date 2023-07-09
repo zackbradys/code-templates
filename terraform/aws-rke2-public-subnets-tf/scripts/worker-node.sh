@@ -5,6 +5,7 @@ set -ebpf
 ### Set Variables
 export DOMAIN=${DOMAIN}
 export TOKEN=${TOKEN}
+export vRKE2=${vRKE2}
 
 ### Applying System Settings
 cat << EOF >> /etc/sysctl.conf
@@ -99,7 +100,7 @@ token: $TOKEN
 EOF
 
 ### Download and Install RKE2 Agent
-curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=v1.24.13 INSTALL_RKE2_TYPE=agent sh -
+curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=$vRKE2 INSTALL_RKE2_TYPE=agent sh -
 
 ### Configure RKE2 Agent Finalizers
 mkdir -p /opt/rancher
