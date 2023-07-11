@@ -7,7 +7,7 @@
 # zone_id = aws_route53_zone.aws_rke2_zone.zone_id
 
 resource "aws_route53_record" "aws_rke2_record_rke2" {
-  zone_id = "Z01241842LH4ZO7IUQCTP"
+  zone_id = var.hosted_zone_id
   name    = ""
   type    = "A"
   alias {
@@ -19,7 +19,7 @@ resource "aws_route53_record" "aws_rke2_record_rke2" {
 }
 
 resource "aws_route53_record" "aws_rke2_record_ingress" {
-  zone_id = "Z01241842LH4ZO7IUQCTP"
+  zone_id = var.hosted_zone_id
   name    = "*"
   type    = "A"
   alias {

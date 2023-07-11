@@ -29,6 +29,12 @@ variable "domain" {
   description = "(Required) The AWS Route53 domain to use for the cluster(s)."
 }
 
+variable "hosted_zone_id" {
+  default     = ""
+  type        = string
+  description = "(Required) The AWS Route53 hosted zone to use for the cluster(s)."
+}
+
 variable "token" {
   default     = "awsRKE2terraform"
   type        = string
