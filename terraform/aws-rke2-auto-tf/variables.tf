@@ -48,13 +48,13 @@ variable "vRKE2" {
 }
 
 variable "vRancher" {
-  default     = "2.7.5"
+  default     = "2.7.4"
   type        = string
   description = "(Required) The Rancher Version to use for the clusters(s)."
 }
 
 variable "vLonghorn" {
-  default     = "1.5.0"
+  default     = "1.5.1"
   type        = string
   description = "(Required) The Longhorn Version to use for the clusters(s)."
 }
@@ -188,7 +188,7 @@ variable "number_of_instances_controls" {
 }
 
 variable "number_of_instances_worker" {
-  default     = 3
+  default     = 0
   type        = number
   description = "(Required) The number of AWS EC2 instances to create on deployment."
 }
