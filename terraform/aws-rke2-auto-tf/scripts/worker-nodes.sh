@@ -53,13 +53,14 @@ mkdir -p /etc/rancher/rke2/
 
 ### Configure RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
-#profile: cis-1.6
+profile: cis-1.23
 write-kubeconfig-mode: 0640
 kube-apiserver-arg:
 - authorization-mode=RBAC,Node
 kubelet-arg:
 - protect-kernel-defaults=true
-- streaming-connection-idle-timeout=5m
+- read-only-port=0
+- authorization-mode=Webhook
 - max-pods=200
 cloud-provider-name: aws
 server: https://$DOMAIN:9345
