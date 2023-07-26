@@ -79,7 +79,7 @@ mkdir -p /etc/rancher/rke2/ /var/lib/rancher/rke2/server/manifests/
 
 ### Configure RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
-profile: cis-1.23
+#profile: cis-1.23
 selinux: true
 secrets-encryption: true
 write-kubeconfig-mode: 0640

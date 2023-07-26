@@ -66,7 +66,7 @@ variable "vNeuVector" {
 }
 
 variable "vCertManager" {
-  default     = "1.7.1"
+  default     = "1.12.2"
   type        = string
   description = "(Required) The Cert Manager Version to use for the clusters(s)."
 }
