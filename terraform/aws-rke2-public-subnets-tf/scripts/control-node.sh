@@ -113,10 +113,11 @@ mkdir -p /etc/rancher/rke2/ /var/lib/rancher/rke2/server/manifests/
 
 ### Configure RKE2 Config
 cat << EOF >> /etc/rancher/rke2/config.yaml
-profile: cis-1.6
+#profile: cis-1.23
 selinux: true
 secrets-encryption: true
-write-kubeconfig-mode: 0600
+write-kubeconfig-mode: 0640
+use-service-account-credentials: true
 kube-controller-manager-arg:
 - bind-address=127.0.0.1
 - use-service-account-credentials=true
