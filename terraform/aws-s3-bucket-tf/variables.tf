@@ -152,13 +152,13 @@ variable "instance_name_bastion" {
 }
 
 variable "instance_type_control" {
-  default     = "m5d.xlarge"
+  default     = "m6i.xlarge"
   type        = string
   description = "(Required) The AWS Instance type to use for the instance(s)."
 }
 
 variable "instance_type_worker" {
-  default     = "m5d.xlarge"
+  default     = "m6i.xlarge"
   type        = string
   description = "(Required) The AWS Instance type to use for the instance(s)."
 }
