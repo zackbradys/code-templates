@@ -29,7 +29,7 @@ variable "instance_name" {
 }
 
 variable "ami_id" {
-  default     = "ami-0fe64c0692c69d851"
+  default     = ""
   type        = string
   description = "(Required) The aws ami id to use for the instance(s)."
 }
@@ -47,13 +47,13 @@ variable "number_of_instances" {
 }
 
 variable "security_group_id" {
-  default     = "sg-0357d71913582e447"
+  default     = "sg-047e30edd6c877dc1"
   type        = string
   description = "(Required) The aws security group id to use for the instance(s)."
 }
 
 variable "subnet_id" {
-  default     = "subnet-068c1a36a5bfa79cc"
+  default     = "subnet-066fd23f61755396e"
   type        = string
   description = "(Required) The aws subnet id to use for the instance(s)."
 }
@@ -65,7 +65,7 @@ variable "associate_public_ip_address" {
 }
 
 variable "volume_size" {
-  default     = 128
+  default     = 64
   type        = number
   description = "(Required) The aws volume size to use for the instance(s)."
 }
@@ -77,7 +77,7 @@ variable "volume_type" {
 }
 
 variable "encrypted" {
-  default     = false
+  default     = true
   type        = bool
   description = "(Required) The aws encrypted to use for the instance(s)."
 }
