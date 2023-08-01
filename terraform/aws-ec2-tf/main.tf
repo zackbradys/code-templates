@@ -1,6 +1,6 @@
 resource "aws_instance" "aws_ec2_instance" {
   tags = {
-    Name = "${var.instance_name}-0${count.index + 1}"
+    Name = "${var.instance_name}"
   }
   ami           = var.ami_id
   instance_type = var.instance_type
