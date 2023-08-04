@@ -1,29 +1,24 @@
 variable "region" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Region to use for the instance(s)."
 }
 
 variable "access_key" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Access Key to use for the instance(s)."
 }
 
 variable "secret_key" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
 
 variable "key_pair_name" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Key Pair name to use for the instance(s)."
 }
 
 variable "domain" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Route53 domain to use for the instance(s)."
 }

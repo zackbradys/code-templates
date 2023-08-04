@@ -1,18 +1,15 @@
 ### Required Variables
 variable "region" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Region to use for the instance(s)."
 }
 
 variable "access_key" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Access Key to use for the instance(s)."
 }
 
 variable "secret_key" {
-  default     = ""
   type        = string
   description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
