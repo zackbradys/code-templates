@@ -42,7 +42,7 @@ variable "vRKE2" {
 }
 
 variable "vRancher" {
-  default     = "2.7.4"
+  default     = "2.7.6"
   type        = string
   description = "(Required) The Rancher Version to use for the clusters(s)."
 }
@@ -54,7 +54,7 @@ variable "vLonghorn" {
 }
 
 variable "vNeuVector" {
-  default     = "2.6.0"
+  default     = "2.6.2"
   type        = string
   description = "(Required) The NeuVector Version to use for the clusters(s)."
 }
@@ -148,13 +148,13 @@ variable "instance_name_bastion" {
 }
 
 variable "instance_type_control" {
-  default     = "m6i.xlarge"
+  default     = "m6a.xlarge"
   type        = string
   description = "(Required) The AWS Instance type to use for the instance(s)."
 }
 
 variable "instance_type_worker" {
-  default     = "m6i.xlarge"
+  default     = "m6a.xlarge"
   type        = string
   description = "(Required) The AWS Instance type to use for the instance(s)."
 }
@@ -228,7 +228,7 @@ variable "volume_size_worker" {
 }
 
 variable "volume_size_bastion" {
-  default     = 16
+  default     = 32
   type        = number
   description = "(Required) The AWS Volume Size to use for the instance(s)."
 }
