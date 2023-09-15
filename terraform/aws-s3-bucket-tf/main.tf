@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket              = "rancher-federal-repo"
+  bucket              = var.bucket_name
   object_lock_enabled = false
   force_destroy       = true
 
