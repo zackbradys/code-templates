@@ -12,7 +12,6 @@
 **/control-node-carbide.sh
 **/control-nodes-carbide.sh
 **/worker-nodes-carbide.sh
-**/control-node-rancher.sh
-**/control-nodes-rancher.sh
-**/worker-nodes-rancher.sh
-**/carbide-apps.sh
+**/control-node.sh
+**/control-nodes.sh
+**/worker-nodes.sh
