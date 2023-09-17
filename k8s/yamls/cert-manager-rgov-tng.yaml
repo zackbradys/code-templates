@@ -29,7 +29,7 @@ spec:
     kind: ClusterIssuer
   secretName: tls-rancher-certs
   dnsNames:
-  - rancher.rancherfederal.io
+  - rancher.ranchergovernment.training
 ---
 apiVersion: v1
 kind: Namespace
@@ -47,7 +47,7 @@ spec:
     kind: ClusterIssuer
   secretName: tls-longhorn-certs
   dnsNames:
-  - longhorn.rancherfederal.io
+  - longhorn.ranchergovernment.training
 ---
 apiVersion: v1
 kind: Namespace
@@ -65,4 +65,4 @@ spec:
     kind: ClusterIssuer
   secretName: tls-neuvector-certs
   dnsNames:
-  - neuvector.rancherfederal.io
+  - neuvector.ranchergovernment.training

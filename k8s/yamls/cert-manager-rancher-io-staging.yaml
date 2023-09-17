@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-production
+  name: letsencrypt-staging
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: zack.brady@ranchergovernment.com
     privateKeySecretRef:
-      name: letsencrypt-production
+      name: letsencrypt-staging
     solvers:
       - http01:
           ingress:
@@ -25,11 +25,11 @@ metadata:
   namespace: cattle-system
 spec:
   issuerRef:
-    name: letsencrypt-production
+    name: letsencrypt-staging
     kind: ClusterIssuer
   secretName: tls-rancher-certs
   dnsNames:
-  - rancher.rancherfederal.training
+  - rancher.ranchers.io
 ---
 apiVersion: v1
 kind: Namespace
@@ -43,11 +43,11 @@ metadata:
   namespace: longhorn-system
 spec:
   issuerRef:
-    name: letsencrypt-production
+    name: letsencrypt-staging
     kind: ClusterIssuer
   secretName: tls-longhorn-certs
   dnsNames:
-  - longhorn.rancherfederal.training
+  - longhorn.ranchers.io
 ---
 apiVersion: v1
 kind: Namespace
@@ -61,8 +61,8 @@ metadata:
   namespace: cattle-neuvector-system
 spec:
   issuerRef:
-    name: letsencrypt-production
+    name: letsencrypt-staging
     kind: ClusterIssuer
   secretName: tls-neuvector-certs
   dnsNames:
-  - neuvector.rancherfederal.training
+  - neuvector.ranchers.io
