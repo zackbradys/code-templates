@@ -16,8 +16,8 @@ provider "aws" {
 
   default_tags {
     tags = {
-      provisioner                      = "terraform"
-      "kubernetes.io/cluster/aws-eks"  = "shared"
+      provisioner                     = "terraform"
+      "kubernetes.io/cluster/aws-eks" = "shared"
     }
   }
 }
