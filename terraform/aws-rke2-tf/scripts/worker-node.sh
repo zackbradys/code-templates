@@ -93,7 +93,6 @@ kubelet-arg:
 - protect-kernel-defaults=true
 - read-only-port=0
 - authorization-mode=Webhook
-- max-pods=200
 cloud-provider-name: aws
 server: https://$DOMAIN:9345
 token: $TOKEN
