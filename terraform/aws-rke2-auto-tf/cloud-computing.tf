@@ -4,7 +4,7 @@ resource "aws_instance" "aws_ec2_instance_control" {
   count         = var.number_of_instances_control
 
   vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
-  subnet_id              = element([aws_subnet.aws_rke2_private_subnet1.id], count.index % 1)
+  subnet_id              = element([aws_subnet.aws_rke2_private_subnet1.id, aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 3)
   iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
   key_name               = var.key_pair_name
   depends_on             = [aws_nat_gateway.aws-rke2-ngw]
@@ -46,7 +46,7 @@ resource "aws_instance" "aws_ec2_instance_controls" {
   count         = var.number_of_instances_controls
 
   vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
-  subnet_id              = element([aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 2)
+  subnet_id              = element([aws_subnet.aws_rke2_private_subnet1.id, aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 3)
   iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
   key_name               = var.key_pair_name
   depends_on             = [aws_instance.aws_ec2_instance_control, aws_nat_gateway.aws-rke2-ngw]
