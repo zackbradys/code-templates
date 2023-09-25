@@ -25,13 +25,9 @@ variable "domain" {
 }
 
 variable "prefix" {
+  default     = "aws-rke2"
   type        = string
   description = "(Required) The prefix/name for all provisioned resources."
-}
-
-variable "hosted_zone_id" {
-  type        = string
-  description = "(Required) The AWS Route53 hosted zone to use for the cluster(s)."
 }
 
 variable "token" {
@@ -44,56 +40,6 @@ variable "vRKE2" {
   default     = "v1.25"
   type        = string
   description = "(Required) The RKE2 Version to use for the clusters(s)."
-}
-
-variable "vRancher" {
-  default     = "2.7.6"
-  type        = string
-  description = "(Required) The Rancher Version to use for the clusters(s)."
-}
-
-variable "vLonghorn" {
-  default     = "1.5.1"
-  type        = string
-  description = "(Required) The Longhorn Version to use for the clusters(s)."
-}
-
-variable "vNeuVector" {
-  default     = "2.6.2"
-  type        = string
-  description = "(Required) The NeuVector Version to use for the clusters(s)."
-}
-
-variable "vCertManager" {
-  default     = "1.7.1"
-  type        = string
-  description = "(Required) The Cert Manager Version to use for the clusters(s)."
-}
-
-variable "vCarbide" {
-  default     = "0.1.1"
-  type        = string
-  description = "(Required) The Carbide Version to use for the clusters(s)."
-}
-
-variable "CarbideRegistry" {
-  type        = string
-  description = "(Required) The Carbide Registry to use for the clusters(s)."
-}
-
-variable "CarbideUsername" {
-  type        = string
-  description = "(Required) The Carbide Username to use for the clusters(s)."
-}
-
-variable "CarbidePassword" {
-  type        = string
-  description = "(Required) The Carbide Password to use for the clusters(s)."
-}
-
-variable "CarbideLicense" {
-  type        = string
-  description = "(Required) The Carbide License to use for the clusters(s)."
 }
 
 variable "ami_id" {
@@ -128,30 +74,6 @@ variable "associate_public_ip_address" {
 }
 
 ### Instance Variables
-variable "instance_name_control" {
-  default     = "aws-rke2-cp"
-  type        = string
-  description = "(Required) The name of the AWS RKE2 Control Node EC2 instance."
-}
-
-variable "instance_name_controls" {
-  default     = "aws-rke2-cps"
-  type        = string
-  description = "(Required) The name of the AWS RKE2 Control NodesEC2 instance."
-}
-
-variable "instance_name_worker" {
-  default     = "aws-rke2-wk"
-  type        = string
-  description = "(Required) The name of the AWS RKE2 Worker EC2 instance."
-}
-
-variable "instance_name_bastion" {
-  default     = "aws-rke2-bastion"
-  type        = string
-  description = "(Required) The name of the AWS Bastion EC2 instance."
-}
-
 variable "instance_type_control" {
   default     = "m6a.xlarge"
   type        = string
@@ -196,19 +118,19 @@ variable "number_of_instances_bastion" {
 
 ### User Data Variables
 variable "user_data_control" {
-  default     = "scripts/control-node-carbide.sh"
+  default     = "scripts/control-node.sh"
   type        = string
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "user_data_controls" {
-  default     = "scripts/control-nodes-carbide.sh"
+  default     = "scripts/control-nodes.sh"
   type        = string
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
 
 variable "user_data_workers" {
-  default     = "scripts/worker-nodes-carbide.sh"
+  default     = "scripts/worker-nodes.sh"
   type        = string
   description = "(Required) The AWS User Data to use for the instance(s)."
 }
@@ -233,7 +155,7 @@ variable "volume_size_worker" {
 }
 
 variable "volume_size_bastion" {
-  default     = 32
+  default     = 16
   type        = number
   description = "(Required) The AWS Volume Size to use for the instance(s)."
 }
