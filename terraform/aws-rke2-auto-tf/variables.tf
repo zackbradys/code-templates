@@ -57,7 +57,7 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.25"
+  default     = "v1.25.13+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
