@@ -1,13 +1,11 @@
-#resource "aws_route53_zone" "aws_rke2_zone" {
-#  name = var.domain
-#  force_destroy = true
-#  private_zone = false
-#  comment = "AWS RKE2 Route53 Hosted Zone"
-#}
-# zone_id = aws_route53_zone.aws_rke2_zone.zone_id
+resource "aws_route53_zone" "aws_rke2_zone" {
+  name          = var.domain
+  force_destroy = true
+  comment       = "AWS RKE2 Route53 Hosted Zone"
+}
 
 resource "aws_route53_record" "aws_rke2_record_rke2" {
-  zone_id = var.hosted_zone_id
+  zone_id = aws_route53_zone.aws_rke2_zone.zone_id
   name    = ""
   type    = "A"
   alias {
@@ -19,7 +17,7 @@ resource "aws_route53_record" "aws_rke2_record_rke2" {
 }
 
 resource "aws_route53_record" "aws_rke2_record_ingress" {
-  zone_id = var.hosted_zone_id
+  zone_id = aws_route53_zone.aws_rke2_zone.zone_id
   name    = "*"
   type    = "A"
   alias {

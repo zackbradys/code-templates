@@ -5,11 +5,11 @@ resource "aws_instance" "aws_ec2_instance_control" {
 
   vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
   subnet_id              = element([aws_subnet.aws_rke2_private_subnet1.id], count.index % 1)
-  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
+  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_control.name
   key_name               = var.key_pair_name
-  depends_on             = [aws_nat_gateway.aws-rke2-ngw]
+  depends_on             = [aws_nat_gateway.aws_rke2_ngw]
 
-  user_data = templatefile("${var.user_data_control}", {
+  user_data = templatefile("scripts/control-node.sh", {
     DOMAIN          = "${var.domain}"
     TOKEN           = "${var.token}"
     vRKE2           = "${var.vRKE2}"
@@ -25,7 +25,7 @@ resource "aws_instance" "aws_ec2_instance_control" {
   })
 
   tags = {
-    Name = "${var.instance_name_control}-0${count.index + 1}"
+    Name = "${var.prefix}-cp-0${count.index + 1}"
   }
 
   root_block_device {
@@ -35,23 +35,23 @@ resource "aws_instance" "aws_ec2_instance_control" {
     delete_on_termination = var.delete_on_termination
 
     tags = {
-      Name = "${var.instance_name_control}-volume-0${count.index + 1}"
+      Name = "${var.prefix}-cp-volume-0${count.index + 1}"
     }
   }
 }
 
 resource "aws_instance" "aws_ec2_instance_controls" {
   ami           = var.ami_id
-  instance_type = var.instance_type_control
+  instance_type = var.instance_type_controls
   count         = var.number_of_instances_controls
 
   vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
   subnet_id              = element([aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 2)
-  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_control.name
+  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_control.name
   key_name               = var.key_pair_name
-  depends_on             = [aws_instance.aws_ec2_instance_control, aws_nat_gateway.aws-rke2-ngw]
+  depends_on             = [aws_instance.aws_ec2_instance_control, aws_nat_gateway.aws_rke2_ngw]
 
-  user_data = templatefile("${var.user_data_controls}", {
+  user_data = templatefile("scripts/control-nodes.sh", {
     DOMAIN          = "${var.domain}"
     TOKEN           = "${var.token}"
     vRKE2           = "${var.vRKE2}"
@@ -61,7 +61,7 @@ resource "aws_instance" "aws_ec2_instance_controls" {
   })
 
   tags = {
-    Name = "${var.instance_name_controls}-0${count.index + 1}"
+    Name = "${var.prefix}-cps-0${count.index + 1}"
   }
 
   root_block_device {
@@ -71,7 +71,7 @@ resource "aws_instance" "aws_ec2_instance_controls" {
     delete_on_termination = var.delete_on_termination
 
     tags = {
-      Name = "${var.instance_name_controls}-volume-0${count.index + 1}"
+      Name = "${var.prefix}-cps-volume-0${count.index + 1}"
     }
   }
 }
@@ -83,11 +83,11 @@ resource "aws_instance" "aws_ec2_instance_worker" {
 
   vpc_security_group_ids = [aws_security_group.aws_rke2_sg.id]
   subnet_id              = element([aws_subnet.aws_rke2_private_subnet1.id, aws_subnet.aws_rke2_private_subnet2.id, aws_subnet.aws_rke2_private_subnet3.id], count.index % 3)
-  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_rke2_worker.name
+  iam_instance_profile   = aws_iam_instance_profile.aws_iam_profile_worker.name
   key_name               = var.key_pair_name
-  depends_on             = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls, aws_nat_gateway.aws-rke2-ngw]
+  depends_on             = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls, aws_nat_gateway.aws_rke2_ngw]
 
-  user_data = templatefile("${var.user_data_workers}", {
+  user_data = templatefile("scripts/worker-nodes.sh", {
     DOMAIN          = "${var.domain}"
     TOKEN           = "${var.token}"
     vRKE2           = "${var.vRKE2}"
@@ -97,7 +97,7 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   })
 
   tags = {
-    Name = "${var.instance_name_worker}-0${count.index + 1}"
+    Name = "${var.prefix}-wk-0${count.index + 1}"
   }
 
   root_block_device {
@@ -107,7 +107,7 @@ resource "aws_instance" "aws_ec2_instance_worker" {
     delete_on_termination = var.delete_on_termination
 
     tags = {
-      Name = "${var.instance_name_worker}-volume-0${count.index + 1}"
+      Name = "${var.prefix}-wk-volume-0${count.index + 1}"
     }
   }
 }
@@ -121,10 +121,10 @@ resource "aws_instance" "aws_ec2_instance_bastion" {
   subnet_id                   = element([aws_subnet.aws_rke2_public_subnet1.id, aws_subnet.aws_rke2_public_subnet2.id, aws_subnet.aws_rke2_public_subnet3.id], count.index % 3)
   associate_public_ip_address = var.associate_public_ip_address
   key_name                    = var.key_pair_name
-  depends_on                  = [aws_nat_gateway.aws-rke2-ngw]
+  depends_on                  = [aws_nat_gateway.aws_rke2_ngw]
 
   tags = {
-    Name = "${var.instance_name_bastion}-0${count.index + 1}"
+    Name = "${var.prefix}-bastion-0${count.index + 1}"
   }
 
   root_block_device {
@@ -134,7 +134,7 @@ resource "aws_instance" "aws_ec2_instance_bastion" {
     delete_on_termination = var.delete_on_termination
 
     tags = {
-      Name = "${var.instance_name_bastion}-volume-0${count.index + 1}"
+      Name = "${var.prefix}-bastion-volume-0${count.index + 1}"
     }
   }
 }

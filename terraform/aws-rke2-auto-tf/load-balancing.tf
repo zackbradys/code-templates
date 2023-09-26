@@ -5,7 +5,7 @@ resource "aws_elb" "aws_rke2_lb" {
   desync_mitigation_mode      = "defensive"
   idle_timeout                = 60
   internal                    = false
-  name                        = "aws-rke2-k8s-lb"
+  name                        = "${var.prefix}-k8s-lb"
   security_groups             = [aws_security_group.aws_rke2_sg.id]
   subnets                     = [aws_subnet.aws_rke2_public_subnet1.id, aws_subnet.aws_rke2_public_subnet2.id, aws_subnet.aws_rke2_public_subnet3.id]
   depends_on                  = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls]
@@ -65,7 +65,7 @@ resource "aws_elb" "aws_rke2_ingress_lb" {
   desync_mitigation_mode      = "defensive"
   idle_timeout                = 60
   internal                    = false
-  name                        = "aws-rke2-ingress-lb"
+  name                        = "${var.prefix}-ingress-lb"
   security_groups             = [aws_security_group.aws_rke2_sg.id]
   subnets                     = [aws_subnet.aws_rke2_public_subnet1.id, aws_subnet.aws_rke2_public_subnet2.id, aws_subnet.aws_rke2_public_subnet3.id]
   depends_on                  = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls, aws_instance.aws_ec2_instance_worker]
