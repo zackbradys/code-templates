@@ -52,6 +52,7 @@ variable "CarbideLicense" {
 ### Optional Variables
 variable "token" {
   default     = "awsRKE2terraform"
+<<<<<<< Updated upstream
   type        = string
   description = "(Optional) The RKE2 Cluster Join Token to use for the cluster(s)."
 }
@@ -95,6 +96,51 @@ variable "vCarbide" {
 variable "ami_id" {
   default     = "ami-09c77dc92e45bc3ea"
   type        = string
+=======
+  type        = string
+  description = "(Optional) The RKE2 Cluster Join Token to use for the cluster(s)."
+}
+
+variable "vRKE2" {
+  default     = "v1.25"
+  type        = string
+  description = "(Optional) The RKE2 Version to use for the clusters(s)."
+}
+
+variable "vRancher" {
+  default     = "2.7.6"
+  type        = string
+  description = "(Optional) The Rancher Version to use for the clusters(s)."
+}
+
+variable "vLonghorn" {
+  default     = "1.5.1"
+  type        = string
+  description = "(Optional) The Longhorn Version to use for the clusters(s)."
+}
+
+variable "vNeuVector" {
+  default     = "2.6.2"
+  type        = string
+  description = "(Optional) The NeuVector Version to use for the clusters(s)."
+}
+
+variable "vCertManager" {
+  default     = "1.7.1"
+  type        = string
+  description = "(Optional) The Cert Manager Version to use for the clusters(s)."
+}
+
+variable "vCarbide" {
+  default     = "0.1.1"
+  type        = string
+  description = "(Optional) The Carbide Version to use for the clusters(s)."
+}
+
+variable "ami_id" {
+  default     = "ami-0fe64c0692c69d851"
+  type        = string
+>>>>>>> Stashed changes
   description = "(Optional) The AWS AMI ID to use for the instance(s)."
 }
 
@@ -131,7 +177,11 @@ variable "instance_type_control" {
 }
 
 variable "instance_type_controls" {
+<<<<<<< Updated upstream
   default     = "m5.xlarge"
+=======
+  default     = "m6a.xlarge"
+>>>>>>> Stashed changes
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }

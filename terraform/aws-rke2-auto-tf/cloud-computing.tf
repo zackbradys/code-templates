@@ -9,7 +9,11 @@ resource "aws_instance" "aws_ec2_instance_control" {
   key_name               = var.key_pair_name
   depends_on             = [aws_nat_gateway.aws_rke2_ngw]
 
+<<<<<<< Updated upstream
   user_data = templatefile("scripts/control-node-carbide.sh", {
+=======
+  user_data = templatefile("scripts/control-node.sh", {
+>>>>>>> Stashed changes
     DOMAIN          = "${var.domain}"
     TOKEN           = "${var.token}"
     vRKE2           = "${var.vRKE2}"
@@ -51,7 +55,11 @@ resource "aws_instance" "aws_ec2_instance_controls" {
   key_name               = var.key_pair_name
   depends_on             = [aws_instance.aws_ec2_instance_control, aws_nat_gateway.aws_rke2_ngw]
 
+<<<<<<< Updated upstream
   user_data = templatefile("scripts/control-nodes-carbide.sh", {
+=======
+  user_data = templatefile("scripts/control-nodes.sh", {
+>>>>>>> Stashed changes
     DOMAIN          = "${var.domain}"
     TOKEN           = "${var.token}"
     vRKE2           = "${var.vRKE2}"
@@ -87,7 +95,11 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   key_name               = var.key_pair_name
   depends_on             = [aws_instance.aws_ec2_instance_control, aws_instance.aws_ec2_instance_controls, aws_nat_gateway.aws_rke2_ngw]
 
+<<<<<<< Updated upstream
   user_data = templatefile("scripts/worker-nodes-carbide.sh", {
+=======
+  user_data = templatefile("scripts/worker-nodes.sh", {
+>>>>>>> Stashed changes
     DOMAIN          = "${var.domain}"
     TOKEN           = "${var.token}"
     vRKE2           = "${var.vRKE2}"
