@@ -21,13 +21,5 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scrip
 chmod 700 get_helm.sh && ./get_helm.sh
 mv /usr/local/bin/helm /usr/bin/helm
 
-### Update BASHRC with KUBECONFIG/PATH
-cat << EOF >> ~/.bashrc
-export PATH=$PATH:/var/lib/rancher/rke2/bin:/usr/local/bin/
-EOF
-
-### Source BASHRC
-source ~/.bashrc
-
 ### Verify End of Script
 date >> /opt/rancher/COMPLETED

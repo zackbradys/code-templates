@@ -29,7 +29,7 @@ variable "ami_id" {
 }
 
 variable "instance_type" {
-  default     = "m6a.xlarge"
+  default     = "m5.xlarge"
   type        = string
   description = "(Required) The AWS instance type to use for the instance(s)."
 }
