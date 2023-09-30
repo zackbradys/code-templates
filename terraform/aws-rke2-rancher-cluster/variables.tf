@@ -49,7 +49,13 @@ variable "CarbideLicense" {
   description = "(Required) The Carbide License to use for the clusters(s)."
 }
 
-### Optional Variables
+### Common Optional Variables
+variable "ami_id" {
+  default     = "ami-0fe64c0692c69d851"
+  type        = string
+  description = "(Optional) The AWS AMI ID to use for the instance(s)."
+}
+
 variable "token" {
   default     = "awsRKE2terraform"
   type        = string
@@ -57,13 +63,13 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.25.13+rke2r1"
+  default     = "v1.25.14+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default     = "2.7.6"
+  default     = "2.7.7"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
@@ -90,12 +96,6 @@ variable "vCarbide" {
   default     = "0.1.1"
   type        = string
   description = "(Optional) The Carbide Version to use for the clusters(s)."
-}
-
-variable "ami_id" {
-  default     = "ami-09c77dc92e45bc3ea"
-  type        = string
-  description = "(Optional) The AWS AMI ID to use for the instance(s)."
 }
 
 ### Networking Variables
