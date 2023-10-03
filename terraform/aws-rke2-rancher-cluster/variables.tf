@@ -51,7 +51,7 @@ variable "CarbideLicense" {
 
 ### Common Optional Variables
 variable "ami_id" {
-  default     = "ami-0fe64c0692c69d851"
+  default     = "ami-09c77dc92e45bc3ea"
   type        = string
   description = "(Optional) The AWS AMI ID to use for the instance(s)."
 }
