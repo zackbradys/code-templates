@@ -69,7 +69,7 @@ variable "vRKE2" {
 }
 
 variable "vRancher" {
-  default     = "2.7.6"
+  default     = "2.7.8"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
@@ -125,25 +125,25 @@ variable "associate_public_ip_address" {
 
 ### Instance Variables
 variable "instance_type_control" {
-  default     = "m5.xlarge"
+  default     = "m5.2xlarge"
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }
 
 variable "instance_type_controls" {
-  default     = "m5.xlarge"
+  default     = "m5.2xlarge"
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }
 
 variable "instance_type_worker" {
-  default     = "m5.xlarge"
+  default     = "m5.2xlarge"
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }
 
 variable "instance_type_bastion" {
-  default     = "t3.medium"
+  default     = "c5.large"
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }
@@ -186,7 +186,7 @@ variable "volume_size_controls" {
 }
 
 variable "volume_size_worker" {
-  default     = 256
+  default     = 128
   type        = number
   description = "(Optional) The AWS Volume Size to use for the instance(s)."
 }
