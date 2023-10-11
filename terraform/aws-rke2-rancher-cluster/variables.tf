@@ -81,13 +81,13 @@ variable "vLonghorn" {
 }
 
 variable "vNeuVector" {
-  default     = "2.6.2"
+  default     = "2.6.3"
   type        = string
   description = "(Optional) The NeuVector Version to use for the clusters(s)."
 }
 
 variable "vCertManager" {
-  default     = "1.7.1"
+  default     = "1.13.1"
   type        = string
   description = "(Optional) The Cert Manager Version to use for the clusters(s)."
 }
