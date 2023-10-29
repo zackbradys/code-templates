@@ -29,7 +29,7 @@ variable "ami_id" {
 }
 
 variable "instance_type" {
-  default     = "m5.xlarge"
+  default     = "c5.xlarge"
   type        = string
   description = "(Required) The AWS instance type to use for the instance(s)."
 }
@@ -65,7 +65,7 @@ variable "associate_public_ip_address" {
 }
 
 variable "volume_size" {
-  default     = 64
+  default     = 256
   type        = number
   description = "(Required) The AWS volume size to use for the instance(s)."
 }

@@ -22,6 +22,8 @@ resource "aws_instance" "aws_ec2_instance_control" {
     CarbideUsername = "${var.CarbideUsername}"
     CarbidePassword = "${var.CarbidePassword}"
     CarbideLicense  = "${var.CarbideLicense}"
+    AccessKey       = "${var.access_key}"
+    SecretKey       = "${var.secret_key}"
   })
 
   tags = {

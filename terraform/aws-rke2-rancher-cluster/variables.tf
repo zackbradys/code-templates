@@ -69,7 +69,7 @@ variable "vRKE2" {
 }
 
 variable "vRancher" {
-  default     = "2.7.8"
+  default     = "2.7.6"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }

@@ -10,7 +10,7 @@ mv /usr/local/bin/aws /usr/bin/aws
 ### Install Cosign
 mkdir -p /opt/rancher/cosign
 cd /opt/rancher/cosign
-curl -#OL https://github.com/sigstore/cosign/releases/download/v1.8.0/cosign-linux-amd64
+curl -#OL https://github.com/sigstore/cosign/releases/download/v2.2.0/cosign-linux-amd64
 mv cosign-linux-amd64 /usr/bin/cosign
 chmod 755 /usr/bin/cosign
 
