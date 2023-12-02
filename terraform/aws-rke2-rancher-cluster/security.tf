@@ -33,28 +33,6 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress1" {
 
 resource "aws_security_group_rule" "aws_rke2_sg_ingress2" {
   type              = "ingress"
-  from_port         = 6443
-  to_port           = 6443
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.aws_rke2_sg.id
-  depends_on        = [aws_security_group.aws_rke2_sg]
-  description       = "Allow RKE2 Agent Communication"
-}
-
-resource "aws_security_group_rule" "aws_rke2_sg_ingress3" {
-  type              = "ingress"
-  from_port         = 9345
-  to_port           = 9345
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.aws_rke2_sg.id
-  depends_on        = [aws_security_group.aws_rke2_sg]
-  description       = "Allow RKE2 Server Communication"
-}
-
-resource "aws_security_group_rule" "aws_rke2_sg_ingress4" {
-  type              = "ingress"
   from_port         = 80
   to_port           = 80
   protocol          = "TCP"
@@ -64,7 +42,7 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress4" {
   description       = "Allow Ingress Communication"
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_ingress5" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress3" {
   type              = "ingress"
   from_port         = 443
   to_port           = 443
@@ -75,29 +53,18 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress5" {
   description       = "Allow Secure Ingress Communication"
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_ingress6" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress4" {
   type              = "ingress"
-  from_port         = 30000
-  to_port           = 32767
+  from_port         = 2376
+  to_port           = 2376
   protocol          = "TCP"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.aws_rke2_sg.id
   depends_on        = [aws_security_group.aws_rke2_sg]
-  description       = "Allow RKE2 Miscellanous Communication"
+  description       = "Allow Rancher Provisioning Communication"
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_ingress7" {
-  type              = "ingress"
-  from_port         = 10250
-  to_port           = 10250
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.aws_rke2_sg.id
-  depends_on        = [aws_security_group.aws_rke2_sg]
-  description       = "Allow RKE2 Kubelet Communication"
-}
-
-resource "aws_security_group_rule" "aws_rke2_sg_ingress8" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress5" {
   type              = "ingress"
   from_port         = 2379
   to_port           = 2380
@@ -108,7 +75,18 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress8" {
   description       = "Allow RKE2 ECTD Communication"
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_ingress9" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress6" {
+  type              = "ingress"
+  from_port         = 4789
+  to_port           = 4789
+  protocol          = "UDP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow RKE2 Calico Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress7" {
   type              = "ingress"
   from_port         = 5473
   to_port           = 5473
@@ -117,6 +95,28 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress9" {
   security_group_id = aws_security_group.aws_rke2_sg.id
   depends_on        = [aws_security_group.aws_rke2_sg]
   description       = "Allow RKE2 Calico Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress8" {
+  type              = "ingress"
+  from_port         = 6443
+  to_port           = 6443
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow RKE2 Agent Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress9" {
+  type              = "ingress"
+  from_port         = 8443
+  to_port           = 8443
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow Validation Ingress Communication"
 }
 
 resource "aws_security_group_rule" "aws_rke2_sg_ingress10" {
@@ -132,8 +132,74 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress10" {
 
 resource "aws_security_group_rule" "aws_rke2_sg_ingress11" {
   type              = "ingress"
-  from_port         = 11443
-  to_port           = 11443
+  from_port         = 9345
+  to_port           = 9345
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow RKE2 Server Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress12" {
+  type              = "ingress"
+  from_port         = 9796
+  to_port           = 9796
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow Rancher Monitoring Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress13" {
+  type              = "ingress"
+  from_port         = 10250
+  to_port           = 10252
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow RKE2 Kubelet Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress14" {
+  type              = "ingress"
+  from_port         = 10256
+  to_port           = 10256
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow RKE2 KubeProxy Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress15" {
+  type              = "ingress"
+  from_port         = 30000
+  to_port           = 32767
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow RKE2 Miscellanous Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress16" {
+  type              = "ingress"
+  from_port         = 30000
+  to_port           = 32767
+  protocol          = "UDP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.aws_rke2_sg.id
+  depends_on        = [aws_security_group.aws_rke2_sg]
+  description       = "Allow RKE2 Miscellanous Communication"
+}
+
+resource "aws_security_group_rule" "aws_rke2_sg_ingress17" {
+  type              = "ingress"
+  from_port         = 10443
+  to_port           = 10443
   protocol          = "TCP"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.aws_rke2_sg.id
@@ -141,10 +207,10 @@ resource "aws_security_group_rule" "aws_rke2_sg_ingress11" {
   description       = "Allow Rancher NeuVector Communication"
 }
 
-resource "aws_security_group_rule" "aws_rke2_sg_ingress12" {
+resource "aws_security_group_rule" "aws_rke2_sg_ingress18" {
   type              = "ingress"
-  from_port         = 10443
-  to_port           = 10443
+  from_port         = 11443
+  to_port           = 11443
   protocol          = "TCP"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.aws_rke2_sg.id
