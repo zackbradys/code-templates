@@ -69,7 +69,7 @@ variable "vRKE2" {
 }
 
 variable "vRancher" {
-  default     = "2.8.0"
+  default     = "2.7.9"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
@@ -192,7 +192,7 @@ variable "volume_size_worker" {
 }
 
 variable "volume_size_bastion" {
-  default     = 32
+  default     = 64
   type        = number
   description = "(Optional) The AWS Volume Size to use for the instance(s)."
 }
