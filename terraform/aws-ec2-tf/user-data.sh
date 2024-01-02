@@ -18,7 +18,7 @@ chmod 755 /usr/bin/cosign
 mkdir -p /opt/rancher/helm
 cd /opt/rancher/helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh && ./get_helm.sh
+chmod 755 get_helm.sh && ./get_helm.sh
 mv /usr/local/bin/helm /usr/bin/helm
 
 ### Verify End of Script
