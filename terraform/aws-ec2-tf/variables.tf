@@ -40,12 +40,6 @@ variable "number_of_instances" {
   description = "(Required) The number of AWS ec2 instances to create on deployment."
 }
 
-variable "user_data" {
-  default     = "user-data.sh"
-  type        = string
-  description = "(Required) The AWS user data to use for the instance(s)."
-}
-
 variable "security_group_id" {
   default     = "sg-047e30edd6c877dc1"
   type        = string

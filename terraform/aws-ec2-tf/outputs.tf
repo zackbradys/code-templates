@@ -4,6 +4,6 @@ output "timestamp" {
 }
 
 output "instance_ips" {
-  value       = ["${aws_instance.aws_ec2_instance.*.public_ip}"]
+  value       = [aws_instance.aws_ec2_instance.*.public_ip]
   description = "Public IP for the EC2 Instance"
 }

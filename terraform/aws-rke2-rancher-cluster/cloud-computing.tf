@@ -10,20 +10,20 @@ resource "aws_instance" "aws_ec2_instance_control" {
   depends_on             = [aws_nat_gateway.aws_rke2_ngw]
 
   user_data = templatefile("scripts/control-node-carbide.sh", {
-    DOMAIN          = "${var.domain}"
-    TOKEN           = "${var.token}"
-    vRKE2           = "${var.vRKE2}"
-    vRancher        = "${var.vRancher}"
-    vLonghorn       = "${var.vLonghorn}"
-    vNeuVector      = "${var.vNeuVector}"
-    vCertManager    = "${var.vCertManager}"
-    vCarbide        = "${var.vCarbide}"
-    CarbideRegistry = "${var.CarbideRegistry}"
-    CarbideUsername = "${var.CarbideUsername}"
-    CarbidePassword = "${var.CarbidePassword}"
-    CarbideLicense  = "${var.CarbideLicense}"
-    AccessKey       = "${var.access_key}"
-    SecretKey       = "${var.secret_key}"
+    DOMAIN          = var.domain
+    TOKEN           = var.token
+    vRKE2           = var.vRKE2
+    vRancher        = var.vRancher
+    vLonghorn       = var.vLonghorn
+    vNeuVector      = var.vNeuVector
+    vCertManager    = var.vCertManager
+    vCarbide        = var.vCarbide
+    CarbideRegistry = var.CarbideRegistry
+    CarbideUsername = var.CarbideUsername
+    CarbidePassword = var.CarbidePassword
+    CarbideLicense  = var.CarbideLicense
+    AccessKey       = var.access_key
+    SecretKey       = var.secret_key
   })
 
   tags = {
@@ -54,12 +54,12 @@ resource "aws_instance" "aws_ec2_instance_controls" {
   depends_on             = [aws_instance.aws_ec2_instance_control]
 
   user_data = templatefile("scripts/control-nodes-carbide.sh", {
-    DOMAIN          = "${var.domain}"
-    TOKEN           = "${var.token}"
-    vRKE2           = "${var.vRKE2}"
-    CarbideRegistry = "${var.CarbideRegistry}"
-    CarbideUsername = "${var.CarbideUsername}"
-    CarbidePassword = "${var.CarbidePassword}"
+    DOMAIN          = var.domain
+    TOKEN           = var.token
+    vRKE2           = var.vRKE2
+    CarbideRegistry = var.CarbideRegistry
+    CarbideUsername = var.CarbideUsername
+    CarbidePassword = var.CarbidePassword
   })
 
   tags = {
@@ -90,12 +90,12 @@ resource "aws_instance" "aws_ec2_instance_worker" {
   depends_on             = [aws_instance.aws_ec2_instance_controls]
 
   user_data = templatefile("scripts/worker-nodes-carbide.sh", {
-    DOMAIN          = "${var.domain}"
-    TOKEN           = "${var.token}"
-    vRKE2           = "${var.vRKE2}"
-    CarbideRegistry = "${var.CarbideRegistry}"
-    CarbideUsername = "${var.CarbideUsername}"
-    CarbidePassword = "${var.CarbidePassword}"
+    DOMAIN          = var.domain
+    TOKEN           = var.token
+    vRKE2           = var.vRKE2
+    CarbideRegistry = var.CarbideRegistry
+    CarbideUsername = var.CarbideUsername
+    CarbidePassword = var.CarbidePassword
   })
 
   tags = {
