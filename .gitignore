@@ -9,9 +9,4 @@
 **/terraform.tfvars
 **/*.tfstate
 **/*.tfstate.*
-**/control-node-carbide.sh
-**/control-nodes-carbide.sh
-**/worker-nodes-carbide.sh
-**/control-node.sh
-**/control-nodes.sh
-**/worker-nodes.sh
+**/scripts/*

@@ -29,17 +29,17 @@ variable "prefix" {
   description = "(Required) The prefix/name for all provisioned resources."
 }
 
-variable "CarbideRegistry" {
+variable "Registry" {
   type        = string
   description = "(Required) The Carbide Registry to use for the clusters(s)."
 }
 
-variable "CarbideUsername" {
+variable "RegistryUsername" {
   type        = string
   description = "(Required) The Carbide Username to use for the clusters(s)."
 }
 
-variable "CarbidePassword" {
+variable "RegistryPassword" {
   type        = string
   description = "(Required) The Carbide Password to use for the clusters(s)."
 }
