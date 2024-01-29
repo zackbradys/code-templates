@@ -1,0 +1,118 @@
+### Install Keycloak
+kubectl create namespace keycloak-system
+
+kubectl label namespace keycloak-system pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/audit-version=latest pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/enforce-version=latest pod-security.kubernetes.io/warn=privileged pod-security.kubernetes.io/warn-version=latest
+
+kubectl get secret tls-certs -n cert-manager -o yaml | sed 's/namespace: .*/namespace: keycloak-system/' | kubectl apply -f -
+
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/23.0.5/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/23.0.5/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
+
+kubectl apply -n keycloak-system -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/23.0.5/kubernetes/kubernetes.yml
+
+kubectl apply -f - << EOF
+### postgres
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+  namespace: keycloak-system
+spec:
+  serviceName: postgresql-service
+  replicas: 3
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres:latest
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-credentials
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-credentials
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-credentials
+                  key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgresql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-service
+  namespace: keycloak-system
+spec:
+  selector:
+    app: postgresql
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgresql-credentials
+  namespace: keycloak-system
+type: Opaque
+stringData:
+  POSTGRES_DB: keycloak
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: Pa22word
+EOF
+
+sleep 60
+
+kubectl apply -f - << EOF
+### keycloak opeartor
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+  namespace: keycloak-system
+spec:
+  instances: 1
+  db:
+    vendor: postgres
+    host: postgresql-service
+    usernameSecret:
+      name: postgresql-credentials
+      key: POSTGRES_USER
+    passwordSecret:
+      name: postgresql-credentials
+      key: POSTGRES_PASSWORD
+  http:
+    tlsSecret: tls-certs
+  hostname:
+    hostname: keycloak.ranchers.io
+EOF
+
+kubectl get keycloaks/keycloak -n keycloak-system -o go-template='{{range .status.conditions}}CONDITION: {{.type}}{{"\n"}}  STATUS: {{.status}}{{"\n"}}  MESSAGE: {{.message}}{{"\n"}}{{end}}'
