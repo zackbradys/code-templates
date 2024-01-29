@@ -1,3 +1,5 @@
+### keycloak
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -10,6 +12,10 @@ spec:
   selector:
     matchLabels:
       app: keycloak
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -20,17 +26,13 @@ spec:
         image: quay.io/keycloak/keycloak
         args: ["start-dev"]
         env:
-        - name: KEYCLOAK_URL
-          value: "keycloak.ranchers.io"
-        - name: KEYCLOAK_HOST
+        - name: KC_HOSTNAME
           value: "keycloak.ranchers.io"
         - name: KEYCLOAK_ADMIN
           value: "admin"
         - name: KEYCLOAK_ADMIN_PASSWORD
           value: "Pa22word"
         - name: PROXY_ADDRESS_FORWARDING
-          value: "true"
-        - name: KEYCLOAK_DISABLE-TRUST-MANAGER
           value: "true"
         - name: KC_PROXY
           value: "edge"
@@ -40,7 +42,6 @@ spec:
         volumeMounts:
         - name: keycloak-data
           mountPath: /opt/data
-          subPath:
       volumes:
       - name: keycloak-data
         persistentVolumeClaim:

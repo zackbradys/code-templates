@@ -1,5 +1,4 @@
-kubectl apply -f - << EOF
-### postgres
+### postgresql
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -12,6 +11,10 @@ spec:
   selector:
     matchLabels:
       app: postgresql
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -75,8 +78,6 @@ stringData:
   POSTGRES_DB: keycloak
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: Pa22word
-EOF
-kubectl apply -f - << EOF
 ### keycloak
 ---
 apiVersion: apps/v1
@@ -105,6 +106,11 @@ spec:
       containers:
       - name: keycloak
         image: quay.io/keycloak/keycloak
+        readinessProbe:
+          exec:
+            command:
+            - sleep
+            - "60"
         args: ["--verbose", "start"]
         env:
         - name: KC_DB

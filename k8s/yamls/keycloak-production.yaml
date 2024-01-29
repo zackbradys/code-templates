@@ -1,11 +1,4 @@
-kubectl create namespace keycloak-system
-
-kubectl label namespace keycloak-system pod-security.kubernetes.io/audit=privileged pod-security.kubernetes.io/audit-version=latest pod-security.kubernetes.io/enforce=privileged pod-security.kubernetes.io/enforce-version=latest pod-security.kubernetes.io/warn=privileged pod-security.kubernetes.io/warn-version=latest
-
-kubectl get secret tls-certs -n cert-manager -o yaml | sed 's/namespace: .*/namespace: keycloak-system/' | kubectl apply -f -
-
-kubectl apply -f - << EOF
-### postgres
+### postgresql
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -13,11 +6,15 @@ metadata:
   name: postgresql
   namespace: keycloak-system
 spec:
-  serviceName: postgresql-service
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: postgresql
+  serviceName: postgresql-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -25,7 +22,7 @@ spec:
     spec:
       containers:
         - name: postgresql
-          image: postgres:latest
+          image: postgres:15
           env:
             - name: POSTGRES_DB
               valueFrom:
@@ -67,9 +64,11 @@ spec:
   selector:
     app: postgresql
   ports:
-    - port: 5432
+    - name: postgresql
+      port: 5432
       targetPort: 5432
   type: ClusterIP
+  clusterIP: None
 ---
 apiVersion: v1
 kind: Secret
@@ -81,11 +80,6 @@ stringData:
   POSTGRES_DB: keycloak
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: Pa22word
-EOF
-
-sleep 60
-
-kubectl apply -f - << EOF
 ### keycloak
 ---
 apiVersion: apps/v1
@@ -96,10 +90,14 @@ metadata:
   labels:
     app: keycloak
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: keycloak
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -110,6 +108,11 @@ spec:
       containers:
       - name: keycloak
         image: quay.io/keycloak/keycloak
+        readinessProbe:
+          exec:
+            command:
+            - sleep
+            - "60"
         args: ["start"]
         env:
         - name: KC_DB
@@ -151,25 +154,15 @@ spec:
           value: "kubernetes"
         - name: jgroups.dns.query
           value: "keycloak-headless-service.keycloak-system.svc.cluster.local"
-        - name: CACHE_OWNERS_COUNT
-          value: "3"
-        - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
-          value: "3"
         - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+        - name: KC_HTTP_ENABLED
           value: "true"
         - name: KC_PROXY
           value: "edge"
         - name: KC_HEALTH_ENABLED
           value: "true"
         - name: KC_METRICS_ENABLED
-          value: "true"
-        - name: KC_HOSTNAME_STRICT
-          value: "false"
-        - name: KC_HOSTNAME_STRICT_BACKCHANNEL
-          value: "false"
-        - name: KC_HOSTNAME_STRICT_HTTPS
-          value: "false"
-        - name: KC_HTTP_ENABLED
           value: "true"
         ports:
         - name: http
@@ -213,6 +206,7 @@ metadata:
 spec:
   selector:
     app: keycloak
+  type: ClusterIP
   clusterIP: None
   publishNotReadyAddresses: true
 ---
@@ -223,6 +217,12 @@ metadata:
     app: keycloak
   name: keycloak
   namespace: keycloak-system
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "keycloak"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
   rules:
   - host: keycloak.ranchers.io
@@ -263,7 +263,7 @@ metadata:
   namespace: keycloak-system
 rules:
 - apiGroups: ["*"]
-  resources: ["*"]
+  resources: ["pods"]
   verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
