@@ -100,17 +100,12 @@ spec:
       containers:
       - name: keycloak
         image: quay.io/keycloak/keycloak
-        readinessProbe:
-          exec:
-            command:
-            - sleep
-            - "60"
         args: ["start"]
         env:
         - name: KC_DB
           value: "postgres"
         - name: KC_DB_URL
-          value: "jdbc:postgresql://postgresql-service:5432/keycloak"
+          value: "jdbc:postgresql://postgresql-headless:5432/keycloak"
         - name: POSTGRES_DB
           valueFrom:
             secretKeyRef:
