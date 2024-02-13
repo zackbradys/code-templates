@@ -63,31 +63,31 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.26.12+rke2r1"
+  default     = "v1.26.13+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default     = "2.7.9"
+  default     = "2.8.2"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
 
 variable "vLonghorn" {
-  default     = "1.5.3"
+  default     = "1.6.0"
   type        = string
   description = "(Optional) The Longhorn Version to use for the clusters(s)."
 }
 
 variable "vNeuVector" {
-  default     = "2.6.6"
+  default     = "2.7.2"
   type        = string
   description = "(Optional) The NeuVector Version to use for the clusters(s)."
 }
 
 variable "vCertManager" {
-  default     = "1.13.3"
+  default     = "1.14.2"
   type        = string
   description = "(Optional) The Cert Manager Version to use for the clusters(s)."
 }
@@ -125,13 +125,13 @@ variable "associate_public_ip_address" {
 
 ### Instance Variables
 variable "instance_type_control" {
-  default     = "m5.xlarge"
+  default     = "m5.2xlarge"
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }
 
 variable "instance_type_controls" {
-  default     = "m5.xlarge"
+  default     = "m5.2xlarge"
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }

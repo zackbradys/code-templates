@@ -10,11 +10,7 @@ spec:
   selector:
     matchLabels:
       app: postgresql
-  serviceName: postgresql-service
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
+  serviceName: postgresql-headless
   template:
     metadata:
       labels:
@@ -58,7 +54,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgresql-service
+  name: postgresql-headless
   namespace: keycloak-system
 spec:
   selector:
@@ -94,10 +90,6 @@ spec:
   selector:
     matchLabels:
       app: keycloak
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -153,7 +145,7 @@ spec:
         - name: KC_CACHE_STACK
           value: "kubernetes"
         - name: jgroups.dns.query
-          value: "keycloak-headless-service.keycloak-system.svc.cluster.local"
+          value: "keycloak-headless.keycloak-system.svc.cluster.local"
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
         - name: KC_HTTP_ENABLED
@@ -174,6 +166,26 @@ spec:
         - name: infinispan
           containerPort: 7800
           protocol: UDP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: keycloak
+  namespace: keycloak-system
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: keycloak
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
 ---
 apiVersion: v1
 kind: Service
@@ -199,7 +211,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: keycloak-headless-service
+  name: keycloak-headless
   namespace: keycloak-system
   labels:
     app: keycloak
@@ -271,7 +283,7 @@ kind: RoleBinding
 metadata:
   annotations:
     name: keycloak
-  name: keycloak-role-binding
+  name: keycloak-kubeping-role-binding
   namespace: keycloak-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -294,4 +306,3 @@ spec:
   label: Keycloak
   sideLabel: KEYCLOAK
   toURL: https://keycloak.ranchers.io
-EOF

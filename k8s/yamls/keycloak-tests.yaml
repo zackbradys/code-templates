@@ -286,4 +286,3 @@ spec:
   label: Keycloak
   sideLabel: KEYCLOAK
   toURL: https://keycloak.ranchers.io
-EOF
