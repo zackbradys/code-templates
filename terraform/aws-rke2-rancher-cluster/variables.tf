@@ -63,7 +63,7 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.26.13+rke2r1"
+  default     = "v1.27.10+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
@@ -81,7 +81,7 @@ variable "vLonghorn" {
 }
 
 variable "vNeuVector" {
-  default     = "2.7.2"
+  default     = "2.7.3"
   type        = string
   description = "(Optional) The NeuVector Version to use for the clusters(s)."
 }
