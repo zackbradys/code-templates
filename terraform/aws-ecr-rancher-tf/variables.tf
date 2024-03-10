@@ -116,7 +116,7 @@ variable "name" {
     "jetstack/cert-manager-cainjector",
     "jetstack/cert-manager-controller",
     "jetstack/cert-manager-webhook",
-    "jetstack/cert-manager-ctl",
+    "jetstack/cert-manager-startupapicheck",
     "rancher/aks-operator",
     "rancher/backup-restore-operator",
     "rancher/calico-cni",
