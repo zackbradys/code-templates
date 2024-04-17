@@ -17,7 +17,6 @@ resource "aws_instance" "aws_ec2_instance_control" {
     vLonghorn        = var.vLonghorn
     vNeuVector       = var.vNeuVector
     vCertManager     = var.vCertManager
-    vCarbide         = var.vCarbide
     CarbideLicense   = var.CarbideLicense
     Registry         = var.Registry
     RegistryUsername = var.RegistryUsername
