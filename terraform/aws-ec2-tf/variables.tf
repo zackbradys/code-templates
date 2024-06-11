@@ -41,13 +41,13 @@ variable "number_of_instances" {
 }
 
 variable "security_group_id" {
-  default     = "sg-047e30edd6c877dc1"
+  default     = "sg-02723de4b6eb76647"
   type        = string
   description = "(Required) The AWS security group id to use for the instance(s)."
 }
 
 variable "subnet_id" {
-  default     = "subnet-066fd23f61755396e"
+  default     = "subnet-0a71ed6462c6b04fe"
   type        = string
   description = "(Required) The AWS subnet id to use for the instance(s)."
 }
