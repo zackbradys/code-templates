@@ -15,10 +15,10 @@ spec:
   chart: vcluster
   valuesContent: |-
     hostname: ""
-    rancherVersion: "v2.8.2"
+    rancherVersion: "v2.8.3"
     bootstrapPassword: ""
     vcluster:
-      image: docker.io/rancher/k3s:v1.27.10-k3s1
+      image: rancher/k3s:v1.27.13+k3s1
     sync:
       ingresses:
         enabled: "true"
@@ -45,7 +45,7 @@ spec:
           targetNamespace: cert-manager
           repo: https://charts.jetstack.io
           chart: cert-manager
-          version: v1.5.1
+          version: v1.15.0
           helmVersion: v3
           set:
             installCRDs: "true"
@@ -66,7 +66,4 @@ spec:
             replicas: 1
             global.cattle.psp.enabled: "false"
             bootstrapPassword: {{ .Values.bootstrapPassword | quote }}
-            auditLog.level=2
-            auditLog.destination=sidecar
-            useBundledSystemChart=true
           helmVersion: v3
