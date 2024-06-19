@@ -1,16 +1,20 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: encrypted-volume
+  name: longhorn-crypto
   namespace: default
 stringData:
   CRYPTO_KEY_VALUE: "Pa22word"
   CRYPTO_KEY_PROVIDER: "secret"
+  CRYPTO_KEY_CIPHER: "aes-xts-plain64"
+  CRYPTO_KEY_HASH: "sha256"
+  CRYPTO_KEY_SIZE: "256"
+  CRYPTO_PBKDF: "argon2i"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: encrypted-volume
+  name: longhorn-encrypted-volume
   namespace: default
 spec:
   storageClassName: "longhorn-encrypted"
