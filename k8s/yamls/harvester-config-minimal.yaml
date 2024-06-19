@@ -1,0 +1,20 @@
+scheme_version: 1
+os:
+  after_install_chroot_commands:
+    - "rm -f /etc/resolv.conf && echo 'nameserver 1.1.1.1' | sudo tee /etc/resolv.conf"
+    - zypper addrepo http://download.opensuse.org/distribution/leap/15.5/repo/oss/  main
+    - zypper refresh
+    - zypper install -y --no-recommends cryptsetup
+    - zypper clean
+    - zypper removerepo 1
+    - "rm -f /etc/resolv.conf && ln -s /var/run/netconfig/resolv.conf /etc/resolv.conf"
+after-upgrade-chroot_commands:
+    - "rm -f /etc/resolv.conf && echo 'nameserver 1.1.1.1' | sudo tee /etc/resolv.conf"
+    - zypper addrepo http://download.opensuse.org/distribution/leap/15.5/repo/oss/  main
+    - zypper refresh
+    - zypper install -y --no-recommends cryptsetup
+    - zypper clean
+    - zypper removerepo 1
+    - "rm -f /etc/resolv.conf && ln -s /var/run/netconfig/resolv.conf /etc/resolv.conf"
+system_settings:
+  auto-disk-provision-paths: "/dev/sd*"
