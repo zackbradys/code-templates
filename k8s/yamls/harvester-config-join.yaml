@@ -1,7 +1,8 @@
 scheme_version: 1
 token: "$6$fgls6Nv/5eS$iozPi2/3f9SE7cR5mvTlriGkRZRSuhzFs0s6fVWzUXiL19E27hVgAo3mZwCdzlDsiUq1YRJeyPtql6FkPhMZP0"
+server_url: https://10.0.0.10:443
 install:
-  mode: create
+  mode: join
   role: default
   data_disk: /dev/sdb
   device: /dev/sda
