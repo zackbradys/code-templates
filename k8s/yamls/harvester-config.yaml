@@ -1,0 +1,39 @@
+scheme_version: 1
+token: "$6$fgls6Nv/5eS$iozPi2/3f9SE7cR5mvTlriGkRZRSuhzFs0s6fVWzUXiL19E27hVgAo3mZwCdzlDsiUq1YRJeyPtql6FkPhMZP0"
+install:
+  mode: create
+  role: default
+  data_disk: /dev/sdb
+  device: /dev/sda
+  management_interface:
+    method: static
+    ip: 10.0.0.11
+    subnet_mask: 255.255.255.0
+    gateway: 10.0.0.12
+    interfaces:
+      - name: eno1
+        hwAddr: "c8:1f:66:dd:6c:41"
+    bond_options:
+      miimon: "100"
+      mode: active-backup
+  skipchecks: true
+  vip: 10.0.0.10
+  vip_mode: static
+os:
+  hostname: harvester.7310hargrove.court
+  dns_servers:
+    - 10.0.0.12
+    - 1.1.1.1
+  ntp_servers:
+    - time.nist.gov
+  password: "$6$fgls6Nv/5eS$iozPi2/3f9SE7cR5mvTlriGkRZRSuhzFs0s6fVWzUXiL19E27hVgAo3mZwCdzlDsiUq1YRJeyPtql6FkPhMZP0"
+  after_install_chroot_commands:
+    - "rm -f /etc/resolv.conf && echo 'nameserver 10.0.0.12' | sudo tee /etc/resolv.conf"
+    - zypper addrepo http://download.opensuse.org/distribution/leap/15.5/repo/oss/  main
+    - zypper refresh
+    - zypper install -y --no-recommends cryptsetup
+    - zypper clean
+    - zypper removerepo 1
+    - "rm -f /etc/resolv.conf && ln -s /var/run/netconfig/resolv.conf /etc/resolv.conf"
+system_settings:
+  auto-disk-provision-paths: "/dev/sd*"
