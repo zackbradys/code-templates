@@ -1,0 +1,38 @@
+scheme_version: 1
+os:
+  after_install_chroot_commands:
+    - "rm -f /etc/resolv.conf && echo 'nameserver 1.1.1.1' | sudo tee /etc/resolv.conf"
+    - zypper addrepo --no-gpgcheck http://download.opensuse.org/distribution/leap/15.5/repo/oss main
+    - zypper refresh
+    - zypper install -y --no-recommends cryptsetup
+    - zypper clean
+    - zypper removerepo 1
+    - "rm -f /etc/resolv.conf && ln -s /var/run/netconfig/resolv.conf /etc/resolv.conf"
+after-upgrade-chroot_commands:
+    - "rm -f /etc/resolv.conf && echo 'nameserver 1.1.1.1' | sudo tee /etc/resolv.conf"
+    - zypper addrepo --no-gpgcheck http://download.opensuse.org/distribution/leap/15.5/repo/oss main
+    - zypper refresh
+    - zypper install -y --no-recommends cryptsetup
+    - zypper clean
+    - zypper removerepo 1
+    - "rm -f /etc/resolv.conf && ln -s /var/run/netconfig/resolv.conf /etc/resolv.conf"
+install:
+  addons:
+    harvester_seeder:
+      enabled: true
+    nvidia_driver_toolkit:
+      enabled: true
+    pcidevices_controller:
+      enabled: true
+    vm_import_controller:
+      enabled: true
+    rancher_logging:
+      enabled: true
+    rancher_monitoring:
+      enabled: true
+system_settings:
+  auto-disk-provision-paths: "/dev/sd*"
+  auto-rotate-rke2-certs: "{"enable":true,"expiringInHours":240}"}"
+  additional-ca: "<ca>"
+  ssl-certificates: "{"ca":"<ca>","privateKey":"<key>","publicCertificate":"<cert>"}"
+  containerd-registry: "{"Mirrors":{"*":{"Endpoints":["<registry>"],"Rewrites":null}},"Configs":{"<registry>":{"Auth":{"Username":"<username>","Password":"<password>","Auth":"","IdentityToken":""},"TLS":{"CAFile":"","CertFile":"","KeyFile":"","InsecureSkipVerify":false}}}}"
