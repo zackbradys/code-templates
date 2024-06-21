@@ -16,3 +16,5 @@ after-upgrade-chroot_commands:
     - zypper clean
     - zypper removerepo 1
     - "rm -f /etc/resolv.conf && ln -s /var/run/netconfig/resolv.conf /etc/resolv.conf"
+system_settings:
+  auto-disk-provision-paths: "/dev/sd*"
