@@ -29,7 +29,7 @@ variable "ami_id" {
 }
 
 variable "instance_type" {
-  default     = "c5.xlarge"
+  default     = "c5n.2xlarge"
   type        = string
   description = "(Required) The AWS instance type to use for the instance(s)."
 }
@@ -58,8 +58,15 @@ variable "associate_public_ip_address" {
   description = "(Required) The AWS associate public ip address to use for the instance(s)."
 }
 
+variable "iops" {
+  default     = 10000
+  type        = number
+  description = "(Required) The AWS iops to use for the instance(s)."
+
+}
+
 variable "volume_size" {
-  default     = 256
+  default     = 1024
   type        = number
   description = "(Required) The AWS volume size to use for the instance(s)."
 }

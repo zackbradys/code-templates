@@ -15,6 +15,7 @@ resource "aws_instance" "aws_ec2_instance" {
   }
 
   root_block_device {
+    iops                  = var.iops
     volume_size           = var.volume_size
     volume_type           = var.volume_type
     encrypted             = var.encrypted
