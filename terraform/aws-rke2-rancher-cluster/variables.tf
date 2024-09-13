@@ -31,17 +31,17 @@ variable "prefix" {
 
 variable "Registry" {
   type        = string
-  description = "(Required) The Carbide Registry to use for the clusters(s)."
+  description = "(Required) The Registry to use for the clusters(s)."
 }
 
 variable "RegistryUsername" {
   type        = string
-  description = "(Required) The Carbide Username to use for the clusters(s)."
+  description = "(Required) The Registry Username to use for the clusters(s)."
 }
 
 variable "RegistryPassword" {
   type        = string
-  description = "(Required) The Carbide Password to use for the clusters(s)."
+  description = "(Required) The Registry Password to use for the clusters(s)."
 }
 
 variable "CarbideLicense" {
@@ -51,7 +51,7 @@ variable "CarbideLicense" {
 
 ### Common Optional Variables
 variable "ami_id" {
-  default     = "ami-01b799c439fd5516a"
+  default     = "ami-066784287e358dad1"
   type        = string
   description = "(Optional) The AWS AMI ID to use for the instance(s)."
 }
@@ -63,19 +63,19 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.28.12+rke2r1"
+  default     = "v1.28.13+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default     = "2.8.6"
+  default     = "2.9.1"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
 
-variable "e" {
-  default     = "1.7.0"
+variable "vLonghorn" {
+  default     = "1.7.1"
   type        = string
   description = "(Optional) The Longhorn Version to use for the clusters(s)."
 }

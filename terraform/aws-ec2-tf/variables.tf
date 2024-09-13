@@ -29,7 +29,6 @@ variable "ami_id" {
 }
 
 variable "instance_type" {
-  default     = "c5n.2xlarge"
   type        = string
   description = "(Required) The AWS instance type to use for the instance(s)."
 }
@@ -41,13 +40,11 @@ variable "number_of_instances" {
 }
 
 variable "security_group_id" {
-  default     = "sg-02723de4b6eb76647"
   type        = string
   description = "(Required) The AWS security group id to use for the instance(s)."
 }
 
 variable "subnet_id" {
-  default     = "subnet-0a71ed6462c6b04fe"
   type        = string
   description = "(Required) The AWS subnet id to use for the instance(s)."
 }
@@ -62,7 +59,6 @@ variable "iops" {
   default     = 10000
   type        = number
   description = "(Required) The AWS iops to use for the instance(s)."
-
 }
 
 variable "volume_size" {

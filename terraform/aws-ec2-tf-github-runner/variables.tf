@@ -13,6 +13,46 @@ variable "secret_key" {
   description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
 
+variable "Registry" {
+  type        = string
+  description = "(Required) The Registry to use for the clusters(s)."
+}
+
+variable "RegistryUsername" {
+  type        = string
+  description = "(Required) The Registry Username to use for the clusters(s)."
+}
+
+variable "RegistryPassword" {
+  type        = string
+  description = "(Required) The Registry Password to use for the clusters(s)."
+}
+
+variable "CarbideLicense" {
+  type        = string
+  description = "(Required) The Carbide License to use for the clusters(s)."
+}
+
+variable "GitHubUsername" {
+  type        = string
+  description = "(Required) The GitHub Username to use for this server."
+}
+
+variable "GitHubToken" {
+  type        = string
+  description = "(Required) The GitHub Personal Access Token to use for this server."
+}
+
+variable "GitHubRepository" {
+  type        = string
+  description = "(Required) The GitHub Repository to use for this server."
+}
+
+variable "HaulerVersion" {
+  type        = string
+  description = "(Required) The verion of Hauler to use for this server."
+}
+
 variable "key_pair_name" {
   type        = string
   description = "(Required) The AWS key pair name to use for the instance(s)."
@@ -44,7 +84,7 @@ variable "subnet_id" {
 }
 
 variable "number_of_instances" {
-  default     = 1
+  default     = 2
   type        = number
   description = "(Required) The number of AWS ec2 instances to create on deployment."
 }
@@ -53,6 +93,12 @@ variable "associate_public_ip_address" {
   default     = true
   type        = bool
   description = "(Required) The AWS associate public ip address to use for the instance(s)."
+}
+
+variable "iops" {
+  default     = 10000
+  type        = number
+  description = "(Required) The AWS iops to use for the instance(s)."
 }
 
 variable "volume_size" {

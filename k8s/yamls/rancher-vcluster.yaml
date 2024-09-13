@@ -8,6 +8,8 @@ kind: Addon
 metadata:
   name: rancher-vcluster
   namespace: rancher-vcluster
+  labels:
+    addon.harvesterhci.io/experimental: "true"
 spec:
   enabled: false
   repo: https://charts.loft.sh
@@ -15,10 +17,10 @@ spec:
   chart: vcluster
   valuesContent: |-
     hostname: ""
-    rancherVersion: "v2.8.3"
+    rancherVersion: "v2.8.5"
     bootstrapPassword: ""
     vcluster:
-      image: rancher/k3s:v1.27.13+k3s1
+      image: rancher/k3s:v1.28.12-k3s1
     sync:
       ingresses:
         enabled: "true"
@@ -45,7 +47,7 @@ spec:
           targetNamespace: cert-manager
           repo: https://charts.jetstack.io
           chart: cert-manager
-          version: v1.15.0
+          version: v1.15.3
           helmVersion: v3
           set:
             installCRDs: "true"
@@ -57,7 +59,7 @@ spec:
           namespace: kube-system
         spec:
           targetNamespace: cattle-system
-          repo: https://releases.rancher.com/server-charts/stable
+          repo: https://rancherfederal.github.io/carbide-charts
           chart: rancher
           version: {{ .Values.rancherVersion }}
           set:

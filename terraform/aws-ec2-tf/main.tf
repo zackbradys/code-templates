@@ -11,7 +11,7 @@ resource "aws_instance" "aws_ec2_instance" {
   user_data = file("user-data.sh")
 
   tags = {
-    Name = var.instance_name
+    Name = "${var.instance_name}-${count.index + 1}"
   }
 
   root_block_device {

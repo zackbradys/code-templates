@@ -1,32 +1,77 @@
+#!/bin/bash
+
+# set variables
+cat << EOF >> ~/.bashrc
+export CarbideLicense=${CarbideLicense}
+export Registry=${Registry}
+export RegistryUsername=${RegistryUsername}
+export RegistryPassword=${RegistryPassword}
+export GitHubUsername=${GitHubUsername}
+export GitHubToken=${GitHubToken}
+export GitHubRepository=${GitHubRepository}
+export RUNNER_CFG_PAT=${GitHubToken}
+export AccessKey=${AccessKey}
+export SecretKey=${SecretKey}
+export HaulerVersion=${HaulerVersion}
+EOF
+
+# source bashrc
+source ~/.bashrc
+
+cat << EOF >> /home/ec2-user/.bashrc
+export CarbideLicense=${CarbideLicense}
+export Registry=${Registry}
+export RegistryUsername=${RegistryUsername}
+export RegistryPassword=${RegistryPassword}
+export GitHubUsername=${GitHubUsername}
+export GitHubToken=${GitHubToken}
+export GitHubRepository=${GitHubRepository}
+export RUNNER_CFG_PAT=${GitHubToken}
+export AccessKey=${AccessKey}
+export SecretKey=${SecretKey}
+export HaulerVersion=${HaulerVersion}
+EOF
+
+# source bashrc
+source /home/ec2-user/.bashrc
+
+# install dependencies
+yum clean all && yum upgrade -y
+yum install -y zip zstd tree jq git
+
 # install awscli
-mkdir -p /opt/rancher/aws
-cd /opt/rancher/aws
-curl -#OL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+mkdir -p /opt/aws
+cd /opt/aws
+curl -sfOL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
 unzip awscli-exe-linux-x86_64.zip
 rm -rf awscli-exe-linux-x86_64.zip
-sudo ./aws/install
-mv /usr/local/bin/aws /usr/bin/aws
-
-# install cosign
-mkdir -p /opt/rancher/cosign
-cd /opt/rancher/cosign
-curl -#OL https://github.com/sigstore/cosign/releases/download/v2.2.3/cosign-linux-amd64
-mv cosign-linux-amd64 /usr/bin/cosign
-chmod 755 /usr/bin/cosign
+sudo ./aws/install --bin-dir /usr/bin
 
 # install helm
-mkdir -p /opt/rancher/helm
-cd /opt/rancher/helm
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+mkdir -p /opt/helm
+cd /opt/helm
+curl -sfL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 755 get_helm.sh && ./get_helm.sh
-mv /usr/local/bin/helm /usr/bin/helm
+sudo mv /usr/local/bin/helm /usr/bin/helm
 
 # install hauler
-curl -sfL https://get.hauler.dev | bash
+curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=${HaulerVersion} HAULER_INSTALL_DIR=/usr/bin bash
 
-# install packages
-yum clean all && yum update -y
-yum install -y git zip zstd tree jq
+# install github self hosted runner
+mkdir -p /opt/github
+chmod 777 /opt/github
+cd /opt/github
+export svc_user="ec2-user"
+export RUNNER_ALLOW_RUNASROOT="1"
+export RUNNER_CFG_PAT="${GitHubToken}"
+
+yum install -y lttng-ust openssl-libs krb5-libs zlib libicu
+curl -sfOL https://raw.githubusercontent.com/actions/runner/main/scripts/create-latest-svc.sh
+chmod 755 create-latest-svc.sh
+./create-latest-svc.sh -s zackbradys/"${GitHubRepository}" -n github-runner-"${GitHubRepository}"-"$(date "+%Y-%m-%d")-"${RunnerIndex}""
+
+# modify permissions
+chmod -R 777 /opt/
 
 # verify end of script
-date >> /opt/rancher/COMPLETED
+date >> /opt/COMPLETED

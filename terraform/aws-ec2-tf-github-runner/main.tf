@@ -8,13 +8,27 @@ resource "aws_instance" "aws_ec2_instance" {
   associate_public_ip_address = var.associate_public_ip_address
   key_name                    = var.key_pair_name
 
-  user_data = file("user-data.sh")
+  user_data = templatefile("user-data.sh", {
+    CarbideLicense   = var.CarbideLicense
+    Registry         = var.Registry
+    RegistryUsername = var.RegistryUsername
+    RegistryPassword = var.RegistryPassword
+    GitHubUsername   = var.GitHubUsername
+    GitHubToken      = var.GitHubToken
+    GitHubRepository = var.GitHubRepository
+    RunnerIndex      = count.index + 1
+    AccessKey        = var.access_key
+    SecretKey        = var.secret_key
+    HaulerVersion    = var.HaulerVersion
+  })
+
 
   tags = {
-    Name = var.instance_name
+    Name = "${var.instance_name}-${count.index + 1}"
   }
 
   root_block_device {
+    iops                  = var.iops
     volume_size           = var.volume_size
     volume_type           = var.volume_type
     encrypted             = var.encrypted
