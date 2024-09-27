@@ -10,8 +10,9 @@ export GitHubUsername=${GitHubUsername}
 export GitHubToken=${GitHubToken}
 export GitHubRepository=${GitHubRepository}
 export RUNNER_CFG_PAT=${GitHubToken}
-export AccessKey=${AccessKey}
-export SecretKey=${SecretKey}
+export AWS_ACCESS_KEY_ID=${AccessKey}
+export AWS_SECRET_ACCESS_KEY=${SecretKey}
+export AWS_DEFAULT_REGION=${Region}
 export HaulerVersion=${HaulerVersion}
 EOF
 
@@ -27,8 +28,9 @@ export GitHubUsername=${GitHubUsername}
 export GitHubToken=${GitHubToken}
 export GitHubRepository=${GitHubRepository}
 export RUNNER_CFG_PAT=${GitHubToken}
-export AccessKey=${AccessKey}
-export SecretKey=${SecretKey}
+export AWS_ACCESS_KEY_ID=${AccessKey}
+export AWS_SECRET_ACCESS_KEY=${SecretKey}
+export AWS_DEFAULT_REGION=${Region}
 export HaulerVersion=${HaulerVersion}
 EOF
 

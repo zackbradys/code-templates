@@ -19,6 +19,7 @@ resource "aws_instance" "aws_ec2_instance" {
     RunnerIndex      = count.index + 1
     AccessKey        = var.access_key
     SecretKey        = var.secret_key
+    Region           = var.region
     HaulerVersion    = var.HaulerVersion
   })
 
