@@ -56,6 +56,14 @@ curl -sfL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/script
 chmod 755 get_helm.sh && ./get_helm.sh
 sudo mv /usr/local/bin/helm /usr/bin/helm
 
+# install p7zip
+mkdir -p /opt/p7zip
+cd /opt/p7zip
+curl -sfOL https://www.7-zip.org/a/7z2408-linux-x64.tar.xz
+tar -xf 7z2408-linux-x64.tar.xz
+chmod 755 7zz
+sudo mv 7zz /usr/bin/7z
+
 # install hauler
 curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=${HaulerVersion} HAULER_INSTALL_DIR=/usr/bin bash
 

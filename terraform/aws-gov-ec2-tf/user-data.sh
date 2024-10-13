@@ -62,42 +62,42 @@ curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=${HaulerVersion} HAULER_I
 # verify end of script
 date >> /opt/COMPLETED
 
-sudo yum update -y
-sudo yum groupinstall -y 'Server with GUI'
-sudo yum groupinstall -y GNOME
-sudo sed -i '/^\[daemon\]/a WaylandEnable=false' /etc/gdm/custom.conf
-sudo yum install -y xorg-x11-drv-dummy
+# sudo yum update -y
+# sudo yum groupinstall -y 'Server with GUI'
+# sudo yum groupinstall -y GNOME
+# sudo sed -i '/^\[daemon\]/a WaylandEnable=false' /etc/gdm/custom.conf
+# sudo yum install -y xorg-x11-drv-dummy
 
-sudo tee /etc/X11/xorg.conf > /dev/null << EOF
-Section "Device"
-    Identifier "DummyDevice"
-    Driver "dummy"
-    Option "UseEDID" "false"
-    VideoRam 512000
-EndSection
+# sudo tee /etc/X11/xorg.conf > /dev/null << EOF
+# Section "Device"
+#     Identifier "DummyDevice"
+#     Driver "dummy"
+#     Option "UseEDID" "false"
+#     VideoRam 512000
+# EndSection
 
-Section "Monitor"
-    Identifier "DummyMonitor"
-    HorizSync   5.0 - 1000.0
-    VertRefresh 5.0 - 200.0
-    Option "ReducedBlanking"
-EndSection
+# Section "Monitor"
+#     Identifier "DummyMonitor"
+#     HorizSync   5.0 - 1000.0
+#     VertRefresh 5.0 - 200.0
+#     Option "ReducedBlanking"
+# EndSection
 
-Section "Screen"
-    Identifier "DummyScreen"
-    Device "DummyDevice"
-    Monitor "DummyMonitor"
-    DefaultDepth 24
-    SubSection "Display"
-        Viewport 0 0
-        Depth 24
-        Virtual 4096 2160
-    EndSubSection
-EndSection
-EOF
+# Section "Screen"
+#     Identifier "DummyScreen"
+#     Device "DummyDevice"
+#     Monitor "DummyMonitor"
+#     DefaultDepth 24
+#     SubSection "Display"
+#         Viewport 0 0
+#         Depth 24
+#         Virtual 4096 2160
+#     EndSubSection
+# EndSection
+# EOF
 
-sudo systemctl stop firewalld
-sudo systemctl isolate multi-user.target && sudo systemctl isolate graphical.target
+# sudo systemctl stop firewalld
+# sudo systemctl isolate multi-user.target && sudo systemctl isolate graphical.target
 
-# verify end of script
-date >> /opt/COMPLETED
+# # verify end of script
+# date >> /opt/COMPLETED
