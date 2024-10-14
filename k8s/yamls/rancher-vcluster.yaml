@@ -50,7 +50,8 @@ spec:
           version: v1.15.3
           helmVersion: v3
           set:
-            installCRDs: "true"
+            crds:
+              enabled: true
         ---
         apiVersion: helm.cattle.io/v1
         kind: HelmChart

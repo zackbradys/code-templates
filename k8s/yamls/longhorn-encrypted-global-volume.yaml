@@ -1,0 +1,12 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: longhorn-encrypted-volume
+  namespace: default
+spec:
+  storageClassName: "longhorn-encrypted"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

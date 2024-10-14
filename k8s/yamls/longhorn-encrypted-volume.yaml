@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: longhorn-crypto
+  name: longhorn-encrypted-volume
   namespace: default
 stringData:
   CRYPTO_KEY_VALUE: "Pa22word"
