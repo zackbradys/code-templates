@@ -51,7 +51,7 @@ variable "CarbideLicense" {
 
 ### Common Optional Variables
 variable "ami_id" {
-  default     = "ami-0ebfd941bbafe70c6"
+  default     = "ami-0453ec754f44f9a4a"
   type        = string
   description = "(Optional) The AWS AMI ID to use for the instance(s)."
 }
@@ -63,31 +63,31 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.29.9+rke2r1"
+  default     = "v1.29.10+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default     = "2.9.2"
+  default     = "2.9.4"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
 
 variable "vLonghorn" {
-  default     = "1.7.1"
+  default     = "1.7.2"
   type        = string
   description = "(Optional) The Longhorn Version to use for the clusters(s)."
 }
 
 variable "vNeuVector" {
-  default     = "2.8.0"
+  default     = "2.8.3"
   type        = string
   description = "(Optional) The NeuVector Version to use for the clusters(s)."
 }
 
 variable "vCertManager" {
-  default     = "1.16.0"
+  default     = "1.16.1"
   type        = string
   description = "(Optional) The Cert Manager Version to use for the clusters(s)."
 }
@@ -180,7 +180,7 @@ variable "volume_size_controls" {
 }
 
 variable "volume_size_worker" {
-  default     = 128
+  default     = 1024
   type        = number
   description = "(Optional) The AWS Volume Size to use for the instance(s)."
 }

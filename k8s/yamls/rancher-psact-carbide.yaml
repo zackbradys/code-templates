@@ -32,6 +32,7 @@ plugins:
                      cattle-impersonation-system,
                      cattle-istio,
                      cattle-istio-system,
+                     cattle-kubewarden-system,
                      cattle-logging,
                      cattle-logging-system,
                      cattle-monitoring-system,
