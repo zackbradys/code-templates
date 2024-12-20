@@ -14,6 +14,7 @@ export AWS_ACCESS_KEY_ID=${AccessKey}
 export AWS_SECRET_ACCESS_KEY=${SecretKey}
 export AWS_DEFAULT_REGION=${Region}
 export HaulerVersion=${HaulerVersion}
+export HAULER_IGNORE_ERRORS=true
 EOF
 
 # source bashrc
@@ -32,6 +33,7 @@ export AWS_ACCESS_KEY_ID=${AccessKey}
 export AWS_SECRET_ACCESS_KEY=${SecretKey}
 export AWS_DEFAULT_REGION=${Region}
 export HaulerVersion=${HaulerVersion}
+export HAULER_IGNORE_ERRORS=true
 EOF
 
 # source bashrc
