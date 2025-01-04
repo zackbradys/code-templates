@@ -15,6 +15,7 @@ resource "aws_instance" "aws_ec2_instance" {
     RegistryPassword = var.RegistryPassword
     GitHubUsername   = var.GitHubUsername
     GitHubToken      = var.GitHubToken
+    TailscaleToken   = var.TailscaleToken
     GitHubRepository = var.GitHubRepository
     RunnerIndex      = count.index + 1
     AccessKey        = var.access_key
@@ -22,7 +23,6 @@ resource "aws_instance" "aws_ec2_instance" {
     Region           = var.region
     HaulerVersion    = var.HaulerVersion
   })
-
 
   tags = {
     Name = "${var.instance_name}-${count.index + 1}"

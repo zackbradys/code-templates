@@ -48,6 +48,11 @@ variable "GitHubRepository" {
   description = "(Required) The GitHub Repository to use for this server."
 }
 
+variable "TailscaleToken" {
+  type        = string
+  description = "(Required) The Tailscale Authentication Token to use for the instance(s)."
+}
+
 variable "HaulerVersion" {
   type        = string
   description = "(Required) The verion of Hauler to use for this server."

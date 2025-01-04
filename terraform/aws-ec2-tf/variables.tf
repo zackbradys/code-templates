@@ -13,6 +13,11 @@ variable "secret_key" {
   description = "(Required) The AWS Secret Key to use for the instance(s)."
 }
 
+variable "TailscaleToken" {
+  type        = string
+  description = "(Required) The Tailscale Authentication Token to use for the instance(s)."
+}
+
 variable "key_pair_name" {
   type        = string
   description = "(Required) The AWS key pair name to use for the instance(s)."
