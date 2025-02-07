@@ -18,6 +18,7 @@ resource "aws_instance" "aws_ec2_instance_control" {
     vNeuVector       = var.vNeuVector
     vCertManager     = var.vCertManager
     CarbideLicense   = var.CarbideLicense
+    TailscaleToken   = var.TailscaleToken
     Registry         = var.Registry
     RegistryUsername = var.RegistryUsername
     RegistryPassword = var.RegistryPassword
@@ -59,6 +60,7 @@ resource "aws_instance" "aws_ec2_instance_controls" {
     Registry         = var.Registry
     RegistryUsername = var.RegistryUsername
     RegistryPassword = var.RegistryPassword
+    TailscaleToken   = var.TailscaleToken
   })
 
   tags = {
@@ -95,6 +97,7 @@ resource "aws_instance" "aws_ec2_instance_worker" {
     Registry         = var.Registry
     RegistryUsername = var.RegistryUsername
     RegistryPassword = var.RegistryPassword
+    TailscaleToken   = var.TailscaleToken
   })
 
   tags = {

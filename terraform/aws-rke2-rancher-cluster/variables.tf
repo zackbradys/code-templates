@@ -49,9 +49,14 @@ variable "CarbideLicense" {
   description = "(Required) The Carbide License to use for the clusters(s)."
 }
 
+variable "TailscaleToken" {
+  type        = string
+  description = "(Required) The Tailscale Authentication Token to use for the instance(s)."
+}
+
 ### Common Optional Variables
 variable "ami_id" {
-  default     = "ami-01816d07b1128cd2d"
+  default     = "ami-09115b7bffbe3c5e4"
   type        = string
   description = "(Optional) The AWS AMI ID to use for the instance(s)."
 }
@@ -63,13 +68,13 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.30.7+rke2r1"
+  default     = "v1.30.9+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default     = "2.9.4"
+  default     = "2.10.1"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
@@ -81,13 +86,13 @@ variable "vLonghorn" {
 }
 
 variable "vNeuVector" {
-  default     = "2.8.3"
+  default     = "2.8.4"
   type        = string
   description = "(Optional) The NeuVector Version to use for the clusters(s)."
 }
 
 variable "vCertManager" {
-  default     = "1.16.2"
+  default     = "1.16.3"
   type        = string
   description = "(Optional) The Cert Manager Version to use for the clusters(s)."
 }

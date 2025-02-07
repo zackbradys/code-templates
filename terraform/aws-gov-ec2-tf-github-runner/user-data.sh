@@ -97,7 +97,7 @@ sudo cp bin/btop /usr/bin/
 # sudo apt update
 
 # install hauler
-curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=1.1.1 HAULER_INSTALL_DIR=/usr/bin bash
+curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=${HaulerVersion} HAULER_INSTALL_DIR=/usr/bin bash
 
 # install p7zip
 mkdir -p /opt/p7zip

@@ -97,11 +97,11 @@ sudo mv /usr/local/bin/helm /usr/bin/helm
 # sudo apt update
 
 # install hauler
-curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=1.1.1 HAULER_INSTALL_DIR=/usr/bin bash
+curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=${HaulerVersion} HAULER_INSTALL_DIR=/usr/bin bash
 
 # install tailscale
 curl -fsSL https://tailscale.com/install.sh | sudo sh
-sudo tailscale up --auth-key=${TailscaleToken}
+sudo tailscale up --accept-routes --auth-key=${TailscaleToken}
 
 # verify end of script
 date >> /opt/COMPLETED
