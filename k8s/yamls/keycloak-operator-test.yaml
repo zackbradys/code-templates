@@ -105,4 +105,4 @@ spec:
   http:
     tlsSecret: tls-certs
   hostname:
-    hostname: keycloak.ranchers.io
+    hostname: keycloak.ranchergov.io

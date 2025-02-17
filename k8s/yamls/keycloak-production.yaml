@@ -132,7 +132,7 @@ spec:
               name: keycloak-credentials
               key: KEYCLOAK_ADMIN_PASSWORD
         - name: KC_HOSTNAME
-          value: "keycloak.ranchers.io"
+          value: "keycloak.ranchergov.io"
         - name: KC_PRODUCTION
           value: "true"
         - name: KC_CACHE
@@ -232,7 +232,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
   rules:
-  - host: keycloak.ranchers.io
+  - host: keycloak.ranchergov.io
     http:
       paths:
       - backend:
@@ -244,7 +244,7 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - keycloak.ranchers.io
+    - keycloak.ranchergov.io
     secretName: tls-certs
 ---
 apiVersion: v1
@@ -300,4 +300,4 @@ spec:
   group: Keycloak Authenication
   label: Keycloak
   sideLabel: KEYCLOAK
-  toURL: https://keycloak.ranchers.io
+  toURL: https://keycloak.ranchergov.io

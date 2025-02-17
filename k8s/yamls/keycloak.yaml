@@ -27,7 +27,7 @@ spec:
         args: ["start-dev"]
         env:
         - name: KC_HOSTNAME
-          value: "keycloak.ranchers.io"
+          value: "keycloak.ranchergov.io"
         - name: KEYCLOAK_ADMIN
           value: "admin"
         - name: KEYCLOAK_ADMIN_PASSWORD
@@ -86,7 +86,7 @@ metadata:
   namespace: keycloak-system
 spec:
   rules:
-  - host: keycloak.ranchers.io
+  - host: keycloak.ranchergov.io
     http:
       paths:
       - backend:
@@ -98,7 +98,7 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - keycloak.ranchers.io
+    - keycloak.ranchergov.io
     secretName: tls-certs
 ---
 apiVersion: ui.cattle.io/v1
@@ -112,4 +112,4 @@ spec:
   group: Keycloak Authenication
   label: Keycloak
   sideLabel: KEYCLOAK
-  toURL: https://keycloak.ranchers.io
+  toURL: https://keycloak.ranchergov.io

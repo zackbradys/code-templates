@@ -124,7 +124,7 @@ variable "associate_public_ip_address" {
 
 ### Instance Variables
 variable "instance_type_control" {
-  default     = "m5.2xlarge"
+  default     = "m5.xlarge"
   type        = string
   description = "(Optional) The AWS Instance type to use for the instance(s)."
 }
