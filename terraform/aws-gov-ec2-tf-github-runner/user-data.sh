@@ -72,11 +72,11 @@ rm -rf /opt/btop-x86_64-linux-musl.tbz
 sudo cp bin/btop /usr/bin/
 
 # install helm
-# mkdir -p /opt/helm
-# cd /opt/helm
-# curl -sfL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-# chmod 755 get_helm.sh && ./get_helm.sh
-# sudo mv /usr/local/bin/helm /usr/bin/helm
+mkdir -p /opt/helm
+cd /opt/helm
+curl -sfL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 755 get_helm.sh && ./get_helm.sh
+sudo mv /usr/local/bin/helm /usr/bin/helm
 
 # install go
 # mkdir -p /opt/go
