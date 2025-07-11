@@ -78,6 +78,16 @@ curl -sfL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/script
 chmod 755 get_helm.sh && ./get_helm.sh
 sudo mv /usr/local/bin/helm /usr/bin/helm
 
+# install github cli
+mkdir -p /opt/github
+cd /opt/github
+sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+sudo yum install -y gh
+
+# install yq
+curl -L https://github.com/mikefarah/yq/releases/download/v4.45.4/yq_linux_amd64 -o /usr/bin/yq
+chmod 755 /usr/bin/yq
+
 # install go
 # mkdir -p /opt/go
 # cd /opt/go
