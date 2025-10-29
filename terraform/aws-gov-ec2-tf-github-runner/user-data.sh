@@ -40,11 +40,11 @@ EOF
 source /home/ec2-user/.bashrc
 
 # clean and update operating system
-sudo yum clean all
-sudo yum upgrade -y
+sudo dnf clean all
+sudo dnf upgrade -y
 
 # install packages
-sudo yum install -y git zip zstd tree jq
+sudo dnf install -y dnf-plugins-core git zip zstd tree jq
 # sudo apt install -y git zip zstd tree jq
 
 # install awscli
@@ -58,7 +58,10 @@ sudo ./aws/install --bin-dir /usr/bin
 # install docker and docker compose
 mkdir /opt/docker
 cd /opt/docker
-sudo yum install -y docker
+sudo dnf remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine podman runc
+sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable --now docker
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
 sudo chmod 755 /usr/bin/docker-compose
 sudo systemctl enable --now docker
@@ -80,27 +83,35 @@ sudo mv /usr/local/bin/helm /usr/bin/helm
 
 # install github cli
 mkdir -p /opt/github
-cd /opt/github
-sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-sudo yum install -y gh
+echo '[gh-cli]
+name=packages for the GitHub CLI
+baseurl=https://cli.github.com/packages/rpm
+enabled=1
+gpgcheck=0' | sudo tee /etc/yum.repos.d/github-cli.repo
+sudo dnf install -y gh
 
 # install yq
 curl -L https://github.com/mikefarah/yq/releases/download/v4.45.4/yq_linux_amd64 -o /usr/bin/yq
 chmod 755 /usr/bin/yq
 
 # install go
-# mkdir -p /opt/go
-# cd /opt/go
-# sudo rm -rf /usr/local/go
-# curl -sfOL https://go.dev/dl/go1.21.13.linux-amd64.tar.gz
-# sudo tar -C /usr/local -xzf go1.21.13.linux-amd64.tar.gz
-# echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
+mkdir -p /opt/go
+cd /opt/go
+sudo rm -rf /usr/local/go
+curl -sfOL https://go.dev/dl/go1.25.3.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.25.3.linux-amd64.tar.gz
+echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
+sudo ln -s /usr/local/go/bin/go /usr/bin/go
 
 # install goreleaser
-# name=GoReleaser
-# baseurl=https://repo.goreleaser.com/yum/
-# enabled=1
-# gpgcheck=0 | sudo tee /etc/yum.repos.d/goreleaser.repo
+mkdir -p /opt/goreleaser
+echo '[goreleaser]
+name=GoReleaser
+baseurl=https://repo.goreleaser.com/yum/
+enabled=1
+gpgcheck=0
+exclude=goreleaser-pro' | sudo tee /etc/yum.repos.d/goreleaser.repo
+sudo dnf install -y goreleaser
 
 # install goreleaser
 # echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | sudo tee /etc/apt/sources.list.d/goreleaser.list
@@ -125,7 +136,7 @@ export svc_user="ec2-user"
 export RUNNER_ALLOW_RUNASROOT="1"
 export RUNNER_CFG_PAT="${GitHubToken}"
 
-sudo yum install -y lttng-ust openssl-libs krb5-libs zlib libicu
+sudo dnf install -y lttng-ust openssl-libs krb5-libs zlib libicu
 curl -sfOL https://raw.githubusercontent.com/actions/runner/main/scripts/create-latest-svc.sh
 sudo chmod 755 create-latest-svc.sh
 ./create-latest-svc.sh -s zackbradys/"${GitHubRepository}" -n github-runner-"${GitHubRepository}"-"$(date "+%Y-%m-%d")-"${RunnerIndex}""

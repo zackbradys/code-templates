@@ -56,7 +56,7 @@ variable "TailscaleToken" {
 
 ### Common Optional Variables
 variable "ami_id" {
-  default     = "ami-09115b7bffbe3c5e4"
+  default     = "ami-052064a798f08f0d3"
   type        = string
   description = "(Optional) The AWS AMI ID to use for the instance(s)."
 }
@@ -68,31 +68,31 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.31.10+rke2r1"
+  default     = "v1.33.5+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default     = "2.11.3"
+  default     = "2.12.2"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
 
 variable "vLonghorn" {
-  default     = "1.8.2"
+  default     = "1.9.2"
   type        = string
   description = "(Optional) The Longhorn Version to use for the clusters(s)."
 }
 
 variable "vNeuVector" {
-  default     = "2.8.7"
+  default     = "2.8.8"
   type        = string
   description = "(Optional) The NeuVector Version to use for the clusters(s)."
 }
 
 variable "vCertManager" {
-  default     = "1.18.2"
+  default     = "1.19.1"
   type        = string
   description = "(Optional) The Cert Manager Version to use for the clusters(s)."
 }

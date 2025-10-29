@@ -46,8 +46,11 @@ plugins:
                      cattle-windows-gmsa-system,
                      cert-manager,
                      cis-operator-system,
+                     compliance-operator-system,
                      fleet-default,
                      fleet-local,
+                     harbor-system,
+                     hauler-system,
                      ingress-nginx,
                      istio-system,
                      kube-node-lease,
@@ -56,4 +59,5 @@ plugins:
                      longhorn-system,
                      rancher-alerting-drivers,
                      security-scan,
+                     sr-operator-system,
                      tigera-operator]

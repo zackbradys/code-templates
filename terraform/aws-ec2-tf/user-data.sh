@@ -58,7 +58,7 @@ gpgcheck=0 | sudo tee /etc/yum.repos.d/goreleaser.repo
 # sudo apt update
 
 # install hauler
-curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=1.2.4 HAULER_INSTALL_DIR=/usr/bin bash
+curl -sfL https://get.hauler.dev | sudo HAULER_INSTALL_DIR=/usr/bin bash
 
 # install tailscale
 curl -fsSL https://tailscale.com/install.sh | sudo sh
