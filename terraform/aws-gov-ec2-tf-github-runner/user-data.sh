@@ -123,7 +123,7 @@ curl -sfL https://get.hauler.dev | sudo HAULER_VERSION=${HaulerVersion} HAULER_I
 # install p7zip
 mkdir -p /opt/p7zip
 cd /opt/p7zip
-curl -sfOL https://www.7-zip.org/a/7z2408-linux-x64.tar.xz
+curl -sfOL https://www.7-zip.org/a/7z2600-linux-x64.tar.xz
 tar -xf 7z2408-linux-x64.tar.xz
 chmod 755 7zz
 sudo mv 7zz /usr/bin/7z

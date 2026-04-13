@@ -48,20 +48,20 @@ sudo yum install -y git zip zstd tree jq
 # sudo apt install -y git zip zstd tree jq
 
 # install awscli
-mkdir -p /opt/aws
+sudo mkdir -p /opt/aws
 cd /opt/aws
-curl -sfOL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
-unzip awscli-exe-linux-x86_64.zip
-rm -rf awscli-exe-linux-x86_64.zip
+sudo curl -sfOL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+sudo unzip awscli-exe-linux-x86_64.zip
+sudo rm -rf awscli-exe-linux-x86_64.zip
 sudo ./aws/install --bin-dir /usr/bin
 
 # install docker and docker compose
-# mkdir /opt/docker
-# cd /opt/docker
-# sudo yum install -y docker
-# sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
-# sudo chmod 755 /usr/bin/docker-compose
-# sudo systemctl enable --now docker
+sudo mkdir /opt/docker
+cd /opt/docker
+sudo yum install -y docker
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+sudo chmod 755 /usr/bin/docker-compose
+sudo systemctl enable --now docker
 
 # install btop
 mkdir /opt/btop
@@ -87,10 +87,13 @@ sudo mv /usr/local/bin/helm /usr/bin/helm
 # echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
 
 # install goreleaser
+# echo '[goreleaser]
 # name=GoReleaser
 # baseurl=https://repo.goreleaser.com/yum/
 # enabled=1
-# gpgcheck=0 | sudo tee /etc/yum.repos.d/goreleaser.repo
+# gpgcheck=0
+# exclude=goreleaser-pro' | sudo tee /etc/yum.repos.d/goreleaser.repo
+# sudo dnf install -y goreleaser
 
 # install goreleaser
 # echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | sudo tee /etc/apt/sources.list.d/goreleaser.list
