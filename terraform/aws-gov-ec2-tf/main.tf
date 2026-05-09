@@ -9,7 +9,6 @@ resource "aws_instance" "aws_ec2_instance" {
   key_name                    = var.key_pair_name
 
   user_data = templatefile("user-data.sh", {
-    CarbideLicense   = var.CarbideLicense
     Registry         = var.Registry
     RegistryUsername = var.RegistryUsername
     RegistryPassword = var.RegistryPassword

@@ -2,7 +2,6 @@
 
 # set variables
 cat << EOF >> ~/.bashrc
-export CarbideLicense=${CarbideLicense}
 export Registry=${Registry}
 export RegistryUsername=${RegistryUsername}
 export RegistryPassword=${RegistryPassword}
@@ -21,7 +20,6 @@ EOF
 source ~/.bashrc
 
 cat << EOF >> /home/ec2-user/.bashrc
-export CarbideLicense=${CarbideLicense}
 export Registry=${Registry}
 export RegistryUsername=${RegistryUsername}
 export RegistryPassword=${RegistryPassword}

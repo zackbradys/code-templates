@@ -28,11 +28,6 @@ variable "RegistryPassword" {
   description = "(Required) The Registry Password to use for the clusters(s)."
 }
 
-variable "CarbideLicense" {
-  type        = string
-  description = "(Required) The Carbide License to use for the clusters(s)."
-}
-
 variable "GitHubUsername" {
   type        = string
   description = "(Required) The GitHub Username to use for this server."

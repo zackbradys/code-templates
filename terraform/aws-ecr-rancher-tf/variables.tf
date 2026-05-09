@@ -38,8 +38,6 @@ variable "name" {
     "carbide/rancher-docs",
     "carbide/rcidf",
     "carbide/rke2-docs",
-    "carbide/stigatron-hook",
-    "carbide/stigatron-ui",
     "rancher/klipper-helm",
     "rancher/klipper-lb",
     "rancher/local-path-provisioner",
