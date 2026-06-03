@@ -53,24 +53,24 @@ unzip awscli-exe-linux-x86_64.zip
 rm -rf awscli-exe-linux-x86_64.zip
 sudo ./aws/install --bin-dir /usr/bin
 
-# install docker and docker compose
+# install docker
 mkdir /opt/docker
 cd /opt/docker
-sudo dnf remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine podman runc
-sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo systemctl enable --now docker
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
-sudo chmod 755 /usr/bin/docker-compose
-sudo systemctl enable --now docker
+yum install -y docker
+systemctl enable --now docker
+
+# install docker compose plugin
+mkdir -p /usr/libexec/docker/cli-plugins
+curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$(uname -m) -o /usr/libexec/docker/cli-plugins/docker-compose
+chmod +x /usr/libexec/docker/cli-plugins/docker-compose
 
 # install btop
 mkdir /opt/btop
 cd /opt
-sudo curl -L https://github.com/aristocratos/btop/releases/download/v1.4.0/btop-x86_64-linux-musl.tbz -o btop-x86_64-linux-musl.tbz
-tar -xvf btop-x86_64-linux-musl.tbz && cd /opt/btop
-rm -rf /opt/btop-x86_64-linux-musl.tbz
-sudo cp bin/btop /usr/bin/
+curl -L https://github.com/aristocratos/btop/releases/download/v1.4.7/btop-x86_64-unknown-linux-musl.tar.gz -o btop-x86_64-unknown-linux-musl.tar.gz
+tar -xvf btop-x86_64-unknown-linux-musl.tar.gz
+rm -rf /opt/btop-x86_64-unknown-linux-musl.tar.gz
+cp /opt/btop/bin/btop /usr/bin/btop
 
 # install helm
 mkdir -p /opt/helm
