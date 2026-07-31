@@ -38,11 +38,6 @@ variable "GitHubToken" {
   description = "(Required) The GitHub Personal Access Token to use for this server."
 }
 
-variable "GitHubRepository" {
-  type        = string
-  description = "(Required) The GitHub Repository to use for this server."
-}
-
 variable "TailscaleToken" {
   type        = string
   description = "(Required) The Tailscale Authentication Token to use for the instance(s)."

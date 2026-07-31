@@ -14,7 +14,6 @@ resource "aws_instance" "aws_ec2_instance" {
     RegistryPassword = var.RegistryPassword
     GitHubUsername   = var.GitHubUsername
     GitHubToken      = var.GitHubToken
-    GitHubRepository = var.GitHubRepository
     TailscaleToken   = var.TailscaleToken
     RunnerIndex      = count.index + 1
     AccessKey        = var.access_key
