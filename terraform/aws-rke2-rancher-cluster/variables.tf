@@ -62,31 +62,31 @@ variable "token" {
 }
 
 variable "vRKE2" {
-  default     = "v1.35.7+rke2r1"
+  default     = "v1.36.3+rke2r1"
   type        = string
   description = "(Optional) The RKE2 Version to use for the clusters(s)."
 }
 
 variable "vRancher" {
-  default     = "2.14.4"
+  default     = "2.15.1"
   type        = string
   description = "(Optional) The Rancher Version to use for the clusters(s)."
 }
 
 variable "vLonghorn" {
-  default     = "1.11.3"
+  default     = "1.12.1"
   type        = string
   description = "(Optional) The Longhorn Version to use for the clusters(s)."
 }
 
 variable "vNeuVector" {
-  default     = "2.11.0"
+  default     = "2.11.2"
   type        = string
   description = "(Optional) The NeuVector Version to use for the clusters(s)."
 }
 
 variable "vCertManager" {
-  default     = "1.21.1"
+  default     = "1.21.2"
   type        = string
   description = "(Optional) The Cert Manager Version to use for the clusters(s)."
 }
